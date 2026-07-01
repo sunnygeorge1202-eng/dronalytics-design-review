@@ -5,6 +5,5 @@ window.DR_CONFIG = {
   _b: "4gKFwrD22D8AasooP3EdUJB",
   get token() { return this._a + this._b; },
   repo: "sunnygeorge1202-eng/dronalytics-design-review",
-  // Replace with your Apps Script web app URL after deployment
-  appsScriptUrl: "PASTE_YOUR_APPS_SCRIPT_URL_HERE"
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbxvV2lZbgyLXkEC9s6jZ67uaGB07gCyXsC8riIjZiSYM3GrBA46UK05vDxS2BjuONnz/exec"
 };
