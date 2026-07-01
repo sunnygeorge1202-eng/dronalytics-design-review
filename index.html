@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dronalytics — Screen Design Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #F4F6F8; color: #1a1a1a; font-size: 15px; }
+
+  .top-bar { background: #1B3A4B; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .top-bar .brand { color: #fff; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; }
+  .top-bar .version-tag { color: #90b4c8; font-size: 13px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .screen-banner { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .screen-banner h1 { font-size: 20px; font-weight: 700; color: #1B3A4B; }
+  .screen-banner .meta { font-size: 13px; color: #666; }
+  .screen-banner .meta span { margin-left: 16px; }
+
+  .role-selector { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .role-selector label { font-size: 13px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 10px; }
+  .role-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .role-btn { padding: 8px 16px; border: 1.5px solid #dde3e8; border-radius: 6px; background: #fff; font-size: 14px; color: #444; cursor: pointer; transition: all 0.15s; }
+  .role-btn:hover { border-color: #1B3A4B; color: #1B3A4B; }
+  .role-btn.active { background: #1B3A4B; border-color: #1B3A4B; color: #fff; font-weight: 600; }
+
+  .reviewer-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .field-group { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; padding: 16px 20px; }
+  .field-group label { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .field-group input { width: 100%; border: none; font-size: 15px; color: #1a1a1a; outline: none; background: transparent; }
+
+  .section-card { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+  .section-header { background: #EEF2F5; padding: 12px 20px; font-size: 13px; font-weight: 700; color: #1B3A4B; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #dde3e8; }
+  
+  .criterion-row { padding: 14px 20px; border-bottom: 1px solid #f0f2f4; display: flex; align-items: flex-start; gap: 16px; }
+  .criterion-row:last-child { border-bottom: none; }
+  .criterion-row.rejected { background: #FFF8F8; }
+  
+  .criterion-num { font-size: 12px; font-weight: 700; color: #aaa; min-width: 28px; padding-top: 2px; }
+  .criterion-text { flex: 1; font-size: 14px; color: #333; line-height: 1.5; }
+  
+  .yn-toggle { display: flex; gap: 6px; flex-shrink: 0; }
+  .yn-btn { width: 44px; height: 30px; border-radius: 6px; border: 1.5px solid #dde3e8; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: #888; }
+  .yn-btn:hover { border-color: #999; }
+  .yn-btn.yes.active { background: #E6F4EC; border-color: #2D8653; color: #2D8653; }
+  .yn-btn.no.active { background: #FDECEA; border-color: #C0392B; color: #C0392B; }
+
+  .rejection-panel { margin: 4px 0 4px 44px; background: #FFF3F3; border: 1px solid #f5c6c6; border-radius: 8px; padding: 14px 16px; display: none; }
+  .rejection-panel.visible { display: block; }
+  .rej-field { margin-bottom: 10px; }
+  .rej-field:last-child { margin-bottom: 0; }
+  .rej-label { font-size: 11px; font-weight: 700; color: #C0392B; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .rej-select { width: 100%; padding: 7px 10px; border: 1px solid #f5c6c6; border-radius: 6px; font-size: 13px; color: #333; background: #fff; }
+  .rej-other { width: 100%; padding: 7px 10px; border: 1px solid #f5c6c6; border-radius: 6px; font-size: 13px; color: #333; background: #fff; margin-top: 4px; resize: vertical; min-height: 40px; display: none; font-family: inherit; }
+  .rej-other.visible { display: block; }
+
+  .notes-section { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .notes-section label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 8px; }
+  .notes-section .optional { font-weight: 400; color: #999; font-size: 12px; margin-left: 6px; }
+  .notes-section textarea { width: 100%; border: 1px solid #dde3e8; border-radius: 6px; padding: 10px 12px; font-size: 14px; font-family: inherit; color: #333; resize: vertical; min-height: 72px; }
+
+  .decision-bar { background: #fff; border: 1px solid #dde3e8; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .decision-bar .dec-label { font-size: 14px; font-weight: 600; color: #1B3A4B; }
+  .dec-btn { padding: 10px 28px; border-radius: 8px; border: 2px solid #dde3e8; background: #fff; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .dec-btn.approve:hover, .dec-btn.approve.active { background: #E6F4EC; border-color: #2D8653; color: #2D8653; }
+  .dec-btn.reject:hover, .dec-btn.reject.active { background: #FDECEA; border-color: #C0392B; color: #C0392B; }
+  .dec-hint { font-size: 12px; color: #999; margin-left: auto; }
+
+  .submit-row { text-align: center; }
+  .submit-btn { background: #1B3A4B; color: #fff; border: none; padding: 14px 48px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+  .submit-btn:hover { background: #2a5470; }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1B3A4B; color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; }
+  .toast.error { background: #C0392B; }
+  .toast.success { background: #2D8653; }
+
+  .status-screen { display: none; text-align: center; padding: 60px 20px; }
+  .status-screen.visible { display: block; }
+  .status-icon { font-size: 56px; margin-bottom: 16px; }
+  .status-screen h2 { font-size: 24px; font-weight: 700; color: #1B3A4B; margin-bottom: 8px; }
+  .status-screen p { font-size: 15px; color: #666; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+  .status-screen .ref { font-size: 13px; color: #aaa; background: #f4f6f8; padding: 8px 16px; border-radius: 6px; display: inline-block; }
+
+  .na-banner { background: #EEF8F3; border: 1px solid #b2d9c4; border-radius: 8px; padding: 12px 16px; font-size: 14px; color: #2D8653; margin-bottom: 12px; display: none; }
+
+  @media (max-width: 600px) {
+    .reviewer-row { grid-template-columns: 1fr; }
+    .dec-hint { display: none; }
+  }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="brand">DRONALYTICS — Screen Design Review</span>
+  <span class="version-tag">v1.0</span>
+</div>
+
+<div class="container" id="mainForm">
+
+  <div class="screen-banner">
+    <div>
+      <h1 id="screenTitle">Loading screen info…</h1>
+      <div class="meta">
+        <span id="metaVersion"></span>
+        <span id="metaDate"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="role-selector">
+    <label>Select your role</label>
+    <div class="role-grid" id="roleGrid">
+      <button class="role-btn" data-role="Frontend Developer" onclick="setRole(this)">Front-end developer</button>
+      <button class="role-btn" data-role="Backend Developer" onclick="setRole(this)">Back-end developer</button>
+      <button class="role-btn" data-role="AI Developer" onclick="setRole(this)">AI developer</button>
+      <button class="role-btn" data-role="Data Engineer" onclick="setRole(this)">Data engineer / developer</button>
+      <button class="role-btn" data-role="QA Engineer" onclick="setRole(this)">QA engineer</button>
+      <button class="role-btn" data-role="Project Manager" onclick="setRole(this)">Project manager</button>
+    </div>
+  </div>
+
+  <div class="reviewer-row">
+    <div class="field-group">
+      <label>Your name</label>
+      <input type="text" id="reviewerName" placeholder="Full name" />
+    </div>
+    <div class="field-group">
+      <label>Review date</label>
+      <input type="text" id="reviewDate" placeholder="DD/MM/YYYY" />
+    </div>
+  </div>
+
+  <div id="criteriaContainer"></div>
+
+  <div class="notes-section">
+    <label>Any other observations <span class="optional">optional</span></label>
+    <textarea id="generalNotes" placeholder="Anything else worth flagging that isn't covered above…"></textarea>
+  </div>
+
+  <div class="decision-bar">
+    <span class="dec-label">Your decision on this screen:</span>
+    <button class="dec-btn approve" id="btnApprove" onclick="setDecision('approve')">✓ Soft Approve</button>
+    <button class="dec-btn reject" id="btnReject" onclick="setDecision('reject')">✗ Reject</button>
+    <span class="dec-hint">Reject if any criterion is No</span>
+  </div>
+
+  <div class="submit-row">
+    <button class="submit-btn" onclick="submitReview()">Submit review</button>
+  </div>
+
+</div>
+
+<div class="container status-screen" id="statusScreen">
+  <div class="status-icon" id="statusIcon">✅</div>
+  <h2 id="statusTitle">Review submitted</h2>
+  <p id="statusMsg">Your review has been saved. The PM will collate all six responses after the call.</p>
+  <div class="ref" id="statusRef"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CRITERIA DATA ────────────────────────────────────────────────────────────
+const CRITERIA = {
+  "Frontend Developer": {
+    na: false,
+    sections: [
+      {
+        title: "Component & state coverage",
+        items: [
+          "Every component on screen is identifiable — no vague placeholders remain",
+          "Loading, empty, and error states are explicitly designed for every data-dependent panel",
+          "Disabled and conditional states are shown for all buttons and controls",
+          "Hover and focus states are specified for all interactive elements",
+        ]
+      },
+      {
+        title: "Data display rules",
+        items: [
+          "Every displayed field is labelled — no unlabelled values or mystery numbers",
+          "Label-only fields show label strings, not raw numeric scores",
+          "NULL states (metrics unavailable until cohort completes) are handled — not shown as zero",
+          "Filter behaviour (centre, CEFR) is fully specified — default state and effect on each panel is clear",
+        ]
+      },
+      {
+        title: "Layout & interactions",
+        items: [
+          "Overflow and responsive behaviour is defined for tables and charts at minimum viewport width",
+          "Every action that navigates away from this screen has a confirmed destination",
+        ]
+      }
+    ],
+    issues: [
+      "Component not specified or placeholder remains",
+      "State missing (loading / empty / error / disabled)",
+      "Field is unlabelled or shows raw score instead of label",
+      "NULL / unavailable state not handled",
+      "Filter behaviour not specified",
+      "Overflow or responsive behaviour undefined",
+      "Navigation destination not confirmed",
+      "Other"
+    ]
+  },
+
+  "Backend Developer": {
+    na: false,
+    sections: [
+      {
+        title: "Data sources & contracts",
+        items: [
+          "Every displayed field maps to a confirmed source — stored field, computed output, or derived value",
+          "All cohort-level aggregates have a confirmed query or endpoint — not assumed trivially computable",
+          "NULL fields (DCI, BPI_norm, readiness band) are returned as NULL by the API — not coerced to zero",
+          "unc and qps are never merged — unc is stored on the response record; qps is application-layer only and never written to the database",
+        ]
+      },
+      {
+        title: "API & business rules",
+        items: [
+          "Every data panel maps to an identified API endpoint — no panel lacks a data contract",
+          "Centre and CEFR filtering is handled server-side — not full-cohort data filtered on the client",
+          "Cohort-readiness gate (Stage 3 check) is enforced server-side before returning DCI-dependent metrics",
+          "Role-based access is confirmed — admin, teacher, and learner receive appropriate data payloads",
+        ]
+      },
+      {
+        title: "Performance",
+        items: [
+          "Batch vs real-time boundary is defined — percentile computations are post-cohort batch, not live queries",
+          "Expected data volume is assessed and pagination is defined where needed",
+        ]
+      }
+    ],
+    issues: [
+      "Field source not confirmed",
+      "NULL not handled — coerced to zero or omitted",
+      "unc and qps merged or confused",
+      "No API endpoint identified for this panel",
+      "Filtering done client-side instead of server-side",
+      "Stage 3 / cohort-readiness gate missing",
+      "Role-based access not defined",
+      "Batch vs real-time boundary unclear",
+      "Other"
+    ]
+  },
+
+  "AI Developer": {
+    na: true,
+    naLabel: "This screen has no AI-generated outputs, AI calls, or AI-assisted grading. Mark N/A and Soft Approve.",
+    sections: [
+      {
+        title: "AI output display",
+        items: [
+          "Every AI-generated value on screen is identified — ES_user, grading_confidence outputs, ASSIST panel responses",
+          "Raw grading_confidence values are not shown to learners or admins — only the low_conf_flag outcome is surfaced",
+          "AI-generated labels match engine output exactly — UI does not reinterpret or rephrase them",
+        ]
+      },
+      {
+        title: "Triggers, latency & fallbacks",
+        items: [
+          "Every user action that triggers an AI call is identified — action, model, expected latency",
+          "Loading state is designed for every element awaiting an AI response",
+          "Fallback state is designed for every AI call that can time out or error — no blank panels or hangs",
+          "ASSIST panel trigger, input, output, and error state are fully specified",
+        ]
+      },
+      {
+        title: "Low-confidence handling",
+        items: [
+          "Responses with low_conf_flag = TRUE route to the human review queue — not suppressed or auto-resolved",
+          "Low-confidence flag is never implied to mean the score is low — it means evaluators would disagree",
+          "Graded output confirms the prompt version used — no mixed-version outputs displayed together",
+        ]
+      }
+    ],
+    issues: [
+      "AI-generated value not identified on screen",
+      "Raw grading_confidence exposed to user",
+      "Label reinterpreted or rephrased from engine output",
+      "AI call trigger not specified",
+      "Loading state missing",
+      "Fallback / error state missing",
+      "low_conf_flag not routed to review queue",
+      "Prompt version not confirmed",
+      "Other"
+    ]
+  },
+
+  "Data Engineer": {
+    na: false,
+    sections: [
+      {
+        title: "Metric-to-display alignment",
+        items: [
+          "Every metric shown is a confirmed engine output — nothing is inferred or assumed outside the engine",
+          "All label strings exactly match compute_part_g() outputs — no paraphrasing of label text",
+          "DCI label and readiness_band use fixed thresholds from dci_label() and readiness_band() — no alternate definitions",
+          "Zone labels match capability_zone() exactly: Ready Performer, Assisted Performer, Emerging Independent, At Risk",
+        ]
+      },
+      {
+        title: "Metric availability & stage gating",
+        items: [
+          "Cohort-complete metrics (DCI, BPI_norm, tDQS_norm, Zone) are absent until Stage 3 — not shown as zero or partial",
+          "BPI and BPI_norm are distinguished — different availability windows, different display states",
+          "UMS tile appears only when unc >= 0.60 — absent entirely when below threshold, not shown as zero or N/A",
+          "qps is display-only, computed in application layer, never in database, never feeds DCI",
+        ]
+      },
+      {
+        title: "Metric semantics",
+        items: [
+          "CCG direction (Overestimated / Underestimated) is sourced from perceived_conf vs BPI comparison — not from CCG value alone",
+          "TUI_hand NULL (no tool used) and TUI_hand = 0 (tool used, all DIRECT) render differently — not both shown as 'no tool use'",
+          "DMS denominator is always 6 (fixed hand size) — not n_att (attempted questions)",
+          "CapabilityConfidence does not appear as a displayed metric — only DCI (which incorporates it) is shown",
+        ]
+      }
+    ],
+    issues: [
+      "Metric not confirmed as engine output",
+      "Label string does not match engine output exactly",
+      "Wrong threshold or definition used for label",
+      "Cohort-complete metric shown before Stage 3",
+      "BPI and BPI_norm confused or conflated",
+      "UMS shown when unc < 0.60",
+      "qps written to database or fed into scoring",
+      "CCG direction computed incorrectly",
+      "TUI NULL and TUI=0 not distinguished",
+      "DMS denominator wrong",
+      "CapabilityConfidence exposed as display metric",
+      "Other"
+    ]
+  },
+
+  "QA Engineer": {
+    na: false,
+    sections: [
+      {
+        title: "Testability",
+        items: [
+          "Every interactive element has a testable acceptance criterion — expected outcome is unambiguous",
+          "Pass and fail states for each interaction are distinguishable from the design alone",
+          "Every conditional display rule is fully specified — each 'if X then show Y' case is documented",
+        ]
+      },
+      {
+        title: "Edge cases",
+        items: [
+          "Zero-learner and single-learner cohort states are handled — no crash or misleading metric display",
+          "All-SKIP hand state is handled — BPI = 0.0 renders correctly without breaking charts or labels",
+          "NULL vs zero is distinguished — TUI_hand NULL and TUI_hand = 0 render as different states",
+          "Empty filter result (centre + CEFR combination returns no learners) has a defined UI state",
+        ]
+      },
+      {
+        title: "Access & integrity",
+        items: [
+          "Role-based access is verifiable — what admin, teacher, and learner each see is explicitly defined",
+          "DCI is absent in the pre-Stage 3 state — QA can write a test for its presence and absence",
+          "No screen action writes a value that would retroactively change finalised cohort metrics",
+          "Assessment briefing screen presence and absence conditions are testable",
+        ]
+      }
+    ],
+    issues: [
+      "Acceptance criterion missing or ambiguous",
+      "Pass / fail states not distinguishable",
+      "Conditional rule not fully specified",
+      "Edge case not handled (zero / single learner / all-SKIP)",
+      "NULL vs zero not distinguished",
+      "Empty filter result state undefined",
+      "Role-based access not verifiable",
+      "DCI pre/post Stage 3 states not testable",
+      "Other"
+    ]
+  },
+
+  "Project Manager": {
+    na: false,
+    sections: [
+      {
+        title: "Scope & decisions",
+        items: [
+          "Every element on screen is within agreed MVP scope — no unconfirmed additions",
+          "All design decisions are made — no TBD, unconfirmed, or placeholder text remains",
+          "All designer assumptions are explicitly stated — nothing left for the team to infer",
+        ]
+      },
+      {
+        title: "Dependencies & handoffs",
+        items: [
+          "Entry point to this screen is defined — what action or event triggers navigation here",
+          "All exit points are confirmed — every action that leaves this screen has a destination",
+          "Cross-screen dependencies (shared filters, label strings, cohort gate) are consistent with other screens",
+          "Dependencies on the BullMQ / Node.js pipeline that affect this screen's display are identified",
+        ]
+      },
+      {
+        title: "Timeline & delivery",
+        items: [
+          "No hidden complexity was discovered that threatens the July 2026 deployment timeline",
+          "Deployment target is confirmed — GIZ programme, school client (CBSE), or both",
+          "No dependency on a post-MVP feature (qps display, pressure tab, CI_time < 3 assessments) blocks production readiness",
+        ]
+      }
+    ],
+    issues: [
+      "Element is out of MVP scope",
+      "Design decision unresolved — TBD or placeholder remains",
+      "Designer assumption not stated",
+      "Entry point to screen not defined",
+      "Exit point / navigation destination missing",
+      "Inconsistency with another screen",
+      "Pipeline dependency not identified",
+      "Hidden complexity threatening timeline",
+      "Post-MVP dependency blocking production",
+      "Other"
+    ]
+  }
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentRole = null;
+let decision = null;
+let screenName = "Unknown Screen";
+let screenVersion = "v1";
+let isNA = false;
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  screenName = params.get("screen") || "Screen not specified";
+  screenVersion = params.get("version") || "v1";
+
+  document.getElementById("screenTitle").textContent = screenName;
+  document.getElementById("metaVersion").textContent = "Version: " + screenVersion;
+  document.getElementById("metaDate").textContent = "Date: " + new Date().toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+  document.getElementById("reviewDate").value = new Date().toLocaleDateString("en-GB");
+
+  const roleParam = params.get("role");
+  if (roleParam) {
+    const btn = [...document.querySelectorAll(".role-btn")].find(b => b.dataset.role === roleParam);
+    if (btn) setRole(btn);
+  }
+};
+
+// ─── ROLE SELECTION ───────────────────────────────────────────────────────────
+function setRole(btn) {
+  document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  currentRole = btn.dataset.role;
+  decision = null;
+  document.getElementById("btnApprove").classList.remove("active");
+  document.getElementById("btnReject").classList.remove("active");
+  renderCriteria();
+}
+
+function renderCriteria() {
+  const container = document.getElementById("criteriaContainer");
+  container.innerHTML = "";
+  if (!currentRole || !CRITERIA[currentRole]) return;
+
+  const cfg = CRITERIA[currentRole];
+  isNA = false;
+
+  if (cfg.na) {
+    const naBanner = document.createElement("div");
+    naBanner.className = "na-banner";
+    naBanner.id = "naBanner";
+    naBanner.innerHTML = `<strong>Not applicable option:</strong> ${cfg.naLabel}
+      <br><br><button onclick="markNA()" style="margin-top:8px;padding:6px 18px;background:#2D8653;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Mark as N/A and Soft Approve</button>`;
+    naBanner.style.display = "block";
+    container.appendChild(naBanner);
+  }
+
+  let n = 1;
+  cfg.sections.forEach(section => {
+    const card = document.createElement("div");
+    card.className = "section-card";
+    card.style.marginBottom = "16px";
+
+    const header = document.createElement("div");
+    header.className = "section-header";
+    header.textContent = section.title;
+    card.appendChild(header);
+
+    section.items.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "criterion-row";
+      row.id = `row-${n}`;
+
+      row.innerHTML = `
+        <div class="criterion-num">${n}</div>
+        <div class="criterion-text">${item}</div>
+        <div class="yn-toggle">
+          <button class="yn-btn yes" onclick="setCriterion(${n}, 'yes', this)">Yes</button>
+          <button class="yn-btn no" onclick="setCriterion(${n}, 'no', this)">No</button>
+        </div>`;
+      card.appendChild(row);
+
+      const rejPanel = document.createElement("div");
+      rejPanel.className = "rejection-panel";
+      rejPanel.id = `rej-${n}`;
+      rejPanel.innerHTML = buildRejectionPanel(n, cfg.issues);
+      card.appendChild(rejPanel);
+
+      n++;
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function buildRejectionPanel(n, issues) {
+  const opts = issues.map(i => `<option value="${i}">${i}</option>`).join("");
+  return `
+    <div class="rej-field">
+      <div class="rej-label">Issue</div>
+      <select class="rej-select" id="issue-${n}" onchange="checkOther('issue-${n}','other-issue-${n}')">
+        <option value="">Select the issue type…</option>
+        ${opts}
+      </select>
+      <textarea class="rej-other" id="other-issue-${n}" placeholder="Describe the issue…"></textarea>
+    </div>
+    <div class="rej-field">
+      <div class="rej-label">Impact</div>
+      <select class="rej-select" id="impact-${n}">
+        <option value="">Select the impact…</option>
+        <option>Blocks build — cannot proceed without resolution</option>
+        <option>Risk of incorrect behaviour at runtime</option>
+        <option>Risk of wrong metric or label displayed to user</option>
+        <option>Ambiguity — team will make conflicting assumptions</option>
+        <option>Edge case not handled — will fail for specific inputs</option>
+        <option>Performance risk — may cause slow or failed loads</option>
+        <option>Scope creep — adds unplanned work</option>
+        <option>Needs discussion in call</option>
+      </select>
+    </div>
+    <div class="rej-field">
+      <div class="rej-label">Suggested fix</div>
+      <select class="rej-select" id="fix-${n}" onchange="checkOther('fix-${n}','other-fix-${n}')">
+        <option value="">Select a resolution path…</option>
+        <option>Needs discussion in call — no clear fix yet</option>
+        <option>Designer to update Figma before development starts</option>
+        <option>Add missing state / edge case to design</option>
+        <option>Confirm data source / endpoint in next BE sync</option>
+        <option>Align with engine output — check compute_part_g()</option>
+        <option>Confirm with PM — may be out of MVP scope</option>
+        <option>Other</option>
+      </select>
+      <textarea class="rej-other" id="other-fix-${n}" placeholder="Describe the fix…"></textarea>
+    </div>`;
+}
+
+function checkOther(selectId, otherId) {
+  const val = document.getElementById(selectId).value;
+  const other = document.getElementById(otherId);
+  if (val === "Other") { other.classList.add("visible"); }
+  else { other.classList.remove("visible"); }
+}
+
+function setCriterion(n, val, btn) {
+  const row = document.getElementById(`row-${n}`);
+  const panel = document.getElementById(`rej-${n}`);
+  row.querySelectorAll(".yn-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  if (val === "no") {
+    row.classList.add("rejected");
+    panel.classList.add("visible");
+    if (decision !== "reject") setDecision("reject");
+  } else {
+    row.classList.remove("rejected");
+    panel.classList.remove("visible");
+  }
+}
+
+function setDecision(val) {
+  decision = val;
+  document.getElementById("btnApprove").classList.toggle("active", val === "approve");
+  document.getElementById("btnReject").classList.toggle("active", val === "reject");
+}
+
+function markNA() {
+  isNA = true;
+  setDecision("approve");
+  showToast("Marked as N/A — Soft Approved", "success");
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────────────────────
+async function submitReview() {
+  const name = document.getElementById("reviewerName").value.trim();
+  if (!name) { showToast("Please enter your name", "error"); return; }
+  if (!currentRole) { showToast("Please select your role", "error"); return; }
+  if (!decision) { showToast("Please set your decision (Approve or Reject)", "error"); return; }
+
+  const payload = buildPayload(name);
+  const btn = document.querySelector(".submit-btn");
+  btn.disabled = true;
+  btn.textContent = "Saving…";
+
+  try {
+    await saveToGitHub(payload);
+    showSuccess(payload.ref);
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = "Submit review";
+    showToast("Save failed: " + e.message, "error");
+  }
+}
+
+function buildPayload(name) {
+  const cfg = CRITERIA[currentRole];
+  const criteria = [];
+
+  if (!isNA && cfg) {
+    let n = 1;
+    cfg.sections.forEach(section => {
+      section.items.forEach(item => {
+        const yesBtn = document.querySelector(`#row-${n} .yn-btn.yes`);
+        const noBtn = document.querySelector(`#row-${n} .yn-btn.no`);
+        const response = yesBtn?.classList.contains("active") ? "yes" : noBtn?.classList.contains("active") ? "no" : "unanswered";
+        const entry = { num: n, section: section.title, criterion: item, response };
+        if (response === "no") {
+          const issueEl = document.getElementById(`issue-${n}`);
+          const impactEl = document.getElementById(`impact-${n}`);
+          const fixEl = document.getElementById(`fix-${n}`);
+          const otherIssue = document.getElementById(`other-issue-${n}`);
+          const otherFix = document.getElementById(`other-fix-${n}`);
+          entry.rejection = {
+            issue: issueEl?.value === "Other" ? otherIssue?.value : issueEl?.value,
+            impact: impactEl?.value,
+            suggested_fix: fixEl?.value === "Other" ? otherFix?.value : fixEl?.value,
+          };
+        }
+        criteria.push(entry);
+        n++;
+      });
+    });
+  }
+
+  const ts = new Date().toISOString();
+  const safeName = screenName.replace(/[^a-zA-Z0-9]/g, "_");
+  const safeRole = currentRole.replace(/[^a-zA-Z0-9]/g, "_");
+  const ref = `${safeName}_${screenVersion}_${safeRole}_${Date.now()}`;
+
+  return {
+    ref,
+    screen: screenName,
+    version: screenVersion,
+    role: currentRole,
+    reviewer: name,
+    submitted_at: ts,
+    decision,
+    is_na: isNA,
+    general_notes: document.getElementById("generalNotes").value.trim(),
+    criteria
+  };
+}
+
+async function saveToGitHub(payload) {
+  const TOKEN = window.DR_CONFIG.token;
+  const REPO = window.DR_CONFIG.repo;
+  const safeName = screenName.replace(/[^a-zA-Z0-9]/g, "_");
+  const safeRole = currentRole.replace(/[^a-zA-Z0-9]/g, "_");
+  const filename = `responses/${safeName}/${screenVersion}/${safeRole}_${Date.now()}.json`;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: `Review: ${payload.screen} ${payload.version} — ${payload.role}`,
+      content
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || "GitHub API error");
+  }
+}
+
+function showSuccess(ref) {
+  document.getElementById("mainForm").style.display = "none";
+  const s = document.getElementById("statusScreen");
+  s.classList.add("visible");
+  document.getElementById("statusIcon").textContent = decision === "approve" ? "✅" : "🔴";
+  document.getElementById("statusTitle").textContent = decision === "approve" ? "Review submitted — Soft Approved" : "Review submitted — Rejected";
+  document.getElementById("statusMsg").textContent = decision === "approve"
+    ? "Your approval has been recorded. The PM will collate all six responses after the call."
+    : "Your rejection notes have been saved. The designer will receive structured feedback before the screen proceeds to production.";
+  document.getElementById("statusRef").textContent = "Ref: " + ref;
+}
+
+function showToast(msg, type = "") {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast show " + type;
+  setTimeout(() => t.className = "toast", 3000);
+}
+</script>
+</body>
+</html>
