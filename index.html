@@ -608,8 +608,13 @@ async function submitReview() {
   btn.textContent = "Saving…";
 
   try {
-    await saveToGitHub(payload);
-    showSuccess(payload.ref);
+    const results = await Promise.allSettled([
+      saveToGitHub(payload),
+      saveToDrive(payload)
+    ]);
+    const failed = results.filter(r => r.status === "rejected").map(r => r.reason?.message);
+    if (failed.length === 2) throw new Error(failed[0]);
+    showSuccess(payload.ref, failed.length === 1 ? "Saved to " + (results[0].status === "fulfilled" ? "GitHub" : "Drive") + " only. " + failed[0] : null);
   } catch(e) {
     btn.disabled = false;
     btn.textContent = "Submit review";
@@ -692,15 +697,31 @@ async function saveToGitHub(payload) {
   }
 }
 
-function showSuccess(ref) {
+async function saveToDrive(payload) {
+  const APPS_SCRIPT_URL = window.DR_CONFIG.appsScriptUrl;
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PASTE_YOUR_APPS_SCRIPT_URL_HERE") {
+    throw new Error("Apps Script URL not configured");
+  }
+  const res = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "text/plain" }  // Apps Script requires text/plain to avoid CORS preflight
+  });
+  if (!res.ok) throw new Error("Drive save failed: HTTP " + res.status);
+  const data = await res.json();
+  if (data.status !== "ok") throw new Error("Drive error: " + (data.message || "unknown"));
+}
+
+function showSuccess(ref, warning) {
   document.getElementById("mainForm").style.display = "none";
   const s = document.getElementById("statusScreen");
   s.classList.add("visible");
   document.getElementById("statusIcon").textContent = decision === "approve" ? "✅" : "🔴";
   document.getElementById("statusTitle").textContent = decision === "approve" ? "Review submitted — Soft Approved" : "Review submitted — Rejected";
-  document.getElementById("statusMsg").textContent = decision === "approve"
-    ? "Your approval has been recorded. The PM will collate all six responses after the call."
-    : "Your rejection notes have been saved. The designer will receive structured feedback before the screen proceeds to production.";
+  const baseMsg = decision === "approve"
+    ? "Your approval has been recorded. Saved to GitHub and Google Drive."
+    : "Your rejection notes have been saved to GitHub and Google Drive.";
+  document.getElementById("statusMsg").textContent = warning ? warning + " " + baseMsg : baseMsg;
   document.getElementById("statusRef").textContent = "Ref: " + ref;
 }
 
