@@ -395,8 +395,8 @@ function buildDotPlot(){
 // ── LEVEL 1 ────────────────────────────────────────────────────────────────────
 function L1(id,ci,ai){
   document.querySelectorAll('.hmc.sel').forEach(e=>e.classList.remove('sel'));
-  const vals=id==='bpi'?getBPI(ci,bpiSkill,bpiBloom,ai):id==='ums'?getUMS(ci,ai).vals:getDist(ci,ai,id,id.charCodeAt(0)*500+(id==='g10'?1001:id==='g11'?2002:0));
-  const arr=Array.isArray(vals)?vals:vals;
+  const raw=id==='bpi'?getBPI(ci,bpiSkill,bpiBloom,ai):id==='ums'?{vals:getUMS(ci,ai).vals}:{vals:getDist(ci,ai,id,id.charCodeAt(0)*500+(id==='g10'?1001:id==='g11'?2002:0))};
+  const arr=raw.vals;
   const total=arr.reduce((a,b)=>a+b,0);
   const thin=id==='bpi'?getBPI(ci,bpiSkill,bpiBloom,ai).thin:false;
   let segs='',lbls='';
@@ -416,6 +416,7 @@ function L1(id,ci,ai){
   </div>`;
   document.getElementById(id+'_l2').innerHTML='';
   document.getElementById(id+'_l3').innerHTML='';
+  setTimeout(()=>{const el=document.getElementById(id+'_l1');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
 }
 
 // ── LEVEL 2 ────────────────────────────────────────────────────────────────────
@@ -424,6 +425,7 @@ function L2(id,ci,ai,li){
   document.querySelectorAll(`#${id}_l1 .l1-seg[data-li="${li}"]`).forEach(e=>e.classList.add('sel-seg'));
   const vals=id==='bpi'?getBPI(ci,bpiSkill,bpiBloom,ai).vals:id==='ums'?getUMS(ci,ai).vals:getDist(ci,ai,id,id.charCodeAt(0)*500+(id==='g10'?1001:id==='g11'?2002:0));
   const prevVals=ai>0?(id==='bpi'?getBPI(ci,bpiSkill,bpiBloom,ai-1).vals:id==='ums'?getUMS(ci,ai-1).vals:getDist(ci,ai-1,id,id.charCodeAt(0)*500+(id==='g10'?1001:id==='g11'?2002:0))):null;
+  if(!vals||!Array.isArray(vals)){return;}
   const total=vals.reduce((a,b)=>a+b,0);
   const prevTotal=prevVals?prevVals.reduce((a,b)=>a+b,0):null;
   let cards='';
