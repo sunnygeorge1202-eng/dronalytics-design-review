@@ -8,23 +8,20 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#F2F4F7;color:#1a1a1a;font-size:13px}
 .topbar{background:#1B3A4B;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
-.topbar .brand{color:#fff;font-weight:700;font-size:15px;letter-spacing:.3px}
+.topbar .brand{color:#fff;font-weight:700;font-size:15px}
 .topbar .sub{color:#90b4c8;font-size:12px}
 .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
 
-/* FILTERS */
-.filter-bar{background:#fff;border:1px solid #dde3e8;border-radius:10px;padding:13px 18px;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filter-bar{background:#fff;border:1px solid #dde3e8;border-radius:10px;padding:12px 18px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .filter-bar label{font-size:11px;color:#888;font-weight:500}
-.filter-bar select{font-size:12px;padding:5px 9px;border:1px solid #dde3e8;border-radius:6px;background:#fff;color:#1a1a1a}
-.lcount{margin-left:auto;font-size:12px;color:#888;display:flex;align-items:center;gap:5px}
+.filter-bar select{font-size:12px;padding:5px 9px;border:1px solid #dde3e8;border-radius:6px;background:#fff}
+.lcount{margin-left:auto;font-size:12px;color:#888}
 .lcount strong{color:#1B3A4B}
 
-/* TABS */
-.tab-bar{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid #dde3e8}
+.tab-bar{display:flex;border-bottom:1px solid #dde3e8;margin-bottom:16px}
 .tab-btn{padding:10px 18px;border:none;background:transparent;font-size:13px;color:#888;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap}
 .tab-btn.on{color:#1B3A4B;font-weight:600;border-bottom-color:#1B3A4B}
 
-/* CARDS */
 .card{background:#fff;border:1px solid #dde3e8;border-radius:12px;padding:18px 20px;margin-bottom:14px}
 .card-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:3px}
 .card-title{font-size:13px;font-weight:600;color:#1B3A4B;margin-bottom:3px}
@@ -37,86 +34,116 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 .tgl button.on{background:#1B3A4B;color:#fff;font-weight:600}
 
 /* HEATMAP */
-.hm-outer{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hm-outer{overflow-x:auto}
 .hmt{border-collapse:separate;border-spacing:2px;table-layout:fixed}
 .hmt .rlbl{font-size:11px;color:#555;text-align:right;padding-right:8px;white-space:nowrap;vertical-align:middle;font-weight:500;width:108px;min-width:108px}
-.hmt .clbl{font-size:9px;color:#aaa;text-align:center;padding-bottom:4px;white-space:nowrap}
-.hmc{height:38px;width:52px;min-width:52px;border-radius:5px;cursor:pointer;vertical-align:middle;text-align:center;transition:transform .1s}
-.hmc:hover{transform:scale(1.08);position:relative;z-index:3}
+.hmt .clbl{font-size:9px;color:#aaa;text-align:center;padding-bottom:4px}
+.hmc{height:36px;width:50px;min-width:50px;border-radius:5px;cursor:pointer;vertical-align:middle;transition:transform .1s}
+.hmc:hover{transform:scale(1.1);position:relative;z-index:3}
 .hmc.sel{outline:2.5px solid #1B3A4B;outline-offset:1px;position:relative;z-index:4}
-.hmc-i{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:1px}
-.hmc-p{font-size:10px;font-weight:600;line-height:1}
-.hmc-l{font-size:8px;line-height:1;opacity:.85}
-.hmc-na{background:#f0f2f4!important;border:1px solid #e0e3e7}
+.hmc-na{background:#f0f2f4!important;border:1px dashed #ccc}
 
-/* DRILL PANEL */
-.drill{background:#EEF4F8;border:1px solid #c5d8e4;border-radius:12px;padding:16px 18px;margin-bottom:14px}
+/* DRILL PANELS */
+.drill-l1{background:#EEF4F8;border:1px solid #c5d8e4;border-radius:12px;padding:16px 18px;margin-bottom:10px}
+.drill-l2{background:#F0F8F4;border:1px solid #b2d9c4;border-radius:12px;padding:16px 18px;margin-bottom:10px}
+.drill-l3{background:#FFF;border:1px solid #dde3e8;border-radius:12px;padding:16px 18px;margin-bottom:14px}
 .drill-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#5a8aa0;margin-bottom:3px}
 .drill-title{font-size:13px;font-weight:600;color:#1B3A4B;margin-bottom:10px}
 .drill-ctx{font-size:11px;color:#6a8fa0;margin-bottom:12px}
 .drill-empty{font-size:12px;color:#aaa;font-style:italic}
-.dist-bar{display:flex;height:30px;border-radius:6px;overflow:hidden;margin-bottom:6px}
-.dist-seg{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px}
-.dist-seg .ds-p{font-size:10px;font-weight:600;line-height:1}
-.dist-seg .ds-n{font-size:9px;line-height:1;opacity:.8}
-.delta-grid{display:grid;gap:7px;margin-top:10px}
-.dcard{border-radius:7px;padding:9px 11px}
-.dcard .dc-ct{font-size:20px;font-weight:600;line-height:1}
-.dcard .dc-nm{font-size:10px;margin-top:2px}
-.dcard .dc-bw{height:4px;border-radius:2px;margin-top:6px;background:rgba(0,0,0,.08)}
-.dcard .dc-bf{height:100%;border-radius:2px}
-.dcard .dc-d{font-size:10px;margin-top:5px;font-weight:500}
-.thin-warn{background:#FAEEDA;color:#633806;border-radius:6px;padding:6px 10px;font-size:11px;margin-bottom:8px}
+.drill-hint{font-size:11px;color:#aaa;font-style:italic;margin-top:8px}
+
+/* L1 — colour-only distribution bar */
+.l1-bar{display:flex;height:36px;border-radius:8px;overflow:hidden;cursor:pointer;margin-bottom:6px}
+.l1-seg{height:100%;transition:opacity .15s;cursor:pointer;position:relative}
+.l1-seg:hover{opacity:.85;outline:2px solid rgba(0,0,0,.2);outline-offset:-2px}
+.l1-seg.sel-seg{outline:2.5px solid #1B3A4B;outline-offset:-2px}
+.l1-labels{display:flex;margin-top:4px}
+.l1-lbl{font-size:10px;color:#888;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 2px}
+
+/* L2 — counts + delta */
+.delta-grid{display:grid;gap:7px;margin-top:8px}
+.dcard{border-radius:8px;padding:10px 12px;cursor:pointer;transition:opacity .15s}
+.dcard:hover{opacity:.85;outline:2px solid rgba(0,0,0,.15)}
+.dcard.sel-dc{outline:2.5px solid #1B3A4B}
+.dc-ct{font-size:22px;font-weight:600;line-height:1}
+.dc-nm{font-size:10px;margin-top:2px}
+.dc-bw{height:4px;border-radius:2px;margin-top:6px;background:rgba(0,0,0,.08)}
+.dc-bf{height:100%;border-radius:2px}
+.dc-d{font-size:10px;margin-top:5px;font-weight:500}
 .up{color:#0F6E56}.dn{color:#993C1D}.nc{color:#aaa}
 
+/* L3 — learner table */
+.learner-table{width:100%;border-collapse:collapse;font-size:12px}
+.learner-table th{text-align:left;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px;padding:6px 8px;border-bottom:1px solid #eee}
+.learner-table td{padding:7px 8px;border-bottom:1px solid #f5f5f5;color:#333}
+.learner-table tr:last-child td{border-bottom:none}
+.learner-table tr:hover td{background:#f9fafb}
+.label-pill{font-size:10px;font-weight:600;padding:2px 9px;border-radius:99px}
+.thin-warn{background:#FAEEDA;color:#633806;border-radius:6px;padding:6px 10px;font-size:11px;margin-bottom:8px}
+
 /* WAFFLE */
-.waffle-wrap{display:flex;flex-wrap:wrap;gap:12px}
-.waffle-block{flex:1;min-width:160px}
-.waffle-label{font-size:11px;font-weight:500;color:#555;margin-bottom:5px}
-.waffle-grid{display:grid;grid-template-columns:repeat(10,10px);gap:2px}
-.waffle-sq{width:10px;height:10px;border-radius:2px}
+.waffle-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.waffle-block{border:1px solid #eee;border-radius:8px;padding:12px}
+.waffle-centre{font-size:11px;font-weight:600;color:#1B3A4B;margin-bottom:6px}
+.waffle-grid{display:flex;flex-wrap:wrap;gap:3px;cursor:pointer}
+.wsq{width:11px;height:11px;border-radius:2px;cursor:pointer;transition:transform .1s}
+.wsq:hover{transform:scale(1.3)}
+.wsq.sel-wsq{outline:2px solid #1B3A4B;outline-offset:1px}
+
+/* SLOPE CHART */
+.slope-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.sl-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
+.sl-line{width:18px;height:2px;border-radius:1px}
+
+/* SMALL MULTIPLES DIVERGING */
+.sm-div-wrap{display:flex;flex-direction:column;gap:8px}
+.sm-div-row{display:flex;align-items:center;gap:10px}
+.sm-div-lbl{font-size:11px;color:#555;font-weight:500;min-width:108px;white-space:nowrap}
+.sm-div-bar{flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden}
+.sm-div-seg{height:100%}
 
 /* DOT PLOT */
-.dot-plot{position:relative;height:180px}
-.dot-plot svg{width:100%;height:100%}
+.dot-plot-wrap{overflow-x:auto}
 
-/* BULLET */
-.bullet-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.bullet-lbl{font-size:11px;color:#555;font-weight:500;min-width:108px}
-.bullet-track{flex:1;background:#f0f2f4;border-radius:4px;height:20px;position:relative;overflow:hidden}
-.bullet-fill{height:100%;border-radius:4px}
-.bullet-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
-.bullet-counts{font-size:10px;color:#aaa;min-width:60px;text-align:right}
+/* LOLLIPOP */
+.lollipop-wrap{display:flex;flex-direction:column;gap:6px}
+.lp-row{display:flex;align-items:center;gap:10px}
+.lp-lbl{font-size:11px;color:#555;font-weight:500;min-width:108px}
+.lp-track{flex:1;height:20px;background:#f0f2f4;border-radius:3px;position:relative;cursor:pointer}
+.lp-stem{height:6px;border-radius:3px;position:absolute;top:7px}
+.lp-dot{width:16px;height:16px;border-radius:50%;position:absolute;top:2px;border:2px solid #fff;cursor:pointer;transition:transform .1s}
+.lp-dot:hover{transform:scale(1.2)}
+.lp-dot.sel-dot{outline:2px solid #1B3A4B;outline-offset:2px}
+.lp-threshold{position:absolute;top:0;height:100%;width:2px;background:#999;opacity:.4}
 
-/* STAT CARD */
+/* STREAM */
+.stream-wrap{overflow-x:auto}
+
+/* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat-card{border-radius:8px;padding:10px 12px;border:1px solid #eee}
-.stat-card .sc-centre{font-size:11px;font-weight:600;color:#1B3A4B;margin-bottom:6px}
-.stat-card .sc-comp{font-size:10px;color:#888;margin-bottom:5px}
+.stat-card{border-radius:8px;padding:10px 12px;border:1px solid #eee;cursor:pointer}
+.stat-card:hover{border-color:#1B3A4B}
+.sc-centre{font-size:11px;font-weight:600;color:#1B3A4B;margin-bottom:5px}
+.sc-comp{font-size:10px;color:#888;margin-bottom:5px}
 .sc-bar{display:flex;height:14px;border-radius:3px;overflow:hidden;margin-bottom:3px}
-.sc-seg{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500}
+.sc-seg{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;cursor:pointer}
 
 /* RANKED LIST */
-.ranked-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f2f4}
+.ranked-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f2f4;cursor:pointer}
 .ranked-row:last-child{border-bottom:none}
+.ranked-row:hover{background:#f9fafb;border-radius:6px;padding-left:6px}
 .ranked-lbl{font-size:12px;color:#555;font-weight:500;min-width:120px}
 .ranked-pill{font-size:11px;font-weight:600;padding:3px 12px;border-radius:99px}
-.ranked-count{font-size:11px;color:#aaa}
 
-/* STACKED CROSS-CENTRE */
-.cc-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.cc-lbl{font-size:11px;color:#555;font-weight:500;min-width:108px;white-space:nowrap}
-.cc-bar{flex:1;display:flex;height:20px;border-radius:4px;overflow:hidden}
-.cc-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500}
-.cc-n{font-size:10px;color:#aaa;min-width:40px;text-align:right}
-
-/* LEGEND */
 .leg-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
 .leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#777}
 .leg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .note{font-size:10px;color:#bbb;font-style:italic;margin-top:8px}
-.divider{border:none;border-top:1px solid #eee;margin:14px 0}
-.section-hdr{font-size:11px;font-weight:600;color:#1B3A4B;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 8px}
+.asm-slider{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.asm-slider label{font-size:11px;color:#888}
+.asm-slider input{flex:1;accent-color:#1B3A4B}
+.asm-slider span{font-size:11px;font-weight:600;color:#1B3A4B;min-width:28px}
 </style>
 </head>
 <body>
@@ -127,14 +154,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 <div class="wrap">
 
 <div class="filter-bar">
-  <label>Centre</label>
-  <select id="fCentre" onchange="renderAll()">
-    <option value="all">All centres</option>
-    <option>GIZ Trivandrum</option><option>ILS Kochi</option>
-    <option>ACL Calicut</option><option>YMCA Thrissur</option>
-    <option>KASE Kozhikode</option><option>IHRM Palakkad</option>
-  </select>
-  <label style="margin-left:8px">CEFR</label>
+  <label>CEFR level</label>
   <select id="fCEFR" onchange="renderAll()">
     <option value="all">All levels</option>
     <option>A2</option><option>B1</option><option>B2</option>
@@ -162,182 +182,125 @@ const SKILLS=["Writing","Reading","Listening","Speaking"];
 const N_ASM=15;
 const ASMS=Array.from({length:N_ASM},(_,i)=>`A${i+1}`);
 const CLRS_C=["#2a78d6","#1baf7a","#eda100","#4a3aa7","#e34948","#e87ba4"];
+const FIRST_NAMES=["Anjali","Priya","Rajan","Meera","Joseph","Divya","Anoop","Sreeja","Vishnu","Nithya","Arun","Lakshmi","Kiran","Pooja","Rahul","Deepa","Suresh","Anitha","Praveen","Rekha","Sanjay","Uma","Manoj","Geetha","Vijay"];
+const LAST_NAMES=["M.","K.","S.","T.","P.","R.","N.","V.","A.","J.","L.","D.","G.","B.","C."];
+const CEFR_OPTS=["A2","B1","B2"];
+const BATCHES=["Batch 1","Batch 2","Batch 3"];
 
-// ── COLOUR MAP ─────────────────────────────────────────────────────────────────
-const COL={
-  fragile:["#712B13","#FAECE7"],emerging:["#D85A30","#FAECE7"],
-  developing:["#EF9F27","#412402"],competent:["#5DCAA5","#04342C"],
-  strong:["#1D9E75","#E1F5EE"],reliable:["#085041","#9FE1CB"],
-  z1:["#085041","#9FE1CB"],z2:["#1D9E75","#E1F5EE"],
-  z3:["#EF9F27","#412402"],z4:["#D85A30","#FAECE7"],
-  low:["#D85A30","#FAECE7"],improving:["#EF9F27","#412402"],aligned:["#1D9E75","#E1F5EE"],
-  calibrated:["#1D9E75","#E1F5EE"],mild:["#EF9F27","#412402"],large:["#D85A30","#FAECE7"],
-  under:["#2a78d6","#fff"],
-  early:["#1D9E75","#E1F5EE"],mid:["#EF9F27","#412402"],late:["#D85A30","#FAECE7"],
-  struggling:["#D85A30","#FAECE7"],ums_imp:["#EF9F27","#412402"],ums_str:["#1D9E75","#E1F5EE"],
-  inconsistent:["#D85A30","#FAECE7"],mod_stable:["#EF9F27","#412402"],stable:["#1D9E75","#E1F5EE"],
-  independent:["#085041","#9FE1CB"],passive:["#B5D4F4","#0C447C"],
-  moderate_u:["#EF9F27","#412402"],strategic:["#1D9E75","#E1F5EE"],
-  dep_short:["#D85A30","#FAECE7"],overreliant:["#712B13","#FAECE7"],
-  fire:["#D85A30","#FAECE7"],watch:["#EF9F27","#412402"],none_f:["#E8EFF3","#555"],
-  bpi_dev:["#D85A30","#FAECE7"],bpi_eme:["#EF9F27","#412402"],
-  bpi_pro:["#1D9E75","#E1F5EE"],bpi_str:["#085041","#9FE1CB"],
-};
+// ── COLOURS ────────────────────────────────────────────────────────────────────
+const BPI_F=["#D85A30","#EF9F27","#1D9E75","#085041"];
+const BPI_T=["#FAECE7","#412402","#E1F5EE","#9FE1CB"];
+const BPI_N=["Developing","Emerging","Proficient","Strong"];
+const DCI_F=["#712B13","#D85A30","#EF9F27","#5DCAA5","#1D9E75","#085041"];
+const DCI_T=["#FAECE7","#FAECE7","#412402","#04342C","#E1F5EE","#9FE1CB"];
+const DCI_N=["Fragile","Emerging","Developing","Competent","Strong","Highly Reliable"];
+const DCI_ORD=[0,1,2,3,4,5];
+const ZONE_F=["#085041","#1D9E75","#EF9F27","#D85A30"];
+const ZONE_T=["#9FE1CB","#E1F5EE","#412402","#FAECE7"];
+const ZONE_N=["Zone 1 · Ready Performer","Zone 2 · Assisted Performer","Zone 3 · Emerging Independent","Zone 4 · At Risk"];
+const DQS_F=["#D85A30","#EF9F27","#1D9E75"];
+const DQS_T=["#FAECE7","#412402","#E1F5EE"];
+const DQS_N=["Low","Improving","Aligned"];
+const CCG_F=["#2a78d6","#1D9E75","#D85A30"];
+const CCG_T=["#fff","#E1F5EE","#FAECE7"];
+const CCG_N=["Underestimated","Calibrated","Overestimated"];
+const PI_F=["#1D9E75","#EF9F27","#D85A30"];
+const PI_T=["#E1F5EE","#412402","#FAECE7"];
+const PI_N=["Early","Mid","Late"];
+const PAT_F=["#085041","#B5D4F4","#EF9F27","#1D9E75","#D85A30","#712B13"];
+const PAT_T=["#9FE1CB","#0C447C","#412402","#E1F5EE","#FAECE7","#FAECE7"];
+const PAT_N=["Independent","Passive user","Moderate user","Strategic user","Dependent shortcutter","Over-reliant thinker"];
+const FLAG_F=["#D85A30","#EF9F27","#E8EFF3"];
+const FLAG_T=["#FAECE7","#412402","#555"];
+const FLAG_N_G10=["Fires (≥3)","Watch (1–2)","None"];
+const FLAG_N_G11=["Fires (≥2)","Watch (1)","None"];
+const CI_F=["#D85A30","#EF9F27","#1D9E75"];
+const CI_T=["#FAECE7","#412402","#E1F5EE"];
+const CI_N=["Inconsistent","Moderately stable","Stable"];
+const UMS_F=["#D85A30","#EF9F27","#1D9E75"];
+const UMS_T=["#FAECE7","#412402","#E1F5EE"];
+const UMS_N=["Struggling","Improving","Strong"];
 
 // ── SEEDED RANDOM ──────────────────────────────────────────────────────────────
-function sr(seed){let s=Math.abs(seed)|1;return()=>{s=(s*9301+49297)%233280;return s/233280}}
-function rn(seed,min,max){const r=sr(seed);return min+(r()*(max-min))}
+function sr(seed){let s=Math.abs(Math.round(seed))|1;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+
+// ── LEARNER ROSTER ─────────────────────────────────────────────────────────────
+function getLearners(ci){
+  const r=sr(ci*9999);
+  const n=CENTRE_N[ci];
+  return Array.from({length:n},(_,i)=>{
+    const r2=sr(ci*1000+i*7);
+    return{
+      id:i,
+      name:FIRST_NAMES[Math.floor(r2()*FIRST_NAMES.length)]+' '+LAST_NAMES[Math.floor(r2()*LAST_NAMES.length)],
+      cefr:CEFR_OPTS[Math.floor(r2()*3)],
+      batch:BATCHES[Math.floor(r2()*3)]
+    };
+  });
+}
 
 // ── DATA GENERATORS ────────────────────────────────────────────────────────────
+function getDistCounts(ci,ai,seed,n,labels,prog=0.02){
+  const r=sr(seed+ci*1000+ai*100);
+  const nL=labels.length;
+  let vals=Array.from({length:nL},(_,i)=>Math.max(0.02,r()+(i>nL/2?prog*ai:-prog*ai*0.5)));
+  const sum=vals.reduce((a,b)=>a+b,0);
+  return vals.map(v=>Math.max(1,Math.round(v/sum*n)));
+}
+
 function getBPI(ci,si,bi,ai){
   const seed=ci*10000+si*1000+bi*100+ai;
   const r=sr(seed);
   const thin=r()<(bi>=4?0.35:0.08);
-  const n=thin?Math.floor(r()*3)+1:Math.round(CENTRE_N[ci]*0.75+r()*CENTRE_N[ci]*0.2);
-  const bias=sr(ci*77+si*31+bi*13+ai*3)();
-  const prog=ai*0.018;
-  let d,e,p,st;
-  if(bias<.25){d=Math.round((.38-prog)*n);e=Math.round(.35*n);p=Math.round(.18*n);st=n-d-e-p}
-  else if(bias<.55){d=Math.round((.15-prog*.5)*n);e=Math.round(.42*n);p=Math.round((.28+prog*.3)*n);st=n-d-e-p}
-  else if(bias<.8){d=Math.round((.08-prog*.3)*n);e=Math.round(.28*n);p=Math.round((.40+prog*.4)*n);st=n-d-e-p}
-  else{d=0;e=Math.round((.15-prog*.4)*n);p=Math.round(.38*n);st=n-d-e-p}
-  st=Math.max(0,st);d=Math.max(0,d);
-  const tot=d+e+p+st;st+=n-tot;
-  return{vals:[d,e,p,Math.max(0,st)],n,thin};
+  const n=thin?3:Math.round(CENTRE_N[ci]*0.8);
+  const vals=getDistCounts(ci,ai,seed+1,n,BPI_N,0.025);
+  return{vals,n,thin};
 }
-
-function getDCI(ci,ai){
-  const prog=ai/14;const r=sr(ci*100+ai*7);
-  const base=[0.10-prog*0.06, 0.22-prog*0.08, 0.28, 0.24+prog*0.05, 0.12+prog*0.06, 0.04+prog*0.03];
-  const noisy=base.map(v=>Math.max(0.01,v+r()*0.05-0.025));
-  const sum=noisy.reduce((a,b)=>a+b,0);
-  const n=CENTRE_N[ci];
-  return noisy.map(v=>Math.max(1,Math.round(v/sum*n)));
-}
-
+function getDCI(ci,ai){return getDistCounts(ci,ai,2000,CENTRE_N[ci],DCI_N,0.018)}
 function getZone(ci,ai){
-  const prog=ai/14;const r=sr(ci*200+ai*11);
-  const base=[0.15+prog*0.10, 0.25+prog*0.05, 0.32-prog*0.08, 0.28-prog*0.07];
-  const noisy=base.map(v=>Math.max(0.01,v+r()*0.04-0.02));
-  const sum=noisy.reduce((a,b)=>a+b,0);
-  const n=CENTRE_N[ci];
-  return noisy.map(v=>Math.max(1,Math.round(v/sum*n)));
+  const r=getDistCounts(ci,ai,3000,CENTRE_N[ci],ZONE_N,-0.02);
+  return[r[3],r[2],r[1],r[0]]; // reverse: Z1 best grows, Z4 shrinks
 }
-
-function getDQS(ci,ai){
-  const prog=ai/14;const r=sr(ci*300+ai*13);
-  const base=[0.32-prog*0.15, 0.45, 0.23+prog*0.15];
-  const noisy=base.map(v=>Math.max(0.02,v+r()*0.04-0.02));
-  const sum=noisy.reduce((a,b)=>a+b,0);
-  const n=CENTRE_N[ci];
-  return noisy.map(v=>Math.max(1,Math.round(v/sum*n)));
-}
-
-function getCCG(ci,ai){
-  const prog=ai/14;const r=sr(ci*400+ai*17);
-  const under=Math.max(1,Math.round((0.18-prog*0.08+r()*0.04)*CENTRE_N[ci]));
-  const cal=Math.max(1,Math.round((0.40+prog*0.12+r()*0.04)*CENTRE_N[ci]));
-  const over=Math.max(1,CENTRE_N[ci]-under-cal);
-  return[under,cal,over];
-}
-
-function getPI(ci,ai){
-  const prog=ai/14;const r=sr(ci*500+ai*19);
-  const late=Math.max(1,Math.round((0.30-prog*0.12+r()*0.04)*CENTRE_N[ci]));
-  const early=Math.max(1,Math.round((0.18+prog*0.10+r()*0.04)*CENTRE_N[ci]));
-  const mid=Math.max(1,CENTRE_N[ci]-late-early);
-  return[early,mid,late];
-}
-
+function getDQS(ci,ai){return getDistCounts(ci,ai,4000,CENTRE_N[ci],DQS_N,0.03)}
+function getCCG(ci,ai){return getDistCounts(ci,ai,5000,CENTRE_N[ci],CCG_N,-0.02)}
+function getPI(ci,ai){return getDistCounts(ci,ai,6000,CENTRE_N[ci],PI_N,-0.03)}
+function getPattern(ci,ai){return getDistCounts(ci,ai,7000,CENTRE_N[ci],PAT_N,0.01)}
+function getFlag(ci,ai,seed){return getDistCounts(ci,ai,seed,CENTRE_N[ci],["Fire","Watch","None"],-0.03)}
+function getCITime(ci,ai){if(ai<2)return null;return getDistCounts(ci,ai,9000,CENTRE_N[ci],CI_N,0.04)}
 function getUMS(ci,ai){
-  const r=sr(ci*600+ai*23);
+  const r=sr(ci*800+ai*23);
   const comp=Math.max(3,Math.round((0.32+r()*0.12)*CENTRE_N[ci]));
-  const strug=Math.max(1,Math.round(0.28*comp));
-  const imp=Math.max(1,Math.round(0.45*comp));
-  const str=Math.max(0,comp-strug-imp);
-  return{comp,vals:[strug,imp,str],na:CENTRE_N[ci]-comp};
+  const vals=getDistCounts(ci,ai,10000,comp,UMS_N,0.03);
+  return{comp,vals,na:CENTRE_N[ci]-comp};
 }
 
-function getCITime(ci,ai){
-  if(ai<2) return null;
-  const prog=(ai-2)/12;const r=sr(ci*700+ai*29);
-  const inc=Math.max(1,Math.round((0.26-prog*0.12+r()*0.04)*CENTRE_N[ci]));
-  const mod=Math.max(1,Math.round((0.40+r()*0.04)*CENTRE_N[ci]));
-  const sta=Math.max(1,CENTRE_N[ci]-inc-mod);
-  const dominant=sta>mod&&sta>inc?'stable':mod>inc?'mod_stable':'inconsistent';
-  return{vals:[inc,mod,sta],dominant};
+// ── ASSIGN LEARNER LABELS ──────────────────────────────────────────────────────
+function assignLabels(ci,ai,dataSeed,labels,dataFn){
+  const learners=getLearners(ci);
+  const counts=dataFn(ci,ai);
+  const total=counts.reduce((a,b)=>a+b,0);
+  const assigned=[];
+  let li=0,rem=counts[0];
+  learners.forEach((l,i)=>{
+    while(rem<=0&&li<labels.length-1){li++;rem=counts[li]}
+    assigned.push({...l,label:labels[li],labelIdx:li,fill:window['_fills_'+dataSeed]?.[li]||'#aaa',txt:window['_txts_'+dataSeed]?.[li]||'#fff'});
+    rem--;
+  });
+  return assigned;
 }
 
-function getPattern(ci,ai){
-  const prog=ai/14;const r=sr(ci*800+ai*31);
-  const base=[0.13+prog*0.02,0.18-prog*0.03,0.20,0.24+prog*0.04,0.14-prog*0.02,0.11-prog*0.01];
-  const noisy=base.map(v=>Math.max(0.01,v+r()*0.03-0.015));
-  const sum=noisy.reduce((a,b)=>a+b,0);
-  const n=CENTRE_N[ci];
-  return noisy.map(v=>Math.max(1,Math.round(v/sum*n)));
-}
-
-function getFlag(ci,ai,seed){
-  const prog=ai/14;const r=sr(ci*900+ai*37+seed);
-  const fire=Math.max(1,Math.round((0.22-prog*0.10+r()*0.04)*CENTRE_N[ci]));
-  const watch=Math.max(1,Math.round((0.38+r()*0.04)*CENTRE_N[ci]));
-  const none=Math.max(1,CENTRE_N[ci]-fire-watch);
-  return[fire,watch,none];
-}
-
-// ── COLOUR INTENSITY FOR HEATMAPS ─────────────────────────────────────────────
+// ── BPI INTENSITY ──────────────────────────────────────────────────────────────
 function bpiIntensity(li,pct){
-  const stops=[
-    ["#FAECE7","#F09070","#D85A30","#993C1D","#712B13"],
-    ["#FAEEDA","#FAC775","#EF9F27","#BA7517","#854F0B"],
-    ["#E1F5EE","#9FE1CB","#5DCAA5","#1D9E75","#0F6E56"],
-    ["#9FE1CB","#5DCAA5","#1D9E75","#0F6E56","#085041"],
-  ];
-  const txts=[
-    ["#712B13","#712B13","#FAECE7","#FAECE7","#FAECE7"],
-    ["#633806","#633806","#412402","#412402","#FAEEDA"],
-    ["#085041","#085041","#04342C","#E1F5EE","#E1F5EE"],
-    ["#04342C","#04342C","#E1F5EE","#E1F5EE","#9FE1CB"],
-  ];
+  const stops=[["#FAECE7","#F09070","#D85A30","#993C1D","#712B13"],["#FAEEDA","#FAC775","#EF9F27","#BA7517","#854F0B"],["#E1F5EE","#9FE1CB","#5DCAA5","#1D9E75","#0F6E56"],["#9FE1CB","#5DCAA5","#1D9E75","#0F6E56","#085041"]];
+  const txts=[["#712B13","#712B13","#FAECE7","#FAECE7","#FAECE7"],["#633806","#633806","#412402","#412402","#FAEEDA"],["#085041","#085041","#04342C","#E1F5EE","#E1F5EE"],["#04342C","#04342C","#E1F5EE","#E1F5EE","#9FE1CB"]];
   const i=pct<40?0:pct<55?1:pct<70?2:pct<85?3:4;
   return{bg:stops[li][i],txt:txts[li][i]};
 }
 
-function dciIntensity(li,pct){
-  const stops=[
-    ["#712B13","#993C1D","#D85A30","#F09070","#FAECE7"],
-    ["#D85A30","#E07050","#EF9F27","#FAEEDA","#FFF5E8"],
-    ["#EF9F27","#FAEEDA","#E1F5EE","#9FE1CB","#5DCAA5"],
-    ["#5DCAA5","#1D9E75","#0F6E56","#085041","#04342C"],
-    ["#1D9E75","#0F6E56","#085041","#04342C","#002820"],
-    ["#085041","#04342C","#002820","#001810","#000C08"],
-  ];
-  const txts=[
-    ["#FAECE7","#FAECE7","#FAECE7","#712B13","#712B13"],
-    ["#FAECE7","#FAECE7","#633806","#633806","#633806"],
-    ["#633806","#633806","#085041","#04342C","#04342C"],
-    ["#04342C","#E1F5EE","#E1F5EE","#9FE1CB","#9FE1CB"],
-    ["#E1F5EE","#E1F5EE","#9FE1CB","#9FE1CB","#9FE1CB"],
-    ["#9FE1CB","#9FE1CB","#9FE1CB","#9FE1CB","#9FE1CB"],
-  ];
-  const i=pct<15?0:pct<30?1:pct<50?2:pct<70?3:4;
-  return{bg:stops[li][Math.min(i,4)],txt:txts[li][Math.min(i,4)]};
-}
-
-function genericIntensity(val,max,colKey){
-  const c=COL[colKey];
-  const alpha=0.2+0.8*(val/max);
-  return{bg:c[0],txt:c[1],alpha};
-}
-
-// ── RENDER HELPERS ─────────────────────────────────────────────────────────────
-function legend(items){
-  return `<div class="leg-row">${items.map(([bg,label])=>`<div class="leg"><div class="leg-sq" style="background:${bg}"></div>${label}</div>`).join('')}</div>`;
-}
-
-function heatmapTable(rowFn, colFn, cellFn, drillFn, id){
+// ── HEATMAP BUILDER ────────────────────────────────────────────────────────────
+function buildHeatmap(cellFn,drillFn,id){
   let h=`<div class="hm-outer"><table class="hmt"><colgroup><col style="width:108px">`;
-  ASMS.forEach(()=>h+=`<col style="width:52px">`);
+  ASMS.forEach(()=>h+=`<col style="width:50px">`);
   h+=`</colgroup><tr><td></td>`;
   ASMS.forEach(a=>h+=`<td class="clbl">${a}</td>`);
   h+=`</tr>`;
@@ -345,16 +308,8 @@ function heatmapTable(rowFn, colFn, cellFn, drillFn, id){
     h+=`<tr><td class="rlbl">${c}</td>`;
     ASMS.forEach((_,ai)=>{
       const cell=cellFn(ci,ai);
-      if(!cell){
-        h+=`<td class="hmc hmc-na"><div class="hmc-i"><span style="font-size:9px;color:#bbb">N/A</span></div></td>`;
-        return;
-      }
-      h+=`<td class="hmc" style="background:${cell.bg}" data-ci="${ci}" data-ai="${ai}" onclick="${drillFn}(this,'${id}')">
-        <div class="hmc-i">
-          <span class="hmc-p" style="color:${cell.txt}">${cell.pct}%</span>
-          <span class="hmc-l" style="color:${cell.txt}">${cell.label}</span>
-        </div>
-      </td>`;
+      if(!cell){h+=`<td class="hmc hmc-na" title="Not available"></td>`;return}
+      h+=`<td class="hmc" style="background:${cell.bg}" data-ci="${ci}" data-ai="${ai}" onclick="L1('${id}',${ci},${ai})"></td>`;
     });
     h+=`</tr>`;
   });
@@ -362,207 +317,143 @@ function heatmapTable(rowFn, colFn, cellFn, drillFn, id){
   return h;
 }
 
-function drillDistBar(vals,total,labels,fills,txts,prev){
-  let h=`<div class="dist-bar">`;
-  vals.forEach((v,i)=>{
+// ── LEGEND ─────────────────────────────────────────────────────────────────────
+function legend(items){
+  return `<div class="leg-row">${items.map(([bg,label])=>`<div class="leg"><div class="leg-sq" style="background:${bg}"></div>${label}</div>`).join('')}</div>`;
+}
+
+// ── DRILL STATE ────────────────────────────────────────────────────────────────
+const DS={id:null,ci:null,ai:null,li:null};
+
+// ── LEVEL 1 — colour-only distribution ────────────────────────────────────────
+function L1(id,ci,ai){
+  document.querySelectorAll('.hmc.sel,.wsq.sel-wsq,.lp-dot.sel-dot').forEach(e=>e.classList.remove('sel','sel-wsq','sel-dot'));
+  const el=document.querySelector(`[data-ci="${ci}"][data-ai="${ai}"]`);
+  if(el) el.classList.add('sel');
+  DS.id=id;DS.ci=ci;DS.ai=ai;DS.li=null;
+  const cfg=METRIC_CFG[id];
+  const vals=cfg.dataFn(ci,ai);
+  if(!vals){renderL1Empty(id);return}
+  const arr=Array.isArray(vals)?vals:vals.vals;
+  const total=arr.reduce((a,b)=>a+b,0);
+  let segs='',lbls='';
+  arr.forEach((v,i)=>{
     const pct=Math.round(v/total*100);
     if(pct<1)return;
-    h+=`<div class="dist-seg" style="width:${pct}%;background:${fills[i]}">
-      ${pct>=10?`<span class="ds-p" style="color:${txts[i]}">${pct}%</span>`:''}
-      ${pct>=14?`<span class="ds-n" style="color:${txts[i]}">n=${v}</span>`:''}
-    </div>`;
+    segs+=`<div class="l1-seg" style="width:${pct}%;background:${cfg.fills[i]}" data-li="${i}" onclick="L2('${id}',${ci},${ai},${i})" title="${cfg.names[i]}"></div>`;
+    lbls+=`<div class="l1-lbl" style="width:${pct}%;color:${cfg.fills[i]}">${pct>=10?cfg.names[i]:''}</div>`;
   });
-  h+=`</div><div class="delta-grid" style="grid-template-columns:repeat(${Math.min(vals.length,4)},1fr)">`;
-  const LBG=fills.map(f=>f+'22');
-  vals.forEach((v,i)=>{
+  const thin=cfg.thinFn?cfg.thinFn(ci,ai):false;
+  document.getElementById(id+'_l1').innerHTML=`<div class="drill-l1">
+    <div class="drill-tag">Level 1 — Label distribution</div>
+    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>
+    ${thin?'<div class="thin-warn">Thin data — fewer than 5 students. Interpret with caution.</div>':''}
+    <div class="drill-ctx">Colour proportion only — click a segment to see counts and change from previous assessment</div>
+    <div class="l1-bar">${segs}</div>
+    <div class="l1-labels">${lbls}</div>
+  </div>`;
+  document.getElementById(id+'_l2').innerHTML='';
+  document.getElementById(id+'_l3').innerHTML='';
+}
+
+function renderL1Empty(id){
+  document.getElementById(id+'_l1').innerHTML=`<div class="drill-l1"><div class="drill-empty">No data available for this cell.</div></div>`;
+  document.getElementById(id+'_l2').innerHTML='';
+  document.getElementById(id+'_l3').innerHTML='';
+}
+
+// ── LEVEL 2 — counts + delta ───────────────────────────────────────────────────
+function L2(id,ci,ai,li){
+  document.querySelectorAll('.l1-seg.sel-seg').forEach(e=>e.classList.remove('sel-seg'));
+  document.querySelectorAll(`.l1-seg[data-li="${li}"]`).forEach(e=>e.classList.add('sel-seg'));
+  DS.li=li;
+  const cfg=METRIC_CFG[id];
+  const vals=cfg.dataFn(ci,ai);
+  const arr=Array.isArray(vals)?vals:vals.vals;
+  const total=arr.reduce((a,b)=>a+b,0);
+  const prevRaw=ai>0?cfg.dataFn(ci,ai-1):null;
+  const prevArr=prevRaw?(Array.isArray(prevRaw)?prevRaw:prevRaw.vals):null;
+  const prevTotal=prevArr?prevArr.reduce((a,b)=>a+b,0):null;
+  let cards='';
+  arr.forEach((v,i)=>{
     const pct=Math.round(v/total*100);
-    const pp=prev?Math.round(prev[i]/prev.reduce((a,b)=>a+b,0)*100):null;
+    const pp=prevArr?Math.round(prevArr[i]/prevTotal*100):null;
     const delta=pp!==null?pct-pp:null;
     const ds=delta===null?'first assessment':delta>0?`+${delta}% from prev`:delta<0?`${delta}% from prev`:'no change';
     const dc=delta===null?'nc':delta>0?'up':delta<0?'dn':'nc';
-    h+=`<div class="dcard" style="background:${fills[i]}22">
-      <div class="dc-ct" style="color:${fills[i]}">${v}</div>
-      <div class="dc-nm" style="color:${fills[i]}">${labels[i]}</div>
-      <div class="dc-bw"><div class="dc-bf" style="width:${pct}%;background:${fills[i]}"></div></div>
+    cards+=`<div class="dcard${i===li?' sel-dc':''}" style="background:${cfg.fills[i]}22;cursor:pointer" data-dli="${i}" onclick="L3('${id}',${ci},${ai},${i})">
+      <div class="dc-ct" style="color:${cfg.fills[i]}">${v}</div>
+      <div class="dc-nm" style="color:${cfg.fills[i]}">${cfg.names[i]}</div>
+      <div class="dc-bw"><div class="dc-bf" style="width:${pct}%;background:${cfg.fills[i]}"></div></div>
       <div class="dc-d ${dc}">${ds}</div>
     </div>`;
   });
-  h+=`</div>`;
-  return h;
+  document.getElementById(id+'_l2').innerHTML=`<div class="drill-l2">
+    <div class="drill-tag">Level 2 — Counts &amp; change</div>
+    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1} · ${total} learners</div>
+    <div class="drill-ctx">Click any card to see learners in that category</div>
+    <div class="delta-grid" style="grid-template-columns:repeat(${Math.min(arr.length,4)},1fr)">${cards}</div>
+  </div>`;
+  L3(id,ci,ai,li);
 }
 
-// ── STATE ──────────────────────────────────────────────────────────────────────
-let curTab=0;
-let bpiSkill=0,bpiBloom=0,bpiMode='heatmap';
-
-// ── DRILL FUNCTIONS ────────────────────────────────────────────────────────────
-function doDrill(td, panelId){
-  document.querySelectorAll('.hmc.sel').forEach(c=>c.classList.remove('sel'));
-  td.classList.add('sel');
-  const ci=+td.dataset.ci, ai=+td.dataset.ai;
-  const fn=window['drill_'+panelId];
-  if(fn) fn(ci,ai,panelId);
+// ── LEVEL 3 — learner list ─────────────────────────────────────────────────────
+function L3(id,ci,ai,li){
+  document.querySelectorAll('.dcard.sel-dc').forEach(e=>e.classList.remove('sel-dc'));
+  document.querySelectorAll(`.dcard[data-dli="${li}"]`).forEach(e=>e.classList.add('sel-dc'));
+  DS.li=li;
+  const cfg=METRIC_CFG[id];
+  const learners=getLearners(ci);
+  const vals=cfg.dataFn(ci,ai);
+  const arr=Array.isArray(vals)?vals:vals.vals;
+  // Assign learners to labels proportionally using seeded order
+  const assignments=[];
+  let idx=0;
+  arr.forEach((count,labelIdx)=>{
+    for(let j=0;j<count&&idx<learners.length;j++,idx++){
+      assignments.push({...learners[idx],labelIdx});
+    }
+  });
+  const filtered=assignments.filter(l=>l.labelIdx===li);
+  let rows=filtered.map(l=>`<tr>
+    <td>${l.name}</td>
+    <td><span class="label-pill" style="background:${cfg.fills[li]};color:${cfg.txts[li]}">${cfg.names[li]}</span></td>
+    <td>${l.cefr}</td>
+    <td>${l.batch}</td>
+  </tr>`).join('');
+  document.getElementById(id+'_l3').innerHTML=`<div class="drill-l3">
+    <div class="drill-tag">Level 3 — Learners · ${cfg.names[li]}</div>
+    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1} · ${filtered.length} learners in this category</div>
+    <table class="learner-table">
+      <thead><tr><th>Name</th><th>${cfg.metricLabel}</th><th>CEFR</th><th>Batch</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
 }
 
-function drill_bpi(ci,ai,id){
-  const {vals,n,thin}=getBPI(ci,bpiSkill,bpiBloom,ai);
-  const prev=ai>0?getBPI(ci,bpiSkill,bpiBloom,ai-1):null;
-  const LN=["Developing","Emerging","Proficient","Strong"];
-  const LF=[COL.bpi_dev[0],COL.bpi_eme[0],COL.bpi_pro[0],COL.bpi_str[0]];
-  const LT=[COL.bpi_dev[1],COL.bpi_eme[1],COL.bpi_pro[1],COL.bpi_str[1]];
-  let h=`<div class="drill-ctx">CEFR A2 · ${CENTRES[ci]} · ${SKILLS[bpiSkill]} · ${BLOOMS[bpiBloom]} · Assessment ${ai+1} · ${n} students${thin?' · <strong style="color:#854F0B">thin data</strong>':''}</div>`;
-  if(thin) h+=`<div class="thin-warn">Fewer than 5 students attempted this Bloom level — treat as indicative only.</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev?.vals);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">BPI Drill-down</div>
-    <div class="drill-title">${SKILLS[bpiSkill]} · ${BLOOMS[bpiBloom]} · ${CENTRES[ci]} · Assessment ${ai+1}</div>
-    ${h}</div>`;
+// ── METRIC CONFIG ──────────────────────────────────────────────────────────────
+const METRIC_CFG={
+  bpi:{fills:BPI_F,txts:BPI_T,names:BPI_N,metricLabel:'BPI Label',dataFn:(ci,ai)=>getBPI(ci,0,0,ai),thinFn:(ci,ai)=>getBPI(ci,0,0,ai).thin},
+  dci:{fills:DCI_F,txts:DCI_T,names:DCI_N,metricLabel:'DCI Label',dataFn:getDCI},
+  zone:{fills:ZONE_F,txts:ZONE_T,names:ZONE_N,metricLabel:'Zone',dataFn:getZone},
+  dqs:{fills:DQS_F,txts:DQS_T,names:DQS_N,metricLabel:'DQS Label',dataFn:getDQS},
+  ccg:{fills:CCG_F,txts:CCG_T,names:CCG_N,metricLabel:'CCG Label',dataFn:getCCG},
+  pi:{fills:PI_F,txts:PI_T,names:PI_N,metricLabel:'Start timing',dataFn:getPI},
+  pattern:{fills:PAT_F,txts:PAT_T,names:PAT_N,metricLabel:'Tool use pattern',dataFn:getPattern},
+  g10:{fills:FLAG_F,txts:FLAG_T,names:FLAG_N_G10,metricLabel:'G10 Status',dataFn:(ci,ai)=>getFlag(ci,ai,1001)},
+  g11:{fills:FLAG_F,txts:FLAG_T,names:FLAG_N_G11,metricLabel:'G11 Status',dataFn:(ci,ai)=>getFlag(ci,ai,2002)},
+  citime:{fills:CI_F,txts:CI_T,names:CI_N,metricLabel:'CI Time Label',dataFn:getCITime},
+  ums:{fills:UMS_F,txts:UMS_T,names:UMS_N,metricLabel:'UMS Label',dataFn:(ci,ai)=>getUMS(ci,ai).vals},
+};
+
+function drillPanels(id){
+  return `<div id="${id}_l1" style="margin-top:8px"><div class="drill-l1"><div class="drill-empty">Click any element above to see the label distribution for that centre and assessment.</div></div></div>
+  <div id="${id}_l2"></div><div id="${id}_l3"></div>`;
 }
 
-function drill_dci(ci,ai,id){
-  const vals=getDCI(ci,ai);
-  const prev=ai>0?getDCI(ci,ai-1):null;
-  const n=vals.reduce((a,b)=>a+b,0);
-  const LN=["Fragile","Emerging","Developing","Competent","Strong","Highly Reliable"];
-  const LF=["#712B13","#D85A30","#EF9F27","#5DCAA5","#1D9E75","#085041"];
-  const LT=["#FAECE7","#FAECE7","#412402","#04342C","#E1F5EE","#9FE1CB"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">DCI Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
+// ── TAB STATE ──────────────────────────────────────────────────────────────────
+let curTab=0,bpiSkill=0,bpiBloom=0,bpiMode='heatmap',zoneAsm=14,dqsAsm=14,streamCentre=0,lolliAsm=14,ciAsm=14,umsAsm=14;
 
-function drill_zone(ci,ai,id){
-  const vals=getZone(ci,ai);
-  const prev=ai>0?getZone(ci,ai-1):null;
-  const n=vals.reduce((a,b)=>a+b,0);
-  const LN=["Zone 1 · Ready Performer","Zone 2 · Assisted Performer","Zone 3 · Emerging Independent","Zone 4 · At Risk"];
-  const LF=["#085041","#1D9E75","#EF9F27","#D85A30"];
-  const LT=["#9FE1CB","#E1F5EE","#412402","#FAECE7"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">Capability Zone Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_dqs(ci,ai,id){
-  const vals=getDQS(ci,ai);
-  const prev=ai>0?getDQS(ci,ai-1):null;
-  const n=vals.reduce((a,b)=>a+b,0);
-  const LN=["Low","Improving","Aligned"];
-  const LF=["#D85A30","#EF9F27","#1D9E75"];
-  const LT=["#FAECE7","#412402","#E1F5EE"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">DQS Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_ccg(ci,ai,id){
-  const [under,cal,over]=getCCG(ci,ai);
-  const prev=ai>0?getCCG(ci,ai-1):null;
-  const n=under+cal+over;
-  const LN=["Underestimated","Calibrated","Overestimated"];
-  const LF=["#2a78d6","#1D9E75","#D85A30"];
-  const LT=["#fff","#E1F5EE","#FAECE7"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar([under,cal,over],n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">CCG Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_pi(ci,ai,id){
-  const [early,mid,late]=getPI(ci,ai);
-  const prev=ai>0?getPI(ci,ai-1):null;
-  const n=early+mid+late;
-  const LN=["Early","Mid","Late"];
-  const LF=["#1D9E75","#EF9F27","#D85A30"];
-  const LT=["#E1F5EE","#412402","#FAECE7"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar([early,mid,late],n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">Procrastination Index Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_ums(ci,ai,id){
-  const {comp,vals,na}=getUMS(ci,ai);
-  const prev=ai>0?getUMS(ci,ai-1):null;
-  const LN=["Struggling","Improving","Strong"];
-  const LF=["#D85A30","#EF9F27","#1D9E75"];
-  const LT=["#FAECE7","#412402","#E1F5EE"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${comp} of ${CENTRE_N[ci]} learners had unc ≥ 0.60 · ${na} N/A</div>`;
-  h+=drillDistBar(vals,comp,LN,LF,LT,prev?.vals);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">UMS Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_citime(ci,ai,id){
-  if(ai<2){
-    document.getElementById(id+'_drill').innerHTML=`<div class="drill"><div class="drill-tag">CI Time</div><div class="drill-empty">CI Time not available for assessments 1 and 2 — requires ≥ 3 completed assessments.</div></div>`;
-    return;
-  }
-  const {vals}=getCITime(ci,ai);
-  const prev=ai>2?getCITime(ci,ai-1):null;
-  const n=vals.reduce((a,b)=>a+b,0);
-  const LN=["Inconsistent","Moderately stable","Stable"];
-  const LF=["#D85A30","#EF9F27","#1D9E75"];
-  const LT=["#FAECE7","#412402","#E1F5EE"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev?.vals);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">CI Time Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_pattern(ci,ai,id){
-  const vals=getPattern(ci,ai);
-  const prev=ai>0?getPattern(ci,ai-1):null;
-  const n=vals.reduce((a,b)=>a+b,0);
-  const LN=["Independent","Passive user","Moderate user","Strategic user","Dependent shortcutter","Over-reliant thinker"];
-  const LF=["#085041","#B5D4F4","#EF9F27","#1D9E75","#D85A30","#712B13"];
-  const LT=["#9FE1CB","#0C447C","#412402","#E1F5EE","#FAECE7","#FAECE7"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners</div>`;
-  h+=drillDistBar(vals,n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">Tool Use Pattern Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_g10(ci,ai,id){
-  const [fire,watch,none]=getFlag(ci,ai,1001);
-  const prev=ai>0?getFlag(ci,ai-1,1001):null;
-  const n=fire+watch+none;
-  const LN=["Fires (≥3)","Watch (1–2)","None"];
-  const LF=["#D85A30","#EF9F27","#E8EFF3"];
-  const LT=["#FAECE7","#412402","#555"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners · Impulsive = ALL-IN + es_user &lt; 0.40 + dt_ratio &lt; 0.30</div>`;
-  h+=drillDistBar([fire,watch,none],n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">G10 Impulsive Decisions Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-function drill_g11(ci,ai,id){
-  const [fire,watch,none]=getFlag(ci,ai,2002);
-  const prev=ai>0?getFlag(ci,ai-1,2002):null;
-  const n=fire+watch+none;
-  const LN=["Fires (≥2)","Watch (1)","None"];
-  const LF=["#D85A30","#EF9F27","#E8EFF3"];
-  const LT=["#FAECE7","#412402","#555"];
-  let h=`<div class="drill-ctx">${CENTRES[ci]} · Assessment ${ai+1} · ${n} learners · Missed opp = SKIP + es_shadow ≥ 0.70</div>`;
-  h+=drillDistBar([fire,watch,none],n,LN,LF,LT,prev);
-  document.getElementById(id+'_drill').innerHTML=`<div class="drill">
-    <div class="drill-tag">G11 Missed Opportunities Drill-down</div>
-    <div class="drill-title">${CENTRES[ci]} · Assessment ${ai+1}</div>${h}</div>`;
-}
-
-// ── TABS ───────────────────────────────────────────────────────────────────────
 function setTab(n){
   curTab=n;
   [0,1,2].forEach(i=>{
@@ -571,232 +462,281 @@ function setTab(n){
   });
   renderAll();
 }
-
 function renderAll(){
   if(curTab===0) renderTab0();
   if(curTab===1) renderTab1();
   if(curTab===2) renderTab2();
 }
 
-// ── TAB 0: MASTERY & DECISIONS ────────────────────────────────────────────────
+// ── TAB 0 ──────────────────────────────────────────────────────────────────────
 function renderTab0(){
   let h='';
 
-  // BPI
+  // BPI — HEATMAP (earned: Bloom×Asm×Centre can't be shown otherwise)
   h+=`<div class="card">
     <div class="card-tag">Bloom Proficiency Index (BPI)</div>
-    <div class="card-title">Dominant BPI label — all centres × 15 assessments</div>
-    <div class="card-sub">Rows = centres · Columns = assessments · Cell = dominant BPI label for selected skill + Bloom level · Intensity = concentration · Click cell to drill down</div>
+    <div class="card-title">BPI label — all centres × 15 assessments</div>
+    <div class="card-sub">Colour intensity = concentration of dominant label · Select skill and Bloom level · Click any cell → 3-level drill-down</div>
     <div class="card-filters">
       <label>Skill</label>
-      <select onchange="bpiSkill=this.selectedIndex;renderTab0()">
-        ${SKILLS.map((s,i)=>`<option${i===bpiSkill?' selected':''}>${s}</option>`).join('')}
-      </select>
-      <label style="margin-left:8px">Bloom level</label>
-      <select onchange="bpiBloom=this.selectedIndex;renderTab0()">
-        ${BLOOMS.map((b,i)=>`<option${i===bpiBloom?' selected':''}>${b}</option>`).join('')}
-      </select>
+      <select onchange="bpiSkill=this.selectedIndex;renderTab0()">${SKILLS.map((s,i)=>`<option${i===bpiSkill?' selected':''}>${s}</option>`).join('')}</select>
+      <label>Bloom level</label>
+      <select onchange="bpiBloom=this.selectedIndex;renderTab0()">${BLOOMS.map((b,i)=>`<option${i===bpiBloom?' selected':''}>${b}</option>`).join('')}</select>
       <div class="tgl" style="margin-left:auto">
         <button class="${bpiMode==='heatmap'?'on':''}" onclick="bpiMode='heatmap';renderTab0()">Heatmap</button>
         <button class="${bpiMode==='trajectory'?'on':''}" onclick="bpiMode='trajectory';renderTab0()">Trajectory</button>
       </div>
     </div>`;
 
+  // Update bpi metric config with current selectors
+  METRIC_CFG.bpi.dataFn=(ci,ai)=>getBPI(ci,bpiSkill,bpiBloom,ai);
+  METRIC_CFG.bpi.thinFn=(ci,ai)=>getBPI(ci,bpiSkill,bpiBloom,ai).thin;
+
   if(bpiMode==='heatmap'){
-    h+=heatmapTable(null,null,(ci,ai)=>{
+    h+=buildHeatmap((ci,ai)=>{
       const {vals,n,thin}=getBPI(ci,bpiSkill,bpiBloom,ai);
-      if(n<1) return null;
+      if(n<1)return null;
       const di=vals.indexOf(Math.max(...vals));
       const pct=Math.round(vals[di]/n*100);
-      const LSHORT=["Dev","Eme","Pro","Str"];
-      const {bg,txt}=bpiIntensity(di,pct);
-      return{bg:thin?bg+'88':bg,txt,pct,label:LSHORT[di]};
-    },'doDrill','bpi');
-    h+=legend([[COL.bpi_dev[0],'Developing'],[COL.bpi_eme[0],'Emerging'],[COL.bpi_pro[0],'Proficient'],[COL.bpi_str[0],'Strong']]);
+      const {bg}=bpiIntensity(di,pct);
+      return{bg:thin?bg+'66':bg};
+    },null,'bpi');
+    h+=legend(BPI_N.map((n,i)=>[BPI_F[i],n]));
     h+=`<div class="note">Faded cells = thin data (fewer than 5 students attempted this Bloom level)</div>`;
   } else {
-    // Trajectory — % Proficient+Strong per centre across 15 assessments
     const W=860,H=220,PL=110,PR=16,PT=14,PB=26,gW=W-PL-PR,gH=H-PT-PB,xStep=gW/14;
     let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">`;
-    svg+=`<line x1="${PL}" y1="${PT+gH*.5}" x2="${PL+gW}" y2="${PT+gH*.5}" stroke="#ddd" stroke-width="1" stroke-dasharray="4 3"/>`;
-    for(let p=0;p<=100;p+=25){
-      const y=PT+gH-(p/100)*gH;
-      svg+=`<line x1="${PL}" y1="${y}" x2="${PL+gW}" y2="${y}" stroke="#f0f0f0" stroke-width="0.5"/>`;
-      svg+=`<text x="${PL-5}" y="${y+3}" text-anchor="end" font-size="9" fill="#ccc" font-family="sans-serif">${p}%</text>`;
-    }
-    for(let ai=0;ai<15;ai++){
-      const x=PL+ai*xStep;
-      svg+=`<line x1="${x}" y1="${PT}" x2="${x}" y2="${PT+gH}" stroke="#f0f0f0" stroke-width="0.5"/>`;
-      svg+=`<text x="${x}" y="${PT+gH+14}" text-anchor="middle" font-size="8" fill="#bbb" font-family="sans-serif">A${ai+1}</text>`;
-    }
+    svg+=`<line x1="${PL}" y1="${PT+gH*.5}" x2="${PL+gW}" y2="${PT+gH*.5}" stroke="#eee" stroke-width="1" stroke-dasharray="4 3"/>`;
+    for(let p=0;p<=100;p+=25){const y=PT+gH-(p/100)*gH;svg+=`<line x1="${PL}" y1="${y}" x2="${PL+gW}" y2="${y}" stroke="#f5f5f5" stroke-width="0.5"/><text x="${PL-5}" y="${y+3}" text-anchor="end" font-size="9" fill="#ccc" font-family="sans-serif">${p}%</text>`}
+    for(let ai=0;ai<15;ai++){const x=PL+ai*xStep;svg+=`<line x1="${x}" y1="${PT}" x2="${x}" y2="${PT+gH}" stroke="#f5f5f5" stroke-width="0.5"/><text x="${x}" y="${PT+gH+14}" text-anchor="middle" font-size="8" fill="#bbb" font-family="sans-serif">A${ai+1}</text>`}
     CENTRES.forEach((c,ci)=>{
       const col=CLRS_C[ci];
       const pts=[];
-      for(let ai=0;ai<15;ai++){
-        const {vals,n}=getBPI(ci,bpiSkill,bpiBloom,ai);
-        if(n>0) pts.push({ai,pct:Math.round((vals[2]+vals[3])/n*100)});
-      }
-      if(pts.length<2) return;
-      let aD=`M${PL+pts[0].ai*xStep},${PT+gH}`;
-      pts.forEach(p=>{aD+=` L${PL+p.ai*xStep},${PT+gH-(p.pct/100)*gH}`});
-      aD+=` L${PL+pts[pts.length-1].ai*xStep},${PT+gH} Z`;
-      svg+=`<path d="${aD}" fill="${col}" fill-opacity="0.06"/>`;
-      let pd='';
-      pts.forEach((p,i)=>{const x=PL+p.ai*xStep,y=PT+gH-(p.pct/100)*gH;pd+=i===0?`M${x},${y}`:`L${x},${y}`});
+      for(let ai=0;ai<15;ai++){const {vals,n}=getBPI(ci,bpiSkill,bpiBloom,ai);if(n>0)pts.push({ai,pct:Math.round((vals[2]+vals[3])/n*100)})}
+      if(pts.length<2)return;
+      let aD=`M${PL+pts[0].ai*xStep},${PT+gH}`;pts.forEach(p=>{aD+=` L${PL+p.ai*xStep},${PT+gH-(p.pct/100)*gH}`});aD+=` L${PL+pts[pts.length-1].ai*xStep},${PT+gH} Z`;
+      svg+=`<path d="${aD}" fill="${col}" fill-opacity="0.07"/>`;
+      let pd='';pts.forEach((p,i)=>{const x=PL+p.ai*xStep,y=PT+gH-(p.pct/100)*gH;pd+=i===0?`M${x},${y}`:`L${x},${y}`});
       svg+=`<path d="${pd}" stroke="${col}" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
-      const last=pts[pts.length-1];
-      svg+=`<text x="${PL+last.ai*xStep+4}" y="${PT+gH-(last.pct/100)*gH+3}" font-size="9" fill="${col}" font-family="sans-serif" font-weight="600">${c.split(' ')[0]}</text>`;
+      const last=pts[pts.length-1];svg+=`<text x="${PL+last.ai*xStep+4}" y="${PT+gH-(last.pct/100)*gH+3}" font-size="9" fill="${col}" font-family="sans-serif" font-weight="600">${c.split(' ')[0]}</text>`;
     });
     svg+=`</svg>`;
     h+=svg;
-    h+=`<div class="leg-row">${CENTRES.map((c,i)=>`<div class="leg"><div class="leg-sq" style="background:${CLRS_C[i]};width:16px;height:3px;border-radius:1px"></div>${c}</div>`).join('')}</div>`;
+    h+=`<div class="leg-row">${CENTRES.map((c,i)=>`<div class="leg"><div style="width:16px;height:2px;background:${CLRS_C[i]};border-radius:1px"></div>${c}</div>`).join('')}</div>`;
     h+=`<div class="note">Y-axis = % learners labelled Proficient or Strong · Switch to Heatmap for cell-level drill-down</div>`;
   }
-  h+=`</div><div id="bpi_drill"></div>`;
+  h+=`</div>${drillPanels('bpi')}`;
 
-  // DCI heatmap
-  const dciDom=(ci,ai)=>{
-    const vals=getDCI(ci,ai);
-    const n=vals.reduce((a,b)=>a+b,0);
-    const di=vals.indexOf(Math.max(...vals));
-    const pct=Math.round(vals[di]/n*100);
-    const LN=["Fragile","Emerging","Developing","Competent","Strong","Reliable"];
-    const {bg,txt}=dciIntensity(di,pct);
-    return{bg,txt,pct,label:LN[di]};
-  };
+  // DCI — SLOPE/BUMP CHART
   h+=`<div class="card">
     <div class="card-tag">Decisive Capability Index (DCI)</div>
-    <div class="card-title">Dominant DCI label — all centres × 15 assessments</div>
-    <div class="card-sub">Cell = dominant DCI label for that centre's cohort in that assessment · Darker = higher concentration · Click to drill down</div>`;
-  h+=heatmapTable(null,null,dciDom,'doDrill','dci');
-  h+=legend([["#712B13","Fragile"],["#D85A30","Emerging"],["#EF9F27","Developing"],["#5DCAA5","Competent"],["#1D9E75","Strong"],["#085041","Highly Reliable"]]);
-  h+=`</div><div id="dci_drill"></div>`;
+    <div class="card-title">DCI label trajectory — all centres across 15 assessments</div>
+    <div class="card-sub">Y position = ordinal DCI label · Lines rising = improving capability · Click any dot → 3-level drill-down for that centre and assessment</div>`;
+  const DCI_Y_POS=[0,1,2,3,4,5];
+  const W2=860,H2=200,PL2=110,PR2=16,PT2=20,PB2=30,gW2=W2-PL2-PR2,gH2=H2-PT2-PB2,xStep2=gW2/14;
+  let svg2=`<svg viewBox="0 0 ${W2} ${H2}" width="100%" style="display:block">`;
+  DCI_N.forEach((label,i)=>{
+    const y=PT2+gH2-(i/5)*gH2;
+    svg2+=`<line x1="${PL2}" y1="${y}" x2="${PL2+gW2}" y2="${y}" stroke="#f0f0f0" stroke-width="0.5"/>`;
+    svg2+=`<text x="${PL2-5}" y="${y+3}" text-anchor="end" font-size="9" fill="${DCI_F[i]}" font-family="sans-serif" font-weight="500">${label}</text>`;
+  });
+  for(let ai=0;ai<15;ai++){const x=PL2+ai*xStep2;svg2+=`<line x1="${x}" y1="${PT2}" x2="${x}" y2="${PT2+gH2}" stroke="#f5f5f5" stroke-width="0.5"/><text x="${x}" y="${PT2+gH2+14}" text-anchor="middle" font-size="8" fill="#bbb" font-family="sans-serif">A${ai+1}</text>`}
+  CENTRES.forEach((c,ci)=>{
+    const col=CLRS_C[ci];
+    const pts=[];
+    for(let ai=0;ai<15;ai++){
+      const vals=getDCI(ci,ai);
+      const total=vals.reduce((a,b)=>a+b,0);
+      const di=vals.indexOf(Math.max(...vals));
+      const yOrd=di/5;
+      pts.push({ai,y:PT2+gH2-yOrd*gH2,di,label:DCI_N[di]});
+    }
+    let pd='';pts.forEach((p,i)=>{const x=PL2+p.ai*xStep2;pd+=i===0?`M${x},${p.y}`:`L${x},${p.y}`});
+    svg2+=`<path d="${pd}" stroke="${col}" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray=""/>`;
+    pts.forEach(p=>{
+      const x=PL2+p.ai*xStep2;
+      svg2+=`<circle cx="${x}" cy="${p.y}" r="5" fill="${DCI_F[p.di]}" stroke="${col}" stroke-width="1.5" style="cursor:pointer" onclick="L1('dci',${ci},${p.ai})" title="${CENTRES[ci]} · A${p.ai+1} · ${p.label}"/>`;
+    });
+  });
+  svg2+=`</svg>`;
+  h+=svg2;
+  h+=`<div class="leg-row">${CENTRES.map((c,i)=>`<div class="leg"><div style="width:16px;height:2px;background:${CLRS_C[i]};border-radius:1px"></div>${c}</div>`).join('')}</div>`;
+  h+=`<div class="note">Dot colour = dominant DCI label at that assessment · line colour = centre · click any dot to drill down</div>`;
+  h+=`</div>${drillPanels('dci')}`;
 
-  // Capability Zone — waffle per assessment (latest), cross-centre heatmap
-  const zoneDom=(ci,ai)=>{
-    const vals=getZone(ci,ai);
-    const n=vals.reduce((a,b)=>a+b,0);
-    const di=vals.indexOf(Math.max(...vals));
-    const pct=Math.round(vals[di]/n*100);
-    const LN=["Z1·Ready","Z2·Assisted","Z3·Emerging","Z4·At Risk"];
-    const LF=["#085041","#1D9E75","#EF9F27","#D85A30"];
-    const LT=["#9FE1CB","#E1F5EE","#412402","#FAECE7"];
-    return{bg:LF[di],txt:LT[di],pct,label:LN[di]};
-  };
+  // ZONE — WAFFLE GRID
   h+=`<div class="card">
     <div class="card-tag">Capability Zone</div>
-    <div class="card-title">Dominant zone — all centres × 15 assessments</div>
-    <div class="card-sub">Zone derived from cap_score × avg_cas · Zone 1 = Ready Performer · Zone 4 = At Risk · Click cell for full zone breakdown</div>`;
-  h+=heatmapTable(null,null,zoneDom,'doDrill','zone');
-  h+=legend([["#085041","Zone 1 · Ready Performer"],["#1D9E75","Zone 2 · Assisted Performer"],["#EF9F27","Zone 3 · Emerging Independent"],["#D85A30","Zone 4 · At Risk"]]);
-  h+=`</div><div id="zone_drill"></div>`;
+    <div class="card-title">Zone distribution — per centre · one square = one learner</div>
+    <div class="card-sub">Zone derived from cap_score × avg_cas · Zone 1 = Ready Performer (best) · Zone 4 = At Risk · Click any square → drill-down for that centre</div>
+    <div class="asm-slider">
+      <label>Assessment</label>
+      <input type="range" min="0" max="14" value="${zoneAsm}" oninput="zoneAsm=+this.value;renderTab0()">
+      <span>A${zoneAsm+1}</span>
+    </div>
+    <div class="waffle-wrap" id="zoneWaffle"></div>`;
+  h+=legend(ZONE_N.map((n,i)=>[ZONE_F[i],n]));
+  h+=`</div>${drillPanels('zone')}`;
 
-  // DQS — diverging bars cross-centre
-  const dqsDom=(ci,ai)=>{
-    const vals=getDQS(ci,ai);
-    const n=vals.reduce((a,b)=>a+b,0);
-    const di=vals.indexOf(Math.max(...vals));
-    const pct=Math.round(vals[di]/n*100);
-    const LN=["Low","Improv","Aligned"];
-    const LF=["#D85A30","#EF9F27","#1D9E75"];
-    const LT=["#FAECE7","#412402","#E1F5EE"];
-    return{bg:LF[di],txt:LT[di],pct,label:LN[di]};
-  };
+  // DQS — SMALL MULTIPLES DIVERGING BAR
   h+=`<div class="card">
     <div class="card-tag">Decision Quality Score (DQS)</div>
-    <div class="card-title">Dominant DQS label — all centres × 15 assessments</div>
-    <div class="card-sub">DQS = DMS² / 100 · Labels: &lt;40 Low · 40–69 Improving · ≥70 Aligned · Click cell for full distribution</div>`;
-  h+=heatmapTable(null,null,dqsDom,'doDrill','dqs');
-  h+=legend([["#D85A30","Low (< 40)"],["#EF9F27","Improving (40–69)"],["#1D9E75","Aligned (≥ 70)"]]);
-  h+=`</div><div id="dqs_drill"></div>`;
+    <div class="card-title">DQS label — all centres · Low ← diverging → Aligned</div>
+    <div class="card-sub">DQS = DMS² / 100 · Bar position shows balance between Low and Aligned · Click any bar → drill-down</div>
+    <div class="asm-slider">
+      <label>Assessment</label>
+      <input type="range" min="0" max="14" value="${dqsAsm}" oninput="dqsAsm=+this.value;renderTab0()">
+      <span>A${dqsAsm+1}</span>
+    </div>
+    <div class="sm-div-wrap" id="dqsBars"></div>`;
+  h+=legend(DQS_N.map((n,i)=>[DQS_F[i],n]));
+  h+=`</div>${drillPanels('dqs')}`;
 
   document.getElementById('tab0').innerHTML=h;
+
+  // Render waffle
+  renderWaffle('zoneWaffle',zoneAsm);
+  renderDQSBars('dqsBars',dqsAsm);
 }
 
-// ── TAB 1: SELF-AWARENESS ─────────────────────────────────────────────────────
+function renderWaffle(elId,ai){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  let h='';
+  CENTRES.forEach((c,ci)=>{
+    const vals=getZone(ci,ai);
+    const learners=getLearners(ci);
+    const total=vals.reduce((a,b)=>a+b,0);
+    const squares=[];
+    vals.forEach((v,li)=>{for(let j=0;j<v;j++)squares.push(li)});
+    h+=`<div class="waffle-block">
+      <div class="waffle-centre">${c}</div>
+      <div class="waffle-grid">
+        ${squares.map((li,i)=>`<div class="wsq" style="background:${ZONE_F[li]}" title="${ZONE_N[li]}" onclick="waffleClick(${ci},${ai},${li},this)"></div>`).join('')}
+      </div>
+    </div>`;
+  });
+  el.innerHTML=h;
+}
+
+window.waffleClick=function(ci,ai,li,el){
+  document.querySelectorAll('.wsq.sel-wsq').forEach(e=>e.classList.remove('sel-wsq'));
+  el.classList.add('sel-wsq');
+  L1('zone',ci,ai);
+  setTimeout(()=>L2('zone',ci,ai,li),50);
+};
+
+function renderDQSBars(elId,ai){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  let rows='';
+  CENTRES.forEach((c,ci)=>{
+    const vals=getDQS(ci,ai);
+    const total=vals.reduce((a,b)=>a+b,0);
+    rows+=`<div class="sm-div-row">
+      <div class="sm-div-lbl">${c}</div>
+      <div class="sm-div-bar" style="cursor:pointer" onclick="L1('dqs',${ci},${ai})">
+        ${vals.map((v,i)=>{const pct=Math.round(v/total*100);return pct>0?`<div class="sm-div-seg" style="width:${pct}%;background:${DQS_F[i]}"></div>`:''}).join('')}
+      </div>
+    </div>`;
+  });
+  el.innerHTML=rows;
+}
+
+// ── TAB 1 ──────────────────────────────────────────────────────────────────────
 function renderTab1(){
   let h='';
 
-  // CCG
-  const ccgDom=(ci,ai)=>{
-    const [u,c,o]=getCCG(ci,ai);
-    const n=u+c+o;
-    const calPct=Math.round(c/n*100);
-    const dom=c>=u&&c>=o?'calibrated':o>u?'large':'under';
-    const LF={calibrated:"#1D9E75",large:"#D85A30",under:"#2a78d6"};
-    const LT={calibrated:"#E1F5EE",large:"#FAECE7",under:"#fff"};
-    const LN={calibrated:"Calibrated",large:"Overestimated",under:"Underestimated"};
-    return{bg:LF[dom],txt:LT[dom],pct:calPct,label:LN[dom]};
-  };
+  // CCG — DOT PLOT
   h+=`<div class="card">
     <div class="card-tag">Confidence Calibration Gap (CCG)</div>
-    <div class="card-title">Dominant calibration label — all centres × 15 assessments</div>
-    <div class="card-sub">CCG = |perceived_conf − BPI| · Cell shows % Calibrated + dominant label · Click for Underestimated / Calibrated / Overestimated breakdown</div>`;
-  h+=heatmapTable(null,null,ccgDom,'doDrill','ccg');
-  h+=legend([["#2a78d6","Underestimated"],["#1D9E75","Calibrated"],["#D85A30","Overestimated"]]);
-  h+=`<div class="note">Cell percentage = % Calibrated (CCG &lt; 10) in that centre's cohort · higher % = better self-awareness</div>`;
-  h+=`</div><div id="ccg_drill"></div>`;
+    <div class="card-title">Calibration trail — all centres across 15 assessments</div>
+    <div class="card-sub">Dot colour = dominant CCG label · Rising trails = improving calibration · Click any dot → drill-down</div>`;
+  const W3=860,H3=100,PL3=110,PR3=16,PT3=16,PB3=24,gW3=W3-PL3-PR3,gH3=H3-PT3-PB3,xStep3=gW3/14;
+  const CCG_ORD_Y=[0,1,2]; // Overestimated=0 (bad), Calibrated=1 (best), Underestimated=0.5
+  let svg3=`<svg viewBox="0 0 ${W3} ${H3}" width="100%" style="display:block">`;
+  CCG_N.forEach((label,i)=>{
+    const yPos=i===1?1:i===0?0.5:0;
+    const y=PT3+gH3-(yPos)*gH3;
+    svg3+=`<text x="${PL3-5}" y="${y+3}" text-anchor="end" font-size="9" fill="${CCG_F[i]}" font-family="sans-serif">${label}</text>`;
+    svg3+=`<line x1="${PL3}" y1="${y}" x2="${PL3+gW3}" y2="${y}" stroke="#f0f0f0" stroke-width="0.5"/>`;
+  });
+  for(let ai=0;ai<15;ai++){const x=PL3+ai*xStep3;svg3+=`<text x="${x}" y="${PT3+gH3+14}" text-anchor="middle" font-size="8" fill="#bbb" font-family="sans-serif">A${ai+1}</text>`}
+  CENTRES.forEach((c,ci)=>{
+    const col=CLRS_C[ci];
+    const pts=[];
+    for(let ai=0;ai<15;ai++){
+      const vals=getCCG(ci,ai);
+      const total=vals.reduce((a,b)=>a+b,0);
+      const di=vals.indexOf(Math.max(...vals));
+      const yPos=di===1?1:di===0?0.5:0;
+      pts.push({ai,y:PT3+gH3-yPos*gH3,di});
+    }
+    let pd='';pts.forEach((p,i)=>{const x=PL3+p.ai*xStep3;pd+=i===0?`M${x},${p.y}`:`L${x},${p.y}`});
+    svg3+=`<path d="${pd}" stroke="${col}" stroke-width="1" fill="none" stroke-dasharray="3 2" opacity=".5"/>`;
+    pts.forEach(p=>{svg3+=`<circle cx="${PL3+p.ai*xStep3}" cy="${p.y}" r="5" fill="${CCG_F[p.di]}" stroke="${col}" stroke-width="1.5" style="cursor:pointer" onclick="L1('ccg',${ci},${p.ai})" title="${CENTRES[ci]}·A${p.ai+1}·${CCG_N[p.di]}"/>`});
+  });
+  svg3+=`</svg>`;
+  h+=svg3;
+  h+=legend(CCG_N.map((n,i)=>[CCG_F[i],n]));
+  h+=`<div class="note">Dot colour = dominant calibration label · dashed lines = centre trail · dots rising toward Calibrated = improving self-awareness</div>`;
+  h+=`</div>${drillPanels('ccg')}`;
 
-  // PI
-  const piDom=(ci,ai)=>{
-    const [e,m,l]=getPI(ci,ai);
-    const n=e+m+l;
-    const latePct=Math.round(l/n*100);
-    const dom=e>=m&&e>=l?'early':m>=l?'mid':'late';
-    const LF={early:"#1D9E75",mid:"#EF9F27",late:"#D85A30"};
-    const LT={early:"#E1F5EE",mid:"#412402",late:"#FAECE7"};
-    const LN={early:"Early","mid":"Mid",late:"Late"};
-    return{bg:LF[dom],txt:LT[dom],pct:Math.round((e>=m&&e>=l?e:m>=l?m:l)/n*100),label:LN[dom]};
-  };
+  // PI — HEATMAP (earned: consistent late-start across assessments = cluster of red)
   h+=`<div class="card">
     <div class="card-tag">Procrastination Index (PI)</div>
-    <div class="card-title">Start timing pattern — all centres × 15 assessments</div>
-    <div class="card-sub">PI = attempt_start / window · Early &lt;0.20 · Mid 0.20–0.60 · Late &gt;0.60 · Late starts 3+ times triggers study-schedule alert</div>`;
-  h+=heatmapTable(null,null,piDom,'doDrill','pi');
-  h+=legend([["#1D9E75","Early (PI < 0.20)"],["#EF9F27","Mid (0.20–0.60)"],["#D85A30","Late (PI > 0.60)"]]);
-  h+=`</div><div id="pi_drill"></div>`;
+    <div class="card-title">Start timing — all centres × 15 assessments</div>
+    <div class="card-sub">PI = attempt_start / window · Early &lt;0.20 · Mid 0.20–0.60 · Late &gt;0.60 · Clusters of red = consistently late starts · Click any cell → drill-down</div>`;
+  h+=buildHeatmap((ci,ai)=>{
+    const vals=getPI(ci,ai);
+    const total=vals.reduce((a,b)=>a+b,0);
+    const di=vals.indexOf(Math.max(...vals));
+    const pct=Math.round(vals[di]/total*100);
+    const intens=pct<40?'88':pct<60?'bb':'ff';
+    return{bg:PI_F[di]+intens};
+  },null,'pi');
+  h+=legend(PI_N.map((n,i)=>[PI_F[i],n]));
+  h+=`<div class="note">Late starts 3+ consecutive assessments triggers a study-schedule alert at student level</div>`;
+  h+=`</div>${drillPanels('pi')}`;
 
-  // UMS — stat cards per centre (latest assessment)
+  // UMS — STAT CARDS
   h+=`<div class="card">
     <div class="card-tag">Uncertainty Mastery Score (UMS)</div>
-    <div class="card-title">UMS label distribution — per centre · high-uncertainty assessments only</div>
-    <div class="card-sub">UMS = mean ES where unc ≥ 0.60 · Only computed for learners in high-uncertainty assessments · N/A when unc &lt; 0.60 · Select assessment to view</div>
-    <div class="card-filters">
+    <div class="card-title">UMS distribution — high-uncertainty assessments only (unc ≥ 0.60)</div>
+    <div class="card-sub">Only computed for learners in assessments where unc ≥ 0.60 · N/A when unc &lt; 0.60 · Click a colour segment on any card → drill-down</div>
+    <div class="asm-slider">
       <label>Assessment</label>
-      <select id="umsSel" onchange="renderUMSCards()">
-        ${ASMS.map((a,i)=>`<option value="${i}">${a}</option>`).join('')}
-      </select>
+      <input type="range" min="0" max="14" value="${umsAsm}" oninput="umsAsm=+this.value;renderTab1()">
+      <span>A${umsAsm+1}</span>
     </div>
-    <div id="umsCards" class="stat-grid"></div>`;
-  h+=legend([["#D85A30","Struggling (< 40)"],["#EF9F27","Improving (40–69)"],["#1D9E75","Strong (≥ 70)"]]);
-  h+=`<div class="note">Card shows computable count (unc ≥ 0.60) + label distribution for those learners + N/A count</div>`;
-  h+=`</div>`;
+    <div class="stat-grid" id="umsCards"></div>`;
+  h+=legend(UMS_N.map((n,i)=>[UMS_F[i],n]));
+  h+=`</div>${drillPanels('ums')}`;
 
-  // CI Time
-  const ciDom=(ci,ai)=>{
-    if(ai<2) return null;
-    const {vals,dominant}=getCITime(ci,ai);
-    const n=vals.reduce((a,b)=>a+b,0);
-    const pct=Math.round(vals[dominant==='stable'?2:dominant==='mod_stable'?1:0]/n*100);
-    const LF={inconsistent:"#D85A30",mod_stable:"#EF9F27",stable:"#1D9E75"};
-    const LT={inconsistent:"#FAECE7",mod_stable:"#412402",stable:"#E1F5EE"};
-    const LN={inconsistent:"Inconsistent",mod_stable:"Mod. Stable",stable:"Stable"};
-    return{bg:LF[dominant],txt:LT[dominant],pct,label:LN[dominant]};
-  };
+  // CI TIME — HEATMAP
   h+=`<div class="card">
     <div class="card-tag">Performance Consistency — CI Time</div>
-    <div class="card-title">Dominant CI Time label — all centres × assessments 3–15</div>
-    <div class="card-sub">CI Time = (1 − pstdev(session_totals) / mean(session_totals)) × 100 · Requires ≥ 3 assessments · A1 and A2 always N/A · Click cell for breakdown</div>`;
-  h+=heatmapTable(null,null,ciDom,'doDrill','citime');
-  h+=legend([["#D85A30","Inconsistent (< 50)"],["#EF9F27","Moderately stable (50–74)"],["#1D9E75","Stable (≥ 75)"]]);
-  h+=`</div><div id="citime_drill"></div>`;
+    <div class="card-title">CI Time label — all centres × assessments 3–15</div>
+    <div class="card-sub">CI Time = (1 − pstdev / mean) × 100 · Requires ≥ 3 assessments · A1–A2 always N/A · Click any cell → drill-down</div>`;
+  h+=buildHeatmap((ci,ai)=>{
+    const d=getCITime(ci,ai);
+    if(!d)return null;
+    const total=d.vals.reduce((a,b)=>a+b,0);
+    const di=d.vals.indexOf(Math.max(...d.vals));
+    const pct=Math.round(d.vals[di]/total*100);
+    const intens=pct<40?'88':pct<65?'bb':'ff';
+    return{bg:CI_F[di]+intens};
+  },null,'citime');
+  h+=legend(CI_N.map((n,i)=>[CI_F[i],n]));
+  h+=`</div>${drillPanels('citime')}`;
 
   document.getElementById('tab1').innerHTML=h;
-  renderUMSCards();
+  renderUMSCards(umsAsm);
 }
 
-function renderUMSCards(){
-  const ai=parseInt(document.getElementById('umsSel')?.value||14);
+function renderUMSCards(ai){
+  const el=document.getElementById('umsCards');
+  if(!el)return;
   let h='';
   CENTRES.forEach((c,ci)=>{
     const {comp,vals,na}=getUMS(ci,ai);
@@ -804,99 +744,131 @@ function renderUMSCards(){
     h+=`<div class="stat-card">
       <div class="sc-centre">${c}</div>
       <div class="sc-comp">${comp} of ${CENTRE_N[ci]} learners · unc ≥ 0.60</div>
-      <div class="sc-bar">`;
-    [[vals[0],"#D85A30"],[vals[1],"#EF9F27"],[vals[2],"#1D9E75"]].forEach(([v,bg])=>{
-      const pct=Math.round(v/total*100);
-      if(pct<1)return;
-      h+=`<div class="sc-seg" style="width:${pct}%;background:${bg};color:#fff">${pct>=15?pct+'%':''}</div>`;
-    });
-    h+=`</div><div style="font-size:10px;color:#aaa;margin-top:3px">${na} learners N/A this assessment</div>
+      <div class="sc-bar">
+        ${vals.map((v,i)=>{const pct=Math.round(v/total*100);return pct>0?`<div class="sc-seg" style="width:${pct}%;background:${UMS_F[i]}" onclick="umsClick(${ci},${ai},${i})" title="${UMS_N[i]}"></div>`:''}).join('')}
+      </div>
+      <div style="font-size:10px;color:#aaa;margin-top:3px">${na} learners N/A</div>
     </div>`;
   });
-  const el=document.getElementById('umsCards');
-  if(el) el.innerHTML=h;
+  el.innerHTML=h;
 }
 
-// ── TAB 2: AUTONOMY & TOOL USE ────────────────────────────────────────────────
+window.umsClick=function(ci,ai,li){
+  L1('ums',ci,ai);
+  setTimeout(()=>L2('ums',ci,ai,li),50);
+};
+
+// ── TAB 2 ──────────────────────────────────────────────────────────────────────
 function renderTab2(){
   let h='';
 
-  // Tool pattern
-  const patDom=(ci,ai)=>{
-    const vals=getPattern(ci,ai);
-    const n=vals.reduce((a,b)=>a+b,0);
-    const di=vals.indexOf(Math.max(...vals));
-    const pct=Math.round(vals[di]/n*100);
-    const LF=["#085041","#B5D4F4","#EF9F27","#1D9E75","#D85A30","#712B13"];
-    const LT=["#9FE1CB","#0C447C","#412402","#E1F5EE","#FAECE7","#FAECE7"];
-    const LN=["Independent","Passive","Moderate","Strategic","Dep. Short.","Over-reliant"];
-    return{bg:LF[di],txt:LT[di],pct,label:LN[di]};
-  };
+  // TOOL USE PATTERN — STREAM GRAPH
   h+=`<div class="card">
     <div class="card-tag">AI Tool Use Pattern (TDR × TUI)</div>
-    <div class="card-title">Dominant tool use pattern — all centres × 15 assessments</div>
-    <div class="card-sub">TDR = sum(tool_time) / sum(answer_time) · TUI = reflective_uses / total_uses × 100 · Pattern derived from TDR × TUI thresholds · Click cell for full distribution</div>`;
-  h+=heatmapTable(null,null,patDom,'doDrill','pattern');
-  h+=legend([
-    ["#085041","Independent (TDR < 0.20)"],["#B5D4F4","Passive (TDR 0.20–0.50, TUI < 40)"],
-    ["#EF9F27","Moderate user (TDR 0.20–0.50, TUI 40–69)"],["#1D9E75","Strategic (TDR 0.20–0.50, TUI ≥ 70)"],
-    ["#D85A30","Dependent shortcutter (TDR > 0.50, TUI < 40)"],["#712B13","Over-reliant thinker (TDR > 0.50, TUI ≥ 40)"]
-  ]);
-  h+=`</div><div id="pattern_drill"></div>`;
+    <div class="card-title">Tool use pattern mix — per centre across 15 assessments</div>
+    <div class="card-sub">Six patterns derived from TDR × TUI thresholds · Band width = proportion of cohort · Select centre · Click a band → drill-down for that assessment</div>
+    <div class="card-filters">
+      <label>Centre</label>
+      <select onchange="streamCentre=this.selectedIndex;renderTab2()">${CENTRES.map((c,i)=>`<option${i===streamCentre?' selected':''}>${c}</option>`).join('')}</select>
+    </div>
+    <div id="streamChart"></div>`;
+  h+=legend(PAT_N.map((n,i)=>[PAT_F[i],n]));
+  h+=`<div class="note">Widening Strategic band = learners using AI more reflectively over time · click any band for drill-down</div>`;
+  h+=`</div>${drillPanels('pattern')}`;
 
-  // G10 Impulsive
-  const g10Dom=(ci,ai)=>{
-    const [fire,watch,none]=getFlag(ci,ai,1001);
-    const n=fire+watch+none;
-    const firePct=Math.round(fire/n*100);
-    const dom=fire/n>0.25?'fire':watch/n>0.45?'watch':'none_f';
-    const LF={fire:"#D85A30",watch:"#EF9F27",none_f:"#E8EFF3"};
-    const LT={fire:"#FAECE7",watch:"#412402",none_f:"#555"};
-    const LN={fire:"Fires",watch:"Watch",none_f:"None"};
-    return{bg:LF[dom],txt:LT[dom],pct:firePct,label:LN[dom]};
-  };
+  // G10 — LOLLIPOP
   h+=`<div class="card">
     <div class="card-tag">Impulsive Decisions — G10</div>
-    <div class="card-title">Impulsive flag distribution — all centres × 15 assessments</div>
-    <div class="card-sub">Fires when ALL-IN + es_user &lt; 0.40 + dt_ratio &lt; 0.30 · 0 = None · 1–2 = Watch · ≥3 = Fires · Cell % = proportion of learners at Fire level</div>`;
-  h+=heatmapTable(null,null,g10Dom,'doDrill','g10');
-  h+=legend([["#D85A30","Fires (≥ 3 impulsive decisions)"],["#EF9F27","Watch (1–2)"],["#E8EFF3","None"]]);
-  h+=`</div><div id="g10_drill"></div>`;
+    <div class="card-title">% learners at Fire level — all centres</div>
+    <div class="card-sub">Fires when ALL-IN + es_user &lt; 0.40 + dt_ratio &lt; 0.30 and count ≥ 3 · Stem length = severity · Click any dot → drill-down</div>
+    <div class="asm-slider">
+      <label>Assessment</label>
+      <input type="range" min="0" max="14" value="${lolliAsm}" oninput="lolliAsm=+this.value;renderTab2()">
+      <span>A${lolliAsm+1}</span>
+    </div>
+    <div class="lollipop-wrap" id="g10Lolli"></div>`;
+  h+=legend([["#D85A30","Fires (≥3)"],["#EF9F27","Watch (1–2)"],["#E8EFF3","None"]]);
+  h+=`</div>${drillPanels('g10')}`;
 
-  // G11 Missed Opportunity
-  const g11Dom=(ci,ai)=>{
-    const [fire,watch,none]=getFlag(ci,ai,2002);
-    const n=fire+watch+none;
-    const firePct=Math.round(fire/n*100);
-    const dom=fire/n>0.22?'fire':watch/n>0.42?'watch':'none_f';
-    const LF={fire:"#D85A30",watch:"#EF9F27",none_f:"#E8EFF3"};
-    const LT={fire:"#FAECE7",watch:"#412402",none_f:"#555"};
-    const LN={fire:"Fires",watch:"Watch",none_f:"None"};
-    return{bg:LF[dom],txt:LT[dom],pct:firePct,label:LN[dom]};
-  };
+  // G11 — LOLLIPOP
   h+=`<div class="card">
     <div class="card-tag">Missed Opportunities — G11</div>
-    <div class="card-title">Missed opportunity flag distribution — all centres × 15 assessments</div>
-    <div class="card-sub">Fires when SKIP + es_shadow ≥ 0.70 · 0 = None · 1 = Watch · ≥2 = Fires · Cell % = proportion of learners at Fire level · Click for full breakdown</div>`;
-  h+=heatmapTable(null,null,g11Dom,'doDrill','g11');
-  h+=legend([["#D85A30","Fires (≥ 2 missed opportunities)"],["#EF9F27","Watch (1)"],["#E8EFF3","None"]]);
-  h+=`</div><div id="g11_drill"></div>`;
+    <div class="card-title">% learners at Fire level — all centres</div>
+    <div class="card-sub">Fires when SKIP + es_shadow ≥ 0.70 and count ≥ 2 · Stem length = severity · Click any dot → drill-down</div>
+    <div class="lollipop-wrap" id="g11Lolli"></div>`;
+  h+=legend([["#D85A30","Fires (≥2)"],["#EF9F27","Watch (1)"],["#E8EFF3","None"]]);
+  h+=`</div>${drillPanels('g11')}`;
 
   document.getElementById('tab2').innerHTML=h;
+  renderStream('streamChart',streamCentre);
+  renderLollipop('g10Lolli',lolliAsm,'g10');
+  renderLollipop('g11Lolli',lolliAsm,'g11');
 }
 
-// ── WIRE DRILL ─────────────────────────────────────────────────────────────────
-window.doDrill=function(td,id){
-  document.querySelectorAll(`[data-ci]`).forEach(c=>{
-    if(c.closest(`#tab${curTab}`)) c.classList.remove('sel');
+function renderStream(elId,ci){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  const W=720,H=180,PL=0,PR=0,PT=10,PB=24,gW=W-PL-PR,gH=H-PT-PB,xStep=gW/14;
+  const allVals=ASMS.map((_,ai)=>{
+    const v=getPattern(ci,ai);
+    const t=v.reduce((a,b)=>a+b,0);
+    return v.map(x=>x/t);
   });
-  td.classList.add('sel');
-  const ci=+td.dataset.ci,ai=+td.dataset.ai;
-  const fn=window[`drill_${id}`];
-  if(fn) fn(ci,ai,id);
-};
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">`;
+  // stacked areas
+  const cumulative=ASMS.map((_,ai)=>{
+    let cum=0;
+    return PAT_N.map((_,li)=>{cum+=allVals[ai][li];return cum});
+  });
+  PAT_N.forEach((_,li)=>{
+    const points=ASMS.map((_,ai)=>{
+      const x=PL+ai*xStep;
+      const yTop=PT+gH-(cumulative[ai][li])*gH;
+      const yBot=li===0?PT+gH:PT+gH-(cumulative[ai][li-1])*gH;
+      return{x,yTop,yBot};
+    });
+    const pathD=`M${points[0].x},${points[0].yBot} `+
+      points.map(p=>`L${p.x},${p.yTop}`).join(' ')+
+      ` L${points[points.length-1].x},${points[points.length-1].yBot} `+
+      [...points].reverse().map(p=>`L${p.x},${p.yBot}`).join(' ')+' Z';
+    const ai_mid=7;
+    svg+=`<path d="${pathD}" fill="${PAT_F[li]}" opacity=".85" style="cursor:pointer" onclick="L1('pattern',${ci},${ai_mid})"/>`;
+  });
+  for(let ai=0;ai<15;ai++){
+    const x=PL+ai*xStep;
+    svg+=`<text x="${x}" y="${PT+gH+14}" text-anchor="middle" font-size="8" fill="#bbb" font-family="sans-serif">A${ai+1}</text>`;
+    svg+=`<line x1="${x}" y1="${PT}" x2="${x}" y2="${PT+gH}" stroke="rgba(255,255,255,.3)" stroke-width="0.5"/>`;
+  }
+  svg+=`</svg>`;
+  el.innerHTML=svg;
+}
 
-renderTab0();
+function renderLollipop(elId,ai,metricId){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  const dataFn=metricId==='g10'?(ci,ai)=>getFlag(ci,ai,1001):(ci,ai)=>getFlag(ci,ai,2002);
+  const flagNames=metricId==='g10'?FLAG_N_G10:FLAG_N_G11;
+  let h='';
+  CENTRES.forEach((c,ci)=>{
+    const vals=dataFn(ci,ai);
+    const total=vals.reduce((a,b)=>a+b,0);
+    const firePct=Math.round(vals[0]/total*100);
+    const watchPct=Math.round(vals[1]/total*100);
+    const dom=firePct>20?0:watchPct>40?1:2;
+    const col=FLAG_F[dom];
+    h+=`<div class="lp-row">
+      <div class="lp-lbl">${c}</div>
+      <div class="lp-track" onclick="L1('${metricId}',${ci},${ai})">
+        <div class="lp-stem" style="width:${firePct}%;background:${FLAG_F[0]}"></div>
+        <div class="lp-dot" style="left:calc(${firePct}% - 8px);background:${col}" title="${c} · A${ai+1} · Fire: ${firePct}%"></div>
+        <div class="lp-threshold" style="left:20%"></div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=h;
+}
+
+setTab(0);
 </script>
 </body>
 </html>
