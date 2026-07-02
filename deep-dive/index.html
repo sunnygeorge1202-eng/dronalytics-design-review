@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dronalytics — Admin Deep Dive Analytics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#F2F4F7;color:#1a1a1a;font-size:13px}
+.topbar{background:#1B3A4B;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar .brand{color:#fff;font-weight:700;font-size:15px;letter-spacing:.3px}
+.topbar .sub{color:#90b4c8;font-size:12px}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+
+/* FILTERS */
+.filter-bar{background:#fff;border:1px solid #dde3e8;border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.filter-bar label{font-size:11px;color:#888;font-weight:500}
+.filter-bar select{font-size:12px;padding:5px 9px;border:1px solid #dde3e8;border-radius:6px;background:#fff;color:#1a1a1a}
+.learner-count{margin-left:auto;font-size:12px;color:#888;display:flex;align-items:center;gap:5px}
+.learner-count strong{color:#1B3A4B}
+
+/* TABS */
+.tab-bar{display:flex;gap:2px;margin-bottom:16px;border-bottom:1px solid #dde3e8}
+.tab-btn{padding:10px 16px;border:none;background:transparent;font-size:13px;color:#888;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .12s;white-space:nowrap}
+.tab-btn.on{color:#1B3A4B;font-weight:600;border-bottom-color:#1B3A4B}
+.tab-btn:hover{color:#1B3A4B}
+
+/* CARDS */
+.card{background:#fff;border:1px solid #dde3e8;border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.card-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:3px}
+.card-title{font-size:13px;font-weight:600;color:#1B3A4B;margin-bottom:4px}
+.card-sub{font-size:11px;color:#aaa;margin-bottom:14px}
+.gate-msg{font-size:12px;color:#aaa;font-style:italic;padding:8px 0}
+
+/* PROP BARS (stacked horizontal per assessment) */
+.pb-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.pb-asmLabel{font-size:11px;color:#666;font-weight:500;min-width:24px}
+.pb-bar{flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden}
+.pb-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;transition:width .3s}
+.pb-n{font-size:10px;color:#aaa;min-width:36px;text-align:right}
+
+/* DIVERGING BARS */
+.div-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.div-lbl{font-size:11px;color:#666;font-weight:500;min-width:24px}
+.div-bar{flex:1;display:flex;height:22px;border-radius:4px;overflow:hidden}
+.div-n{font-size:10px;color:#aaa;min-width:36px;text-align:right}
+
+/* LEGEND */
+.leg-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#777}
+.leg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.note{font-size:10px;color:#bbb;font-style:italic;margin-top:8px}
+.divider{border:none;border-top:1px solid #f0f2f4;margin:16px 0}
+
+/* BPI HEATMAP */
+.hm-wrap{overflow-x:auto}
+.hmt{border-collapse:separate;border-spacing:3px;min-width:480px;width:100%}
+.hmt .rlbl{font-size:11px;color:#555;text-align:right;padding-right:8px;white-space:nowrap;vertical-align:middle;font-weight:600;width:90px}
+.hmt .clbl{font-size:10px;color:#aaa;text-align:center;padding-bottom:4px}
+.hmc{height:40px;border-radius:5px;cursor:pointer;transition:transform .1s;vertical-align:middle;text-align:center}
+.hmc:hover{transform:scale(1.07);position:relative;z-index:2}
+.hmc.sel{outline:2.5px solid #1B3A4B;outline-offset:1px}
+.hmc-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:2px}
+.hmc-pct{font-size:11px;font-weight:600;line-height:1}
+.hmc-lbl{font-size:9px;line-height:1;opacity:.8}
+.hm-thin{opacity:.35}
+
+/* TRAJ TOGGLE */
+.tgl{display:flex;border:1px solid #ccc;border-radius:6px;overflow:hidden;margin-left:auto}
+.tgl button{padding:5px 14px;font-size:11px;background:#fff;border:none;cursor:pointer;color:#666;transition:background .12s}
+.tgl button.on{background:#1B3A4B;color:#fff;font-weight:600}
+.top-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+
+/* DRILL */
+.drill-ctx{font-size:11px;color:#888;margin-bottom:12px}
+.dist-bar{display:flex;height:32px;border-radius:6px;overflow:hidden;margin-bottom:6px}
+.dist-seg{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px}
+.dist-seg .ds-pct{font-size:11px;font-weight:600}
+.dist-seg .ds-n{font-size:9px;opacity:.8}
+.delta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.dcard{border-radius:8px;padding:10px 12px}
+.dcard .dc-ct{font-size:22px;font-weight:600;line-height:1}
+.dcard .dc-nm{font-size:10px;margin-top:3px}
+.dcard .dc-bar-w{height:4px;border-radius:2px;margin-top:7px;background:rgba(0,0,0,.08)}
+.dcard .dc-bar-f{height:100%;border-radius:2px}
+.dcard .dc-d{font-size:11px;margin-top:5px;font-weight:500}
+.up{color:#0F6E56}.dn{color:#993C1D}.nc{color:#aaa}
+.thin-warn{background:#FAEEDA;color:#633806;border-radius:6px;padding:7px 11px;font-size:11px;margin-bottom:10px}
+.empty-hint{font-size:12px;color:#aaa;font-style:italic;padding:6px 0}
+
+/* FLAG BARS */
+.flag-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.flag-lbl{font-size:11px;color:#666;font-weight:500;min-width:24px}
+.flag-bar-wrap{flex:1;background:#f0f2f4;border-radius:4px;height:22px;position:relative}
+.flag-bar-fill{height:100%;border-radius:4px;transition:width .3s}
+.flag-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;margin-left:8px;white-space:nowrap}
+.flag-counts{font-size:10px;color:#aaa;min-width:80px;text-align:right}
+
+.ums-gate{font-size:11px;color:#aaa;font-style:italic}
+.ums-computable{font-size:11px;color:#1B3A4B;font-weight:500;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Dronalytics</span>
+  <span class="sub">Admin · Deep Dive Analytics</span>
+</div>
+
+<div class="wrap">
+
+  <div class="filter-bar">
+    <label>Centre</label>
+    <select id="fCentre" onchange="renderAll()">
+      <option value="all">All centres</option>
+      <option>GIZ Trivandrum</option>
+      <option>ILS Kochi</option>
+      <option>ACL Calicut</option>
+      <option>YMCA Thrissur</option>
+      <option>KASE Kozhikode</option>
+      <option>IHRM Palakkad</option>
+    </select>
+    <label style="margin-left:8px">CEFR</label>
+    <select id="fCEFR" onchange="renderAll()">
+      <option value="all">All levels</option>
+      <option>A2</option><option>B1</option><option>B2</option>
+    </select>
+    <label style="margin-left:8px">Assessments</label>
+    <select id="fAsm" onchange="renderAll()">
+      <option value="all">All (A1–A4)</option>
+      <option value="0">Assessment 1</option>
+      <option value="1">Assessment 2</option>
+      <option value="2">Assessment 3</option>
+      <option value="3">Assessment 4</option>
+    </select>
+    <div class="learner-count">👥 <strong id="lCount">142</strong> learners in view</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn on" onclick="setTab(0)">Mastery &amp; Decisions</button>
+    <button class="tab-btn" onclick="setTab(1)">Self-Awareness</button>
+    <button class="tab-btn" onclick="setTab(2)">Autonomy &amp; Tool Use</button>
+  </div>
+
+  <div id="tab0"></div>
+  <div id="tab1" style="display:none"></div>
+  <div id="tab2" style="display:none"></div>
+
+</div>
+
+<script>
+// ── COLOUR PALETTE ────────────────────────────────────────────────────────────
+const C = {
+  fragile:  { bg:"#712B13", txt:"#FAECE7" },
+  emerging: { bg:"#D85A30", txt:"#FAECE7" },
+  developing:{ bg:"#EF9F27", txt:"#412402" },
+  competent:{ bg:"#5DCAA5", txt:"#04342C" },
+  strong:   { bg:"#1D9E75", txt:"#E1F5EE" },
+  reliable: { bg:"#085041", txt:"#9FE1CB" },
+  z1:{ bg:"#085041", txt:"#9FE1CB" },
+  z2:{ bg:"#1D9E75", txt:"#E1F5EE" },
+  z3:{ bg:"#EF9F27", txt:"#412402" },
+  z4:{ bg:"#D85A30", txt:"#FAECE7" },
+  low:  { bg:"#D85A30", txt:"#FAECE7" },
+  improving:{ bg:"#EF9F27", txt:"#412402" },
+  aligned:  { bg:"#1D9E75", txt:"#E1F5EE" },
+  calibrated:{ bg:"#1D9E75", txt:"#E1F5EE" },
+  mild:     { bg:"#EF9F27", txt:"#412402" },
+  large:    { bg:"#D85A30", txt:"#FAECE7" },
+  under:    { bg:"#2a78d6", txt:"#fff" },
+  early:    { bg:"#1D9E75", txt:"#E1F5EE" },
+  mid:      { bg:"#EF9F27", txt:"#412402" },
+  late:     { bg:"#D85A30", txt:"#FAECE7" },
+  struggling:{ bg:"#D85A30", txt:"#FAECE7" },
+  ums_imp:  { bg:"#EF9F27", txt:"#412402" },
+  ums_str:  { bg:"#1D9E75", txt:"#E1F5EE" },
+  inconsistent:{ bg:"#D85A30", txt:"#FAECE7" },
+  mod_stable:{ bg:"#EF9F27", txt:"#412402" },
+  stable:   { bg:"#1D9E75", txt:"#E1F5EE" },
+  independent:{ bg:"#085041", txt:"#9FE1CB" },
+  passive:  { bg:"#B5D4F4", txt:"#0C447C" },
+  moderate_u:{ bg:"#EF9F27", txt:"#412402" },
+  strategic:{ bg:"#1D9E75", txt:"#E1F5EE" },
+  dep_short:{ bg:"#D85A30", txt:"#FAECE7" },
+  overreliant:{ bg:"#712B13", txt:"#FAECE7" },
+  fire:     { bg:"#D85A30", txt:"#FAECE7" },
+  watch:    { bg:"#EF9F27", txt:"#412402" },
+  none_f:   { bg:"#E8EFF3", txt:"#555" },
+  bpi_dev:  { bg:"#D85A30", txt:"#FAECE7" },
+  bpi_eme:  { bg:"#EF9F27", txt:"#412402" },
+  bpi_pro:  { bg:"#1D9E75", txt:"#E1F5EE" },
+  bpi_str:  { bg:"#085041", txt:"#9FE1CB" },
+};
+
+// ── SEEDED RANDOM ─────────────────────────────────────────────────────────────
+function sr(seed){let s=seed;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+function rInt(seed,min,max){return min+Math.floor(sr(seed)()*(max-min+1))}
+
+// ── SYNTHETIC DATA GENERATORS ─────────────────────────────────────────────────
+const N_LEARNERS = 142;
+const ASSESSMENTS = ["A1","A2","A3","A4"];
+const BLOOMS = ["Remember","Understand","Apply","Analyse","Evaluate","Create"];
+const BLOOM_KEYS = ["R","U","A","An","E","C"];
+const SKILLS = ["Writing","Reading","Listening","Speaking"];
+
+function propDist(seed, keys, progression=0){
+  const r = sr(seed);
+  let vals = keys.map((_,i) => Math.max(0.05, r() + (i > keys.length/2 ? progression : -progression*0.5)));
+  const sum = vals.reduce((a,b)=>a+b,0);
+  return vals.map(v => v/sum);
+}
+
+function getBPICell(si,bi,ai){
+  const seed = si*1000+bi*100+ai;
+  const r = sr(seed);
+  const thin = r() < (bi>=4?0.4:0.1);
+  const n = thin ? Math.floor(r()*3)+1 : 14+Math.floor(r()*9);
+  const bias = sr(si*77+bi*13)();
+  let d,e,p,st;
+  if(bias<.25){d=Math.round(.38*n);e=Math.round(.35*n);p=Math.round(.18*n);st=n-d-e-p}
+  else if(bias<.55){d=Math.round(.15*n);e=Math.round(.42*n);p=Math.round(.28*n);st=n-d-e-p}
+  else if(bias<.8){d=Math.round(.08*n);e=Math.round(.28*n);p=Math.round(.40*n);st=n-d-e-p}
+  else{d=0;e=Math.round(.15*n);p=Math.round(.38*n);st=n-d-e-p}
+  st=Math.max(0,st);
+  const shift=Math.round(ai*.025*n);d=Math.max(0,d-shift);st=Math.min(n,st+shift);
+  const tot=d+e+p+st;st+=n-tot;
+  return{vals:[d,e,p,Math.max(0,st)],n,thin};
+}
+
+function getDCIDist(ai){
+  const prog = ai * 0.06;
+  const base = [0.08,0.22,0.28,0.24,0.12,0.06];
+  const shifted = base.map((v,i) => Math.max(0, v + (i<3 ? -prog*0.8 : prog*0.5)));
+  const sum = shifted.reduce((a,b)=>a+b,0);
+  return shifted.map(v=>Math.round(v/sum*N_LEARNERS));
+}
+
+function getZoneDist(ai){
+  const prog = ai*0.07;
+  const base = [0.18,0.25,0.32,0.25];
+  const s = base.map((v,i)=>Math.max(0,v+(i<2?-prog:prog)));
+  const sum=s.reduce((a,b)=>a+b,0);
+  return s.map(v=>Math.round(v/sum*N_LEARNERS));
+}
+
+function getDQSDist(ai){
+  const prog = ai*0.08;
+  const base = [0.30,0.45,0.25];
+  const s = base.map((v,i)=>Math.max(0,v+(i===0?-prog:i===2?prog:0)));
+  const sum=s.reduce((a,b)=>a+b,0);
+  return s.map(v=>Math.round(v/sum*N_LEARNERS));
+}
+
+function getCCGDist(ai){
+  const prog=ai*0.06;
+  const under=Math.round((0.18-prog*0.3)*N_LEARNERS);
+  const cal=Math.round((0.42+prog*0.5)*N_LEARNERS);
+  const over=N_LEARNERS-under-cal;
+  return[Math.max(2,under),Math.max(40,cal),Math.max(2,over)];
+}
+
+function getPIDist(ai){
+  const prog=ai*0.04;
+  const late=Math.round((0.28-prog)*N_LEARNERS);
+  const early=Math.round((0.20+prog)*N_LEARNERS);
+  const mid=N_LEARNERS-late-early;
+  return[Math.max(5,early),Math.max(20,mid),Math.max(3,late)];
+}
+
+function getUMSDist(ai){
+  const computable=Math.round((0.35+ai*0.05)*N_LEARNERS);
+  const strug=Math.round(0.3*computable);
+  const imp=Math.round(0.45*computable);
+  const str=computable-strug-imp;
+  return{computable,vals:[Math.max(1,strug),Math.max(1,imp),Math.max(1,str)]};
+}
+
+function getCITimeDist(ai){
+  if(ai<2) return null;
+  const prog=(ai-2)*0.1;
+  const inc=Math.round((0.25-prog)*N_LEARNERS);
+  const mod=Math.round((0.40)*N_LEARNERS);
+  const sta=N_LEARNERS-inc-mod;
+  return[Math.max(5,inc),Math.max(30,mod),Math.max(5,sta)];
+}
+
+function getPatternDist(ai){
+  const prog=ai*0.04;
+  const base=[0.14,0.18,0.22,0.24,0.12,0.10];
+  const s=base.map((v,i)=>Math.max(0.02,v+(i===3?prog:i>3?-prog*0.5:-prog*0.1)));
+  const sum=s.reduce((a,b)=>a+b,0);
+  return s.map(v=>Math.round(v/sum*N_LEARNERS));
+}
+
+function getFlagDist(ai, metricSeed){
+  const r=sr(metricSeed+ai*100);
+  const fire=Math.round((0.20-ai*0.04)*N_LEARNERS);
+  const watch=Math.round((0.35)*N_LEARNERS);
+  const none=N_LEARNERS-fire-watch;
+  return[Math.max(3,fire),Math.max(20,watch),Math.max(10,none)];
+}
+
+// ── UTILITIES ─────────────────────────────────────────────────────────────────
+function propBar(segs){
+  // segs = [{pct,color,txt,label}]
+  return segs.map(s=>{
+    if(s.pct<1) return "";
+    return `<div class="pb-seg" style="width:${s.pct}%;background:${s.color};color:${s.txt};">${s.pct>=10?s.pct+'%':''}</div>`;
+  }).join('');
+}
+
+function legend(items){
+  return `<div class="leg-row">${items.map(([bg,txt,label])=>`<div class="leg"><div class="leg-sq" style="background:${bg}"></div>${label}</div>`).join('')}</div>`;
+}
+
+function asmRows(dataFn, segsFn, asmRange){
+  const idxs = asmRange==='all'?[0,1,2,3]:[parseInt(asmRange)];
+  return idxs.map(ai=>{
+    const data = dataFn(ai);
+    if(!data) return `<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="gate-msg">Available from Assessment 3</div></div>`;
+    const total = Array.isArray(data)?data.reduce((a,b)=>a+b,0):data.computable||N_LEARNERS;
+    const segs = segsFn(data,total,ai);
+    return `<div class="pb-row">
+      <div class="pb-asmLabel">${ASSESSMENTS[ai]}</div>
+      <div class="pb-bar">${propBar(segs)}</div>
+      <div class="pb-n">n=${total}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── BPI HEATMAP ───────────────────────────────────────────────────────────────
+let bpiMode='heatmap';
+
+function bpiIntensity(li,pct){
+  const stops=[
+    ["#FAECE7","#F0997B","#D85A30","#993C1D","#712B13"],
+    ["#FAEEDA","#FAC775","#EF9F27","#BA7517","#854F0B"],
+    ["#E1F5EE","#9FE1CB","#5DCAA5","#1D9E75","#0F6E56"],
+    ["#9FE1CB","#5DCAA5","#1D9E75","#0F6E56","#085041"],
+  ];
+  const txts=[
+    ["#712B13","#712B13","#FAECE7","#FAECE7","#FAECE7"],
+    ["#633806","#633806","#412402","#412402","#FAEEDA"],
+    ["#085041","#085041","#04342C","#E1F5EE","#E1F5EE"],
+    ["#04342C","#04342C","#E1F5EE","#E1F5EE","#9FE1CB"],
+  ];
+  const i=pct<40?0:pct<55?1:pct<70?2:pct<85?3:4;
+  return{bg:stops[li][i],txt:txts[li][i]};
+}
+
+function renderBPIHeatmap(){
+  const LNAMES=["Developing","Emerging","Proficient","Strong"];
+  const LSHORT=["Dev","Eme","Pro","Str"];
+  const LFILL=[C.bpi_dev.bg,C.bpi_eme.bg,C.bpi_pro.bg,C.bpi_str.bg];
+  const LTXT=[C.bpi_dev.txt,C.bpi_eme.txt,C.bpi_pro.txt,C.bpi_str.txt];
+
+  let h=`<div id="bpiBlock">
+  <div class="card">
+    <div class="card-tag">Bloom Proficiency Index</div>
+    <div class="top-row">
+      <div>
+        <div class="card-title">BPI label distribution — skill × Bloom level × assessment</div>
+        <div class="card-sub">Dominant BPI label per cell · click any cell to drill down · faded = thin data (n &lt; 5)</div>
+      </div>
+      <div>
+        <label style="font-size:11px;color:#888;margin-right:6px">Skill</label>
+        <select id="bpiSkill" onchange="renderBPIHeatmap()" style="font-size:12px;padding:4px 8px;border:1px solid #dde3e8;border-radius:6px">
+          ${SKILLS.map((s,i)=>`<option value="${i}">${s}</option>`).join('')}
+        </select>
+        <select id="bpiBloom" onchange="renderBPIHeatmap()" style="font-size:12px;padding:4px 8px;border:1px solid #dde3e8;border-radius:6px;margin-left:6px">
+          ${BLOOMS.map((b,i)=>`<option value="${i}">${b}</option>`).join('')}
+        </select>
+      </div>
+      <div class="tgl">
+        <button class="${bpiMode==='heatmap'?'on':''}" onclick="setBPIMode('heatmap')">Heatmap</button>
+        <button class="${bpiMode==='trajectory'?'on':''}" onclick="setBPIMode('trajectory')">Trajectory</button>
+      </div>
+    </div>`;
+
+  const si=parseInt(document.getElementById('bpiSkill')?.value||0);
+  const bi=parseInt(document.getElementById('bpiBloom')?.value||0);
+
+  if(bpiMode==='heatmap'){
+    h+=`<div class="hm-wrap"><table class="hmt"><tr><td style="width:90px"></td>`;
+    for(let ai=0;ai<4;ai++) h+=`<td class="clbl">A${ai+1}</td>`;
+    h+=`</tr>`;
+    BLOOMS.forEach((bloom,bloomIdx)=>{
+      h+=`<tr><td class="rlbl">${bloom}</td>`;
+      for(let ai=0;ai<4;ai++){
+        const {vals,n,thin}=getBPICell(si,bloomIdx,ai);
+        if(n<1){h+=`<td class="hmc hm-thin" style="background:#f4f4f4;border:1px solid #ddd"><div class="hmc-inner"><span style="color:#bbb;font-size:11px">—</span></div></td>`;continue}
+        const di=vals.indexOf(Math.max(...vals));
+        const pct=Math.round(vals[di]/n*100);
+        const {bg,txt}=bpiIntensity(di,pct);
+        h+=`<td class="hmc${thin?' hm-thin':''}" style="background:${bg}" data-bi="${bloomIdx}" data-ai="${ai}" data-si="${si}" onclick="bpiDrill(this)">
+          <div class="hmc-inner"><span class="hmc-pct" style="color:${txt}">${pct}%</span><span class="hmc-lbl" style="color:${txt}">${LSHORT[di]}</span></div>
+        </td>`;
+      }
+      h+=`</tr>`;
+    });
+    h+=`</table></div>`;
+    h+=legend([[C.bpi_dev.bg,'','Developing'],[C.bpi_eme.bg,'','Emerging'],[C.bpi_pro.bg,'','Proficient'],[C.bpi_str.bg,'','Strong']]);
+  } else {
+    const CLRS=["#2a78d6","#1baf7a","#eda100","#4a3aa7","#e34948","#e87ba4"];
+    const W=680,H=220,PL=32,PR=16,PT=14,PB=26,gW=W-PL-PR,gH=H-PT-PB,xStep=gW/3;
+    let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">`;
+    svg+=`<line x1="${PL}" y1="${PT+gH*.5}" x2="${PL+gW}" y2="${PT+gH*.5}" stroke="#ddd" stroke-width="1" stroke-dasharray="4 3"/>`;
+    svg+=`<text x="${PL-4}" y="${PT+gH*.5+3}" text-anchor="end" font-size="9" fill="#bbb" font-family="sans-serif">50%</text>`;
+    for(let pct=0;pct<=100;pct+=25){
+      const y=PT+gH-(pct/100)*gH;
+      svg+=`<line x1="${PL}" y1="${y}" x2="${PL+gW}" y2="${y}" stroke="#f0f0f0" stroke-width="0.5"/>`;
+      svg+=`<text x="${PL-4}" y="${y+3}" text-anchor="end" font-size="9" fill="#ccc" font-family="sans-serif">${pct}%</text>`;
+    }
+    for(let ai=0;ai<4;ai++){
+      const x=PL+ai*xStep;
+      svg+=`<line x1="${x}" y1="${PT}" x2="${x}" y2="${PT+gH}" stroke="#f0f0f0" stroke-width="0.5"/>`;
+      svg+=`<text x="${x}" y="${PT+gH+14}" text-anchor="middle" font-size="9" fill="#aaa" font-family="sans-serif">A${ai+1}</text>`;
+    }
+    BLOOMS.forEach((bloom,bloomIdx)=>{
+      const col=CLRS[bloomIdx];
+      const pts=[];
+      for(let ai=0;ai<4;ai++){
+        const {vals,n}=getBPICell(si,bloomIdx,ai);
+        if(n>0) pts.push({ai,pct:Math.round((vals[2]+vals[3])/n*100)});
+      }
+      if(pts.length<2) return;
+      let aD=`M${PL+pts[0].ai*xStep},${PT+gH}`;
+      pts.forEach(p=>{aD+=` L${PL+p.ai*xStep},${PT+gH-(p.pct/100)*gH}`});
+      aD+=` L${PL+pts[pts.length-1].ai*xStep},${PT+gH} Z`;
+      svg+=`<path d="${aD}" fill="${col}" fill-opacity="0.07"/>`;
+      let pd='';
+      pts.forEach((p,i)=>{const x=PL+p.ai*xStep,y=PT+gH-(p.pct/100)*gH;pd+=i===0?`M${x},${y}`:`L${x},${y}`});
+      svg+=`<path d="${pd}" stroke="${col}" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`;
+      pts.forEach(p=>{const x=PL+p.ai*xStep,y=PT+gH-(p.pct/100)*gH;svg+=`<circle cx="${x}" cy="${y}" r="4" fill="${col}" stroke="#fff" stroke-width="1.5"/>`});
+    });
+    svg+=`</svg>`;
+    h+=svg;
+    h+=`<div class="leg-row">${BLOOMS.map((b,i)=>`<div class="leg"><div class="leg-sq" style="background:${CLRS[i]}"></div>${b}</div>`).join('')}</div>`;
+    h+=`<div class="note">Y-axis = % students labelled Proficient or Strong · Switch to Heatmap to drill into individual cells</div>`;
+  }
+
+  h+=`</div>
+  <div id="bpiDrill" style="margin-top:12px"><div class="empty-hint">Click any heatmap cell to see the full label distribution and change from previous assessment.</div></div>
+  </div>`;
+  return h;
+}
+
+function setBPIMode(m){bpiMode=m;document.getElementById('bpiBlock').parentElement.outerHTML;renderTab0()}
+function bpiDrill(td){
+  document.querySelectorAll('.hmc.sel').forEach(c=>c.classList.remove('sel'));
+  td.classList.add('sel');
+  const bi=+td.dataset.bi,ai=+td.dataset.ai,si=+td.dataset.si;
+  const {vals,n,thin}=getBPICell(si,bi,ai);
+  const prev=ai>0?getBPICell(si,bi,ai-1):null;
+  const LNAMES=["Developing","Emerging","Proficient","Strong"];
+  const LFILL=[C.bpi_dev.bg,C.bpi_eme.bg,C.bpi_pro.bg,C.bpi_str.bg];
+  const LTXT=[C.bpi_dev.txt,C.bpi_eme.txt,C.bpi_pro.txt,C.bpi_str.txt];
+  const LBG=["#FAECE7","#FAEEDA","#E1F5EE","#E1F5EE"];
+  const LDARK=["#712B13","#633806","#085041","#04342C"];
+  let h=`<div class="card" style="border-left:3px solid #1B3A4B">
+    <div class="card-tag">BPI Drill-down</div>
+    <div class="card-title">${SKILLS[si]} · ${BLOOMS[bi]} · Assessment ${ai+1}</div>
+    <div class="drill-ctx">CEFR A2 · ${n} students attempted this Bloom level${thin?' · <strong style="color:#854F0B">thin data — interpret with caution</strong>':''}</div>`;
+  if(thin) h+=`<div class="thin-warn">Fewer than 5 students attempted this Bloom level — treat as indicative only.</div>`;
+  h+=`<div class="dist-bar">`;
+  vals.forEach((v,i)=>{const pct=Math.round(v/n*100);if(pct<1)return;h+=`<div class="dist-seg" style="width:${pct}%;background:${LFILL[i]}">${pct>=10?`<span class="ds-pct" style="color:${LTXT[i]}">${pct}%</span>`:''} ${pct>=14?`<span class="ds-n" style="color:${LTXT[i]}">n=${v}</span>`:''}</div>`;});
+  h+=`</div><div class="delta-grid">`;
+  vals.forEach((v,i)=>{
+    const pct=Math.round(v/n*100);
+    const pp=prev?Math.round(prev.vals[i]/Math.max(prev.n,1)*100):null;
+    const delta=pp!==null?pct-pp:null;
+    const ds=delta===null?'first assessment':delta>0?`+${delta}% from prev`:delta<0?`${delta}% from prev`:'no change';
+    const dc=delta===null?'nc':delta>0?'up':delta<0?'dn':'nc';
+    h+=`<div class="dcard" style="background:${LBG[i]}"><div class="dc-ct" style="color:${LDARK[i]}">${v}</div><div class="dc-nm" style="color:${LFILL[i]}">${LNAMES[i]}</div><div class="dc-bar-w"><div class="dc-bar-f" style="width:${pct}%;background:${LFILL[i]}"></div></div><div class="dc-d ${dc}">${ds}</div></div>`;
+  });
+  h+=`</div></div>`;
+  document.getElementById('bpiDrill').innerHTML=h;
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+let curTab=0;
+function setTab(n){
+  curTab=n;
+  [0,1,2].forEach(i=>{
+    document.querySelectorAll('.tab-btn')[i].classList.toggle('on',i===n);
+    document.getElementById('tab'+i).style.display=i===n?'':'none';
+  });
+  renderAll();
+}
+
+function renderAll(){
+  if(curTab===0) renderTab0();
+  if(curTab===1) renderTab1();
+  if(curTab===2) renderTab2();
+}
+
+// ── TAB 0: MASTERY & DECISIONS ────────────────────────────────────────────────
+function renderTab0(){
+  const asm=document.getElementById('fAsm').value;
+  const idxs=asm==='all'?[0,1,2,3]:[parseInt(asm)];
+  let html='';
+
+  // BPI
+  html+=renderBPIHeatmap();
+  html+='<div class="divider"></div>';
+
+  // Capability Journey — DCI label distribution
+  html+=`<div class="card">
+    <div class="card-tag">Decisive Capability Index (DCI)</div>
+    <div class="card-title">Capability journey — DCI label distribution per assessment</div>
+    <div class="card-sub">Proportion of learners at each DCI label · Fragile → Highly Reliable · sorted left = weaker</div>`;
+  const dciLabels=[['Fragile',C.fragile],['Emerging',C.emerging],['Developing',C.developing],['Competent',C.competent],['Strong',C.strong],['Highly Reliable',C.reliable]];
+  idxs.forEach(ai=>{
+    const dist=getDCIDist(ai);
+    const total=dist.reduce((a,b)=>a+b,0);
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    dist.forEach((v,i)=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${dciLabels[i][1].bg};color:${dciLabels[i][1].txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend(dciLabels.map(([l,c])=>[c.bg,'',l]));
+  html+=`</div>`;
+
+  // Capability Zone
+  html+=`<div class="card">
+    <div class="card-tag">Capability Zone</div>
+    <div class="card-title">Zone distribution per assessment</div>
+    <div class="card-sub">Based on cap_score × avg_cas thresholds · Zone 1 = Ready Performer · Zone 4 = At Risk</div>`;
+  const zoneLabels=[['Zone 1 · Ready Performer',C.z1],['Zone 2 · Assisted Performer',C.z2],['Zone 3 · Emerging Independent',C.z3],['Zone 4 · At Risk',C.z4]];
+  idxs.forEach(ai=>{
+    const dist=getZoneDist(ai);
+    const total=dist.reduce((a,b)=>a+b,0);
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    dist.forEach((v,i)=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${zoneLabels[i][1].bg};color:${zoneLabels[i][1].txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend(zoneLabels.map(([l,c])=>[c.bg,'',l]));
+  html+=`</div>`;
+
+  // DQS
+  html+=`<div class="card">
+    <div class="card-tag">Decision Quality Score (DQS)</div>
+    <div class="card-title">DQS label distribution per assessment</div>
+    <div class="card-sub">DQS = DMS² / 100 · Labels: &lt;40 Low · 40–69 Improving · ≥70 Aligned</div>`;
+  const dqsLabels=[['Low',C.low],['Improving',C.improving],['Aligned',C.aligned]];
+  idxs.forEach(ai=>{
+    const dist=getDQSDist(ai);
+    const total=dist.reduce((a,b)=>a+b,0);
+    html+=`<div class="div-row"><div class="div-lbl">${ASSESSMENTS[ai]}</div><div class="div-bar">`;
+    dist.forEach((v,i)=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${dqsLabels[i][1].bg};color:${dqsLabels[i][1].txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="div-n">n=${total}</div></div>`;
+  });
+  html+=legend(dqsLabels.map(([l,c])=>[c.bg,'',l]));
+  html+=`<div class="note">Diverging from Low (left) to Aligned (right) · right-shift over assessments indicates improving decision quality</div>`;
+  html+=`</div>`;
+
+  document.getElementById('tab0').innerHTML=html;
+  // re-attach BPI toggle events
+  document.querySelectorAll('.tgl button').forEach((btn,i)=>{
+    btn.onclick=()=>{ bpiMode=i===0?'heatmap':'trajectory'; renderTab0(); }
+  });
+  document.getElementById('bpiSkill')?.addEventListener('change',renderTab0);
+  document.getElementById('bpiBloom')?.addEventListener('change',renderTab0);
+  document.querySelectorAll('.hmc[data-bi]').forEach(td=>td.addEventListener('click',()=>bpiDrill(td)));
+}
+
+// ── TAB 1: SELF-AWARENESS ────────────────────────────────────────────────────
+function renderTab1(){
+  const asm=document.getElementById('fAsm').value;
+  const idxs=asm==='all'?[0,1,2,3]:[parseInt(asm)];
+  let html='';
+
+  // CCG
+  html+=`<div class="card">
+    <div class="card-tag">Confidence Calibration Gap (CCG)</div>
+    <div class="card-title">Calibration label distribution per assessment</div>
+    <div class="card-sub">CCG = |perceived_conf − BPI| · Calibrated &lt;10 · Mild gap 10–24 · Large gap ≥25 · Direction shown for miscalibrated learners</div>`;
+  idxs.forEach(ai=>{
+    const [under,cal,over]=getCCGDist(ai);
+    const total=under+cal+over;
+    const segs=[
+      {v:under,label:'Underestimated',bg:C.under.bg,txt:C.under.txt},
+      {v:cal,label:'Calibrated',bg:C.calibrated.bg,txt:C.calibrated.txt},
+      {v:over,label:'Overestimated',bg:C.large.bg,txt:C.large.txt},
+    ];
+    html+=`<div class="div-row"><div class="div-lbl">${ASSESSMENTS[ai]}</div><div class="div-bar">`;
+    segs.forEach(s=>{const pct=Math.round(s.v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${s.bg};color:${s.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="div-n">n=${total}</div></div>`;
+  });
+  html+=legend([[C.under.bg,'','Underestimated'],[C.calibrated.bg,'','Calibrated'],[C.large.bg,'','Overestimated']]);
+  html+=`<div class="note">Calibrated = |perceived_conf − BPI| &lt; 10 · anchored at centre so direction (under/over) is visible on either side</div>`;
+  html+=`</div>`;
+
+  // PI
+  html+=`<div class="card">
+    <div class="card-tag">Procrastination Index (PI)</div>
+    <div class="card-title">Assessment start timing per assessment</div>
+    <div class="card-sub">PI = attempt_start / window · Early &lt;0.20 · Mid 0.20–0.60 · Late &gt;0.60</div>`;
+  idxs.forEach(ai=>{
+    const [early,mid,late]=getPIDist(ai);
+    const total=early+mid+late;
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    [[early,C.early],[mid,C.mid],[late,C.late]].forEach(([v,c])=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${c.bg};color:${c.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend([[C.early.bg,'','Early (< 0.20)'],[C.mid.bg,'','Mid (0.20–0.60)'],[C.late.bg,'','Late (> 0.60)']]);
+  html+=`<div class="note">Starting late 3 or more times triggers a study-schedule alert at student level</div>`;
+  html+=`</div>`;
+
+  // UMS
+  html+=`<div class="card">
+    <div class="card-tag">Uncertainty Mastery Score (UMS)</div>
+    <div class="card-title">UMS label distribution — high-uncertainty assessments only</div>
+    <div class="card-sub">UMS = mean ES on assessments where unc ≥ 0.60 · Labels: &lt;40 Struggling · 40–69 Improving · ≥70 Strong · N/A when unc &lt; 0.60</div>`;
+  idxs.forEach(ai=>{
+    const {computable,vals}=getUMSDist(ai);
+    const naCount=N_LEARNERS-computable;
+    const total=vals.reduce((a,b)=>a+b,0);
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div style="flex:1">`;
+    html+=`<div class="ums-computable">${computable} of ${N_LEARNERS} learners had unc ≥ 0.60 in this assessment</div>`;
+    html+=`<div class="pb-bar">`;
+    [[vals[0],C.struggling],[vals[1],C.ums_imp],[vals[2],C.ums_str]].forEach(([v,c])=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${c.bg};color:${c.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="ums-gate" style="margin-top:4px">${naCount} learners: N/A — assessment unc &lt; 0.60</div>`;
+    html+=`</div><div class="pb-n">n=${computable}</div></div>`;
+  });
+  html+=legend([[C.struggling.bg,'','Struggling (< 40)'],[C.ums_imp.bg,'','Improving (40–69)'],[C.ums_str.bg,'','Strong (≥ 70)']]);
+  html+=`</div>`;
+
+  // CI Time
+  html+=`<div class="card">
+    <div class="card-tag">Performance Consistency — CI Time</div>
+    <div class="card-title">Consistency Index (CI Time) label distribution</div>
+    <div class="card-sub">CI Time = (1 − pstdev(session_totals) / mean(session_totals)) × 100 · Requires ≥ 3 assessments · Labels: &lt;50 Inconsistent · 50–74 Moderately stable · ≥75 Stable</div>`;
+  idxs.forEach(ai=>{
+    const dist=getCITimeDist(ai);
+    if(!dist){
+      html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="gate-msg">Not yet available — requires ≥ 3 completed assessments</div></div>`;
+      return;
+    }
+    const total=dist.reduce((a,b)=>a+b,0);
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    [[dist[0],C.inconsistent],[dist[1],C.mod_stable],[dist[2],C.stable]].forEach(([v,c])=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${c.bg};color:${c.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend([[C.inconsistent.bg,'','Inconsistent (< 50)'],[C.mod_stable.bg,'','Moderately stable (50–74)'],[C.stable.bg,'','Stable (≥ 75)']]);
+  html+=`<div class="note">CI Time measures consistency of DCI totals across sessions · higher = more reliable performance pattern</div>`;
+  html+=`</div>`;
+
+  document.getElementById('tab1').innerHTML=html;
+}
+
+// ── TAB 2: AUTONOMY & TOOL USE ────────────────────────────────────────────────
+function renderTab2(){
+  const asm=document.getElementById('fAsm').value;
+  const idxs=asm==='all'?[0,1,2,3]:[parseInt(asm)];
+  let html='';
+
+  // Tool Use Pattern
+  const patternLabels=[
+    ['Independent',C.independent],
+    ['Passive user',C.passive],
+    ['Moderate user',C.moderate_u],
+    ['Strategic user',C.strategic],
+    ['Dependent shortcutter',C.dep_short],
+    ['Over-reliant thinker',C.overreliant],
+  ];
+  html+=`<div class="card">
+    <div class="card-tag">AI Tool Use Pattern</div>
+    <div class="card-title">Tool dependency pattern distribution per assessment</div>
+    <div class="card-sub">Derived from TDR (time on tool) × TUI (prompt quality) thresholds · one label per learner per assessment</div>`;
+  idxs.forEach(ai=>{
+    const dist=getPatternDist(ai);
+    const total=dist.reduce((a,b)=>a+b,0);
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    dist.forEach((v,i)=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${patternLabels[i][1].bg};color:${patternLabels[i][1].txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend(patternLabels.map(([l,c])=>[c.bg,'',l]));
+  html+=`<div class="note">TDR = sum(tool_time) / sum(answer_time) · TUI = reflective_tool_uses / total_tool_uses × 100 · Independent = TDR &lt; 0.20 or no tool used</div>`;
+  html+=`</div>`;
+
+  // Impulsive Decisions G10
+  html+=`<div class="card">
+    <div class="card-tag">Impulsive Decisions — G10</div>
+    <div class="card-title">Impulsive flag distribution per assessment</div>
+    <div class="card-sub">Fires when learner chose ALL-IN quickly but answered poorly (imp_count per assessment) · 0 = None · 1–2 = Watch · ≥3 = Fires</div>`;
+  idxs.forEach(ai=>{
+    const [fire,watch,none]=getFlagDist(ai,1001);
+    const total=fire+watch+none;
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    [[none,C.none_f],[watch,C.watch],[fire,C.fire]].forEach(([v,c])=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${c.bg};color:${c.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend([[C.fire.bg,'','Fires (≥ 3 impulsive decisions)'],[C.watch.bg,'','Watch (1–2)'],[C.none_f.bg,'','None']]);
+  html+=`<div class="note">Impulsive flag = ALL_IN choice + es_user &lt; 0.40 + dt_ratio &lt; 0.30 · bars sorted None → Watch → Fire (left to right)</div>`;
+  html+=`</div>`;
+
+  // Missed Opportunity G11
+  html+=`<div class="card">
+    <div class="card-tag">Missed Opportunities — G11</div>
+    <div class="card-title">Missed opportunity flag distribution per assessment</div>
+    <div class="card-sub">Fires when learner chose SKIP but expected score was strong (mo_count per assessment) · 0 = None · 1 = Watch · ≥2 = Fires</div>`;
+  idxs.forEach(ai=>{
+    const [fire,watch,none]=getFlagDist(ai,2002);
+    const total=fire+watch+none;
+    html+=`<div class="pb-row"><div class="pb-asmLabel">${ASSESSMENTS[ai]}</div><div class="pb-bar">`;
+    [[none,C.none_f],[watch,C.watch],[fire,C.fire]].forEach(([v,c])=>{const pct=Math.round(v/total*100);if(pct<1)return;html+=`<div class="pb-seg" style="width:${pct}%;background:${c.bg};color:${c.txt}">${pct>=8?pct+'%':''}</div>`;});
+    html+=`</div><div class="pb-n">n=${total}</div></div>`;
+  });
+  html+=legend([[C.fire.bg,'','Fires (≥ 2 missed opportunities)'],[C.watch.bg,'','Watch (1)'],[C.none_f.bg,'','None']]);
+  html+=`<div class="note">Missed opportunity flag = SKIP choice + es_shadow ≥ 0.70 · indicates underconfidence or avoidance</div>`;
+  html+=`</div>`;
+
+  document.getElementById('tab2').innerHTML=html;
+}
+
+renderTab0();
+</script>
+</body>
+</html>
