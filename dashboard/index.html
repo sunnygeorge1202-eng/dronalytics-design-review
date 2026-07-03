@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dronalytics — Admin Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#EAEAEA;display:flex;min-height:100vh;color:#1a1a1a}
+
+/* ── SIDEBAR ── */
+.sidebar{width:210px;min-height:100vh;background:#0D1321;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100%}
+.sidebar-brand{padding:28px 22px 20px}
+.sidebar-brand .logo{font-size:18px;font-weight:700;color:#C9A84C;letter-spacing:.3px}
+.sidebar-brand .role{font-size:10px;font-weight:600;color:#4a6080;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.nav{flex:1;padding:8px 0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 22px;font-size:13px;color:#6a8aaa;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none}
+.nav-item:hover{color:#C9A84C;background:rgba(201,168,76,.06)}
+.nav-item.active{color:#C9A84C;background:rgba(201,168,76,.10);border-left-color:#C9A84C;font-weight:600}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.sidebar-user{padding:16px 22px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:#C9A84C;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0D1321;flex-shrink:0}
+.user-name{font-size:12px;font-weight:600;color:#c8d4e0}
+.user-role{font-size:10px;color:#4a6080;margin-top:1px}
+
+/* ── MAIN ── */
+.main{margin-left:210px;flex:1;padding:40px 48px 60px;min-height:100vh}
+.welcome-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:40px}
+.welcome-text{font-size:26px;font-weight:300;color:#1B3A4B}
+.welcome-text strong{font-weight:700}
+.date-text{font-size:12px;color:#aaa}
+
+/* ── CARDS ── */
+.cards-row{display:flex;gap:40px;justify-content:center;margin-bottom:48px}
+.card-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer}
+.playing-card{width:200px;height:290px;border-radius:16px;position:relative;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;box-shadow:0 8px 32px rgba(13,19,33,.25);overflow:hidden}
+.playing-card:hover{transform:translateY(-12px) rotate(1deg);box-shadow:0 24px 48px rgba(13,19,33,.35)}
+.card-wrap:last-child .playing-card:hover{transform:translateY(-12px) rotate(-1deg)}
+
+/* Card back pattern */
+.card-back{width:100%;height:100%;position:relative}
+.card-back-inner{width:100%;height:100%;position:relative;overflow:hidden}
+
+/* Assessments card — navy + gold */
+.card-assessments .card-back{background:#0D1321}
+.card-assessments .card-back-inner::before{content:'';position:absolute;inset:10px;border:1.5px solid rgba(201,168,76,.4);border-radius:10px}
+.card-assessments .card-back-inner::after{content:'';position:absolute;inset:16px;border:1px solid rgba(201,168,76,.2);border-radius:8px}
+
+/* Analytics card — deep teal + gold */
+.card-analytics .card-back{background:#0A2A2A}
+.card-analytics .card-back-inner::before{content:'';position:absolute;inset:10px;border:1.5px solid rgba(201,168,76,.4);border-radius:10px}
+.card-analytics .card-back-inner::after{content:'';position:absolute;inset:16px;border:1px solid rgba(201,168,76,.2);border-radius:8px}
+
+.card-pattern{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.card-corner{position:absolute;font-size:13px;font-weight:700;color:rgba(201,168,76,.7);line-height:1}
+.card-corner.tl{top:18px;left:18px;text-align:left}
+.card-corner.br{bottom:18px;right:18px;text-align:right;transform:rotate(180deg)}
+.card-center-icon{font-size:52px;opacity:.35}
+.card-label{font-size:13px;font-weight:600;color:#444;letter-spacing:.3px;text-align:center}
+.card-sublabel{font-size:11px;color:#888;text-align:center;margin-top:2px}
+
+/* ── METRIC OF THE DAY ── */
+.motd-wrap{background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #dde3e8;position:relative;overflow:hidden}
+.motd-wrap::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#C9A84C,#085041)}
+.motd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px}
+.motd-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#C9A84C;margin-bottom:5px}
+.motd-metric-name{font-size:20px;font-weight:700;color:#1B3A4B}
+.motd-badge{background:#0D1321;color:#C9A84C;font-size:10px;font-weight:700;padding:4px 12px;border-radius:99px;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;margin-top:4px}
+.motd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.motd-block{}
+.motd-block-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:6px}
+.motd-block-text{font-size:13px;color:#444;line-height:1.65}
+.motd-block-text em{color:#1B3A4B;font-style:normal;font-weight:600}
+.motd-progress{margin-top:22px;display:flex;align-items:center;gap:10px}
+.motd-dots{display:flex;gap:5px}
+.motd-dot{width:7px;height:7px;border-radius:50%;background:#e0e0e0}
+.motd-dot.filled{background:#C9A84C}
+.motd-progress-label{font-size:10px;color:#bbb;margin-left:4px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">Dronalytics</div>
+    <div class="role">Admin</div>
+  </div>
+  <nav class="nav">
+    <a class="nav-item active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      All Assessments
+    </a>
+    <a class="nav-item" href="results.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      View Results
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">RP</div>
+    <div>
+      <div class="user-name">Rohit P.</div>
+      <div class="user-role">Programme Admin</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="welcome-row">
+    <div class="welcome-text">Welcome back, <strong>Rohit</strong></div>
+    <div class="date-text" id="dateText"></div>
+  </div>
+
+  <!-- PLAYING CARDS -->
+  <div class="cards-row">
+
+    <div class="card-wrap card-assessments" onclick="window.location='#assessments'">
+      <div class="playing-card">
+        <div class="card-back">
+          <div class="card-back-inner">
+            <div class="card-pattern">
+              <!-- SVG back pattern -->
+              <svg width="200" height="290" viewBox="0 0 200 290" style="position:absolute;inset:0">
+                <defs>
+                  <pattern id="dp1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect width="20" height="20" fill="none"/>
+                    <path d="M10 0 L20 10 L10 20 L0 10 Z" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.8"/>
+                  </pattern>
+                </defs>
+                <rect width="200" height="290" fill="url(#dp1)"/>
+                <!-- centre emblem -->
+                <g transform="translate(100,145)">
+                  <path d="M0,-38 L22,-12 L14,22 L-14,22 L-22,-12 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.2"/>
+                  <path d="M0,-24 L14,-8 L9,14 L-9,14 L-14,-8 Z" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+                  <circle r="5" fill="rgba(201,168,76,0.5)"/>
+                </g>
+                <!-- corner pips -->
+                <text x="22" y="36" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold">A</text>
+                <text x="178" y="262" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold" transform="rotate(180,178,255)">A</text>
+                <text x="22" y="52" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)">♠</text>
+                <text x="178" y="272" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)" transform="rotate(180,178,265)">♠</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">Assessments</div>
+      <div class="card-sublabel">Create &amp; manage</div>
+    </div>
+
+    <div class="card-wrap card-analytics" onclick="window.location='results.html'">
+      <div class="playing-card">
+        <div class="card-back">
+          <div class="card-back-inner">
+            <div class="card-pattern">
+              <svg width="200" height="290" viewBox="0 0 200 290" style="position:absolute;inset:0">
+                <defs>
+                  <pattern id="dp2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect width="20" height="20" fill="none"/>
+                    <circle cx="10" cy="10" r="1.5" fill="rgba(201,168,76,0.22)"/>
+                    <line x1="0" y1="0" x2="20" y2="20" stroke="rgba(201,168,76,0.10)" stroke-width="0.6"/>
+                    <line x1="20" y1="0" x2="0" y2="20" stroke="rgba(201,168,76,0.10)" stroke-width="0.6"/>
+                  </pattern>
+                </defs>
+                <rect width="200" height="290" fill="url(#dp2)"/>
+                <!-- centre emblem -->
+                <g transform="translate(100,145)">
+                  <circle r="38" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+                  <circle r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
+                  <path d="M0,-26 L7,10 L-7,10 Z" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.5)" stroke-width="0.8"/>
+                  <circle r="4" fill="rgba(201,168,76,0.6)"/>
+                  <!-- compass lines -->
+                  <line x1="0" y1="-38" x2="0" y2="38" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
+                  <line x1="-38" y1="0" x2="38" y2="0" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
+                </g>
+                <text x="22" y="36" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold">A</text>
+                <text x="178" y="262" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold" transform="rotate(180,178,255)">A</text>
+                <text x="22" y="52" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)">♦</text>
+                <text x="178" y="272" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)" transform="rotate(180,178,265)">♦</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-label">Analytics</div>
+      <div class="card-sublabel">View results</div>
+    </div>
+
+  </div>
+
+  <!-- METRIC OF THE DAY -->
+  <div class="motd-wrap" id="motdBlock"></div>
+
+</main>
+
+<script>
+// ── DATE ──────────────────────────────────────────────────────────────────────
+document.getElementById('dateText').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// ── METRIC OF THE DAY DATA ────────────────────────────────────────────────────
+const METRICS = [
+  {
+    id:'DCI',
+    name:'Decisive Capability Index (DCI)',
+    what:'A single number that summarises a learner\'s overall capability — combining how well they perform, how consistent they are, and how reliable that estimate is.',
+    plain:'Think of it as the learner\'s overall <em>readiness score</em>. A learner with a high DCI doesn\'t just answer correctly — they do so consistently, under pressure, and across all Bloom levels. A low DCI means the learner may have moments of brilliance but hasn\'t demonstrated steady capability.',
+    admin:'Look for learners whose DCI is improving across assessments — that\'s the trajectory that matters, not a single number. A centre where most learners have DCI labels of Developing or below across three assessments needs pedagogical review, not just more content.'
+  },
+  {
+    id:'BPI',
+    name:'Bloom Proficiency Index (BPI)',
+    what:'Measures how well a learner performs across the six levels of Bloom\'s Taxonomy — from basic recall (Remember) through to complex creation (Create).',
+    plain:'BPI tells you <em>where in the thinking hierarchy</em> a learner is strong and where they struggle. A learner who scores well on Remember but poorly on Analyse and Evaluate can recall facts but can\'t yet use them. That\'s a very different intervention than a learner who is weak at all levels.',
+    admin:'Compare BPI across Bloom levels per centre. If your A2 learners consistently struggle at Apply and above, the assessment content may be pitched too high — or the teaching hasn\'t moved beyond recall-level exercises.'
+  },
+  {
+    id:'CCG',
+    name:'Confidence Calibration Gap (CCG)',
+    what:'The gap between how confident a learner says they are before answering and how well they actually perform. Measured as the absolute difference between perceived confidence and actual BPI.',
+    plain:'A well-calibrated learner <em>knows what they know and what they don\'t</em>. A learner with a large CCG is either overconfident (thinks they did well, but didn\'t) or underconfident (thinks they did badly, but actually performed fine). Both are problems — one leads to complacency, the other to avoidance.',
+    admin:'A centre with many Overestimated learners needs structured feedback and reflection exercises. A centre with many Underestimated learners may benefit from positive reinforcement and confidence-building activities before high-stakes assessments.'
+  },
+  {
+    id:'DQS',
+    name:'Decision Quality Score (DQS)',
+    what:'Measures how well a learner\'s choices (All-In, Show, Skip) matched their actual performance. A high DQS means their decisions were well-calibrated to their ability.',
+    plain:'In every question, learners choose how much to commit. <em>DQS rewards good judgement</em> — choosing All-In when you\'re strong and Skip when you\'re genuinely unsure is good decision-making. Choosing All-In when you\'re weak, or Skipping when you could have answered, both hurt the score.',
+    admin:'Low DQS across a cohort suggests learners don\'t understand their own ability levels. Run a session where learners review their choice patterns after each assessment — the act of reflection itself improves DQS over time.'
+  },
+  {
+    id:'Zone',
+    name:'Capability Zone',
+    what:'Places each learner into one of four zones based on their capability score and cognitive autonomy — Ready Performer, Assisted Performer, Emerging Independent, or At Risk.',
+    plain:'The zone answers one simple question: <em>Is this learner ready to perform independently, or do they need support?</em> Zone 1 (Ready Performer) means high capability and high autonomy. Zone 4 (At Risk) means both are low. Zones 2 and 3 identify which dimension needs more attention.',
+    admin:'A centre with many Zone 3 learners (high autonomy, lower capability) is producing independent thinkers who need better content knowledge. Zone 2 (higher capability, lower autonomy) means learners know the material but over-rely on support — both require different responses.'
+  },
+  {
+    id:'PI',
+    name:'Procrastination Index (PI)',
+    what:'Measures how early or late a learner begins their assessment relative to the available window. Calculated as the ratio of start time to total window length.',
+    plain:'A learner who always starts at the last minute may be <em>procrastinating due to anxiety</em>, not laziness. Consistently late starts across multiple assessments is a behavioural signal — not an academic one — and often predicts lower performance due to reduced thinking time.',
+    admin:'If a centre\'s learners are consistently starting late (PI > 0.60 across three or more assessments), check whether the assessment window is well-communicated, whether learners feel anxious about the format, and whether reminders are reaching them.'
+  },
+  {
+    id:'UMS',
+    name:'Uncertainty Mastery Score (UMS)',
+    what:'Measures how well a learner performs on questions that the system has flagged as highly uncertain — questions where the AI grader itself is less confident about the correct score.',
+    plain:'UMS only applies when an assessment has high-uncertainty questions (unc ≥ 0.60). A high UMS means the learner <em>handles ambiguity well</em> — they perform strongly even on questions that are genuinely difficult to evaluate. A low UMS means they struggle specifically when questions become less clear-cut.',
+    admin:'UMS won\'t appear for every assessment — only those with genuinely ambiguous questions. When it does appear, a low UMS across a cohort suggests learners need more exposure to open-ended, interpretive tasks rather than structured right-or-wrong questions.'
+  },
+  {
+    id:'CI Time',
+    name:'Consistency Index — CI Time',
+    what:'Measures how consistent a learner\'s performance is across multiple assessment sessions. A high CI Time means stable, reliable performance. A low score means wide variation.',
+    plain:'A learner who scores 80 in one assessment and 40 in the next isn\'t demonstrating 60-level capability — they\'re demonstrating <em>unpredictability</em>. CI Time captures this. Available only after three or more assessments, it tells you whether what you\'re seeing is a pattern or just noise.',
+    admin:'CI Time requires at least three assessments to compute. A centre where most learners are Inconsistent by the fourth assessment may have an environmental factor — inconsistent internet, varying assessment times, or exam anxiety — worth investigating before concluding it\'s a learning issue.'
+  },
+  {
+    id:'Pattern',
+    name:'AI Tool Use Pattern',
+    what:'Classifies how a learner uses the AI tool during assessments — from Independent (minimal use) through Strategic (reflective use) to Dependent Shortcutter (using AI to bypass thinking).',
+    plain:'Using AI is not inherently good or bad — <em>how you use it is what matters</em>. A Strategic user asks the AI to help them think through a problem. A Dependent Shortcutter asks the AI for the answer. The pattern is derived from two signals: how much time was spent on the tool, and whether the prompts were reflective or directive.',
+    admin:'A centre dominated by Dependent Shortcutters needs explicit instruction in how to use AI as a thinking partner, not an answer machine. Consider running a session where learners share their prompt strategies with each other — peer learning is more effective than instructor instruction for tool use behaviour.'
+  },
+  {
+    id:'G10',
+    name:'Impulsive Decisions — G10',
+    what:'Flags assessments where a learner chose All-In quickly on questions they answered poorly. Three or more impulsive decisions in a single assessment triggers the G10 flag.',
+    plain:'An impulsive decision is choosing full commitment (<em>All-In</em>) without thinking it through — and then performing poorly. This pattern suggests the learner is guessing confidently rather than thinking carefully. It\'s different from being wrong — it\'s being wrong and not knowing you were guessing.',
+    admin:'G10 flags in a single assessment can be noise. Three consecutive assessments with a Fires label for the same learner is a signal. Look for whether the impulsive decisions cluster at higher Bloom levels (Evaluate, Create) — that\'s a sign the learner is confident at the recall level but guessing at deeper thinking levels.'
+  },
+  {
+    id:'G11',
+    name:'Missed Opportunities — G11',
+    what:'Flags questions where a learner chose to Skip but the system estimates they could have answered correctly. Two or more such questions in one assessment triggers the G11 flag.',
+    plain:'A missed opportunity is <em>unnecessary avoidance</em> — skipping a question you were probably capable of answering. Unlike overconfidence, this is underconfidence in action. The learner didn\'t trust themselves, even when the evidence suggested they should have.',
+    admin:'G11 fires often appear in learners who also have high CCG in the Underestimated direction — they consistently underestimate themselves. The intervention is not more practice but more confidence — show them their own performance data and ask them to predict their score before revealing it.'
+  }
+];
+
+// ── SEQUENTIAL ROTATION ────────────────────────────────────────────────────────
+function getMetricIndex(){
+  const stored = localStorage.getItem('drona_motd_idx');
+  const lastDate = localStorage.getItem('drona_motd_date');
+  const today = new Date().toDateString();
+  if(lastDate === today && stored !== null) return parseInt(stored);
+  const next = stored !== null ? (parseInt(stored)+1) % METRICS.length : 0;
+  localStorage.setItem('drona_motd_idx', next);
+  localStorage.setItem('drona_motd_date', today);
+  return next;
+}
+
+function renderMOTD(){
+  const idx = getMetricIndex();
+  const m = METRICS[idx];
+  const dots = METRICS.map((_,i) =>
+    `<div class="motd-dot${i===idx?' filled':''}"></div>`
+  ).join('');
+  document.getElementById('motdBlock').innerHTML = `
+    <div class="motd-header">
+      <div>
+        <div class="motd-eyebrow">Metric of the day</div>
+        <div class="motd-metric-name">${m.name}</div>
+      </div>
+      <div class="motd-badge">${idx+1} of ${METRICS.length}</div>
+    </div>
+    <div class="motd-grid">
+      <div class="motd-block">
+        <div class="motd-block-label">What it measures</div>
+        <div class="motd-block-text">${m.what}</div>
+      </div>
+      <div class="motd-block">
+        <div class="motd-block-label">In simple terms</div>
+        <div class="motd-block-text">${m.plain}</div>
+      </div>
+      <div class="motd-block">
+        <div class="motd-block-label">How to read it as an admin</div>
+        <div class="motd-block-text">${m.admin}</div>
+      </div>
+    </div>
+    <div class="motd-progress">
+      <div class="motd-dots">${dots}</div>
+      <span class="motd-progress-label">You've seen ${idx+1} of ${METRICS.length} metrics · advances each day</span>
+    </div>
+  `;
+}
+
+renderMOTD();
+</script>
+</body>
+</html>
