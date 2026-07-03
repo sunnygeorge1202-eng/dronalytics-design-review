@@ -6,8 +6,8 @@
 <title>Dronalytics — View Results</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#E8EDE8;display:flex;min-height:100vh;color:#1a1a1a}
-.sidebar{width:210px;min-height:100vh;background:#0D1321;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100%;z-index:10}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#E8EDE8;display:flex;min-height:100vh}
+.sidebar{width:210px;background:#0D1321;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100%;z-index:10}
 .sb-brand{padding:28px 22px 20px}
 .sb-logo{font-size:18px;font-weight:700;color:#C9A84C}
 .sb-role{font-size:10px;font-weight:600;color:#4a6080;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
@@ -23,49 +23,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 .ur{font-size:10px;color:#4a6080;margin-top:1px}
 .main{margin-left:210px;flex:1;padding:36px 48px 60px;min-height:100vh}
 
-/* TAB */
+/* TOGGLE */
 .tab-toggle{display:flex;justify-content:center;margin-bottom:44px}
-.tab-pill{display:flex;background:#D8DDD8;border-radius:99px;padding:4px}
+.tab-pill{display:flex;background:#D0D6D0;border-radius:99px;padding:4px;gap:2px}
 .tp-btn{padding:10px 40px;border-radius:99px;border:none;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;color:#666;background:transparent}
-.tp-btn.on{background:#fff;color:#1B3A4B;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.tp-btn.on{background:#fff;color:#1B3A4B;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.12)}
 
 /* CARD GRID */
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-@media(max-width:900px){.card-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* PLAYING CARD BACK TILE */
-.metric-tile{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;text-decoration:none}
-.tile-card{width:100%;aspect-ratio:2.5/3.5;border-radius:14px;position:relative;overflow:hidden;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;box-shadow:0 6px 24px rgba(13,19,33,.22),0 2px 6px rgba(13,19,33,.12)}
-.metric-tile:hover .tile-card{transform:translateY(-10px);box-shadow:0 20px 48px rgba(13,19,33,.32),0 4px 12px rgba(13,19,33,.16)}
-.metric-tile:nth-child(odd) .tile-card:hover{transform:translateY(-10px) rotate(1.2deg)}
-.metric-tile:nth-child(even) .tile-card:hover{transform:translateY(-10px) rotate(-1.2deg)}
+.metric-tile{display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;text-decoration:none}
+.tile-card{width:100%;aspect-ratio:3/4;border-radius:14px;position:relative;overflow:hidden;transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s;box-shadow:0 6px 24px rgba(13,19,33,.22)}
+.metric-tile:nth-child(odd) .tile-card:hover{transform:translateY(-10px) rotate(1.5deg);box-shadow:0 20px 44px rgba(13,19,33,.32)}
+.metric-tile:nth-child(even) .tile-card:hover{transform:translateY(-10px) rotate(-1.5deg);box-shadow:0 20px 44px rgba(13,19,33,.32)}
 
-/* cognitive back — navy diamond lattice */
-.tile-card.cog{background:#0D1321}
-/* behavioral back — deep teal dot cross */
-.tile-card.beh{background:#0A2218}
+/* Cognitive — navy, diamond lattice */
+.cog-card{background:#0D1321}
+/* Behavioral — deep teal, dot-cross */
+.beh-card{background:#0A2218}
 
-/* rank corner */
-.tile-rank{position:absolute;top:10px;left:12px;z-index:2;font-family:Georgia,serif;font-size:14px;font-weight:700;color:rgba(201,168,76,.8);line-height:1}
-.tile-suit{position:absolute;top:26px;left:13px;z-index:2;font-size:11px;color:rgba(201,168,76,.6)}
-.tile-rank-br{position:absolute;bottom:10px;right:12px;z-index:2;font-family:Georgia,serif;font-size:14px;font-weight:700;color:rgba(201,168,76,.8);line-height:1;transform:rotate(180deg)}
-.tile-suit-br{position:absolute;bottom:26px;right:13px;z-index:2;font-size:11px;color:rgba(201,168,76,.6);transform:rotate(180deg)}
-
-/* label below card */
-.tile-name{font-size:12px;font-weight:600;color:#3a4a5a;text-align:center;line-height:1.3}
-.tile-desc{font-size:10px;color:#888;text-align:center;line-height:1.4;max-width:130px}
+/* bottom overlay with metric name */
+.tile-overlay{position:absolute;bottom:0;left:0;right:0;padding:14px 12px 12px;background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 100%);display:flex;flex-direction:column;gap:3px}
+.tile-name{font-size:12px;font-weight:700;color:#fff;line-height:1.2}
+.tile-desc{font-size:10px;color:rgba(255,255,255,.6);line-height:1.3}
+.tile-cta{font-size:10px;font-weight:600;color:#C9A84C;margin-top:2px}
 
 .tab-panel{display:none}
 .tab-panel.on{display:block}
 </style>
 </head>
 <body>
-
 <aside class="sidebar">
-  <div class="sb-brand">
-    <div class="sb-logo">Dronalytics</div>
-    <div class="sb-role">Admin</div>
-  </div>
+  <div class="sb-brand"><div class="sb-logo">Dronalytics</div><div class="sb-role">Admin</div></div>
   <nav class="nav">
     <a class="nav-item" href="index.html">
       <svg class="ni" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
@@ -91,100 +81,111 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
     </div>
   </div>
 
-  <!-- COGNITIVE -->
+  <!-- COGNITIVE TAB -->
   <div class="tab-panel on" id="panel-cog">
     <div class="card-grid" id="cogGrid"></div>
   </div>
 
-  <!-- BEHAVIORAL -->
+  <!-- BEHAVIORAL TAB -->
   <div class="tab-panel" id="panel-beh">
     <div class="card-grid" id="behGrid"></div>
   </div>
 </main>
 
 <script>
-const COG=[
-  {rank:'A',suit:'♠',name:'Learner Readiness',desc:'Overall capability label across all thinking levels and decisions'},
-  {rank:'3',suit:'♦',name:'Self-Awareness',desc:'How accurately learners estimate their own performance'},
-  {rank:'5',suit:'♠',name:'Learner Positioning',desc:'Which of four zones each learner falls into'},
-  {rank:'2',suit:'♥',name:'Thinking Depth',desc:'Bloom Proficiency Index across all six thinking levels'},
-  {rank:'2',suit:'♥',name:'Skill Performance',desc:'Thinking depth broken down across Reading, Listening, Writing, Speaking'},
-  {rank:'8',suit:'♣',name:'Performance Consistency',desc:'How stable performance is across multiple sessions'},
-  {rank:'7',suit:'♦',name:'Handling Uncertainty',desc:'Performance on genuinely ambiguous questions'},
-];
-const BEH=[
-  {rank:'9',suit:'♠',name:'AI Tool Use',desc:'How learners used the AI tool — from Independent to Dependent'},
-  {rank:'4',suit:'♣',name:'Decision Accuracy',desc:'How well commitment choices matched actual performance'},
-  {rank:'6',suit:'♥',name:'Start Behaviour',desc:'When learners began assessments relative to the window'},
-  {rank:'10',suit:'♥',name:'Rushed Decisions',desc:'Impulsive All-In choices on questions answered poorly'},
-  {rank:'4',suit:'♣',name:'Decision Breakdown',desc:'Good, Partial, and Bad decisions across all 72 questions'},
-  {rank:'J',suit:'♦',name:'Missed Attempts',desc:'Questions skipped when the learner was likely capable'},
-];
-
-// SVG patterns for cog and beh card backs
-function cogSVG(rank,suit,i){
-  return`<svg width="100%" height="100%" viewBox="0 0 160 224" style="position:absolute;inset:0" preserveAspectRatio="none">
-    <defs><pattern id="cp${i}" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+// ── CARD BACK SVG BUILDERS ────────────────────────────────────────────────────
+function cogBack(rank, suit, idx){
+  return `<svg width="100%" height="100%" viewBox="0 0 160 214" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+    <defs><pattern id="cp${idx}" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
       <path d="M8 0L16 8L8 16L0 8Z" fill="none" stroke="rgba(201,168,76,0.16)" stroke-width="0.7"/>
     </pattern></defs>
-    <rect width="160" height="224" fill="#0D1321"/>
-    <rect width="160" height="224" fill="url(#cp${i})"/>
-    <rect x="7" y="7" width="146" height="210" rx="8" fill="none" stroke="rgba(201,168,76,0.32)" stroke-width="1"/>
-    <rect x="13" y="13" width="134" height="198" rx="6" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
-    <g transform="translate(80,112)">
-      <path d="M0,-28L16,-9L10,17L-10,17L-16,-9Z" fill="none" stroke="rgba(201,168,76,0.42)" stroke-width="1"/>
-      <circle r="3.5" fill="rgba(201,168,76,0.5)"/>
+    <rect width="160" height="214" fill="url(#cp${idx})"/>
+    <rect x="7" y="7" width="146" height="200" rx="8" fill="none" stroke="rgba(201,168,76,0.34)" stroke-width="1"/>
+    <rect x="12" y="12" width="136" height="190" rx="6" fill="none" stroke="rgba(201,168,76,0.16)" stroke-width="0.6"/>
+    <g transform="translate(80,107)">
+      <path d="M0,-30L17,-10L10,18L-10,18L-17,-10Z" fill="none" stroke="rgba(201,168,76,0.44)" stroke-width="1"/>
+      <circle r="3.5" fill="rgba(201,168,76,0.50)"/>
     </g>
+    <text x="16" y="28" font-family="Georgia,serif" font-size="13" fill="rgba(201,168,76,0.75)" font-weight="bold">${rank}</text>
+    <text x="16" y="40" font-family="Georgia,serif" font-size="10" fill="rgba(201,168,76,0.55)">${suit}</text>
+    <text x="144" y="194" font-family="Georgia,serif" font-size="13" fill="rgba(201,168,76,0.75)" font-weight="bold" transform="rotate(180,144,187)">${rank}</text>
+    <text x="144" y="204" font-family="Georgia,serif" font-size="10" fill="rgba(201,168,76,0.55)" transform="rotate(180,144,197)">${suit}</text>
   </svg>`;
 }
 
-function behSVG(rank,suit,i){
-  return`<svg width="100%" height="100%" viewBox="0 0 160 224" style="position:absolute;inset:0" preserveAspectRatio="none">
-    <defs><pattern id="bp${i}" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-      <circle cx="8" cy="8" r="1.2" fill="rgba(201,168,76,0.2)"/>
+function behBack(rank, suit, idx){
+  return `<svg width="100%" height="100%" viewBox="0 0 160 214" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">
+    <defs><pattern id="bp${idx}" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="1.2" fill="rgba(201,168,76,0.21)"/>
       <line x1="0" y1="0" x2="16" y2="16" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
       <line x1="16" y1="0" x2="0" y2="16" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
     </pattern></defs>
-    <rect width="160" height="224" fill="#0A2218"/>
-    <rect width="160" height="224" fill="url(#bp${i})"/>
-    <rect x="7" y="7" width="146" height="210" rx="8" fill="none" stroke="rgba(201,168,76,0.32)" stroke-width="1"/>
-    <rect x="13" y="13" width="134" height="198" rx="6" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
-    <g transform="translate(80,112)">
-      <circle r="28" fill="none" stroke="rgba(201,168,76,0.32)" stroke-width="0.8"/>
+    <rect width="160" height="214" fill="url(#bp${idx})"/>
+    <rect x="7" y="7" width="146" height="200" rx="8" fill="none" stroke="rgba(201,168,76,0.34)" stroke-width="1"/>
+    <rect x="12" y="12" width="136" height="190" rx="6" fill="none" stroke="rgba(201,168,76,0.16)" stroke-width="0.6"/>
+    <g transform="translate(80,107)">
+      <circle r="30" fill="none" stroke="rgba(201,168,76,0.34)" stroke-width="1"/>
       <circle r="18" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.6"/>
-      <line x1="0" y1="-28" x2="0" y2="28" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
-      <line x1="-28" y1="0" x2="28" y2="0" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
-      <path d="M0,-18L4,6L-4,6Z" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.7"/>
+      <line x1="0" y1="-30" x2="0" y2="30" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
+      <line x1="-30" y1="0" x2="30" y2="0" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
+      <path d="M0,-18L4,6L-4,6Z" fill="rgba(201,168,76,0.20)" stroke="rgba(201,168,76,0.45)" stroke-width="0.7"/>
       <circle r="3" fill="rgba(201,168,76,0.55)"/>
     </g>
+    <text x="16" y="28" font-family="Georgia,serif" font-size="13" fill="rgba(201,168,76,0.75)" font-weight="bold">${rank}</text>
+    <text x="16" y="40" font-family="Georgia,serif" font-size="10" fill="rgba(201,168,76,0.55)">${suit}</text>
+    <text x="144" y="194" font-family="Georgia,serif" font-size="13" fill="rgba(201,168,76,0.75)" font-weight="bold" transform="rotate(180,144,187)">${rank}</text>
+    <text x="144" y="204" font-family="Georgia,serif" font-size="10" fill="rgba(201,168,76,0.55)" transform="rotate(180,144,197)">${suit}</text>
   </svg>`;
 }
 
-function buildGrid(items,type,gridId){
-  const grid=document.getElementById(gridId);
-  grid.innerHTML=items.map((m,i)=>`
-    <a class="metric-tile" href="../deep-dive/">
-      <div class="tile-card ${type}">
-        ${type==='cog'?cogSVG(m.rank,m.suit,i):behSVG(m.rank,m.suit,i+20)}
-        <div class="tile-rank">${m.rank}</div>
-        <div class="tile-suit">${m.suit}</div>
-        <div class="tile-rank-br">${m.rank}</div>
-        <div class="tile-suit-br">${m.suit}</div>
-      </div>
-      <div class="tile-name">${m.name}</div>
-      <div class="tile-desc">${m.desc}</div>
-    </a>`).join('');
+// ── METRIC DEFINITIONS ────────────────────────────────────────────────────────
+const COG = [
+  {rank:'A',suit:'♠',name:'Learner Readiness',desc:'Overall capability label across Bloom levels, decision quality, and autonomy'},
+  {rank:'3',suit:'♦',name:'Self-Awareness',desc:'How accurately learners estimate their own performance before seeing results'},
+  {rank:'5',suit:'♠',name:'Learner Positioning',desc:'Which of four zones each learner falls into — Zone 1 Ready to Zone 4 At Risk'},
+  {rank:'2',suit:'♥',name:'Thinking Depth',desc:'Bloom Proficiency across all six thinking levels per skill'},
+  {rank:'2',suit:'♥',name:'Skill Performance',desc:'Thinking Depth broken down across Reading, Listening, Writing, and Speaking'},
+  {rank:'8',suit:'♣',name:'Performance Consistency',desc:'How stable performance is across multiple assessment sessions'},
+  {rank:'7',suit:'♦',name:'Handling Uncertainty',desc:'Performance on high-uncertainty questions — available when unc ≥ 0.60'},
+];
+
+const BEH = [
+  {rank:'9',suit:'♠',name:'AI Tool Use',desc:'How learners used the AI tool — from Independent through Strategic to Dependent shortcutter'},
+  {rank:'4',suit:'♣',name:'Decision Accuracy',desc:'How well All-In, Show, and Skip choices matched actual performance'},
+  {rank:'6',suit:'♥',name:'Start Behaviour',desc:'When learners begin assessments relative to the window — Early, Mid, or Late'},
+  {rank:'10',suit:'♥',name:'Rushed Decisions',desc:'Impulsive All-In choices on poorly answered questions — flags guessing behaviour'},
+  {rank:'4',suit:'♣',name:'Decision Breakdown',desc:'Good, Partial, and Bad decisions across all 72 questions in the assessment'},
+  {rank:'J',suit:'♦',name:'Missed Attempts',desc:'Questions skipped when the learner was likely capable — underconfidence signal'},
+];
+
+function buildGrid(metrics, gridId, backFn, cardClass){
+  const grid = document.getElementById(gridId);
+  metrics.forEach((m, i) => {
+    const tile = document.createElement('a');
+    tile.className = 'metric-tile';
+    tile.href = '../deep-dive/';
+    tile.innerHTML = `
+      <div class="tile-card ${cardClass}">
+        ${backFn(m.rank, m.suit, gridId+i)}
+        <div class="tile-overlay">
+          <div class="tile-name">${m.name}</div>
+          <div class="tile-desc">${m.desc}</div>
+          <div class="tile-cta">Explore →</div>
+        </div>
+      </div>`;
+    grid.appendChild(tile);
+  });
 }
 
-function setTab(name,btn){
+buildGrid(COG, 'cogGrid', cogBack, 'cog-card');
+buildGrid(BEH, 'behGrid', behBack, 'beh-card');
+
+function setTab(name, btn){
   document.querySelectorAll('.tp-btn').forEach(b=>b.classList.remove('on'));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));
   btn.classList.add('on');
   document.getElementById('panel-'+name).classList.add('on');
 }
-
-buildGrid(COG,'cog','cogGrid');
-buildGrid(BEH,'beh','behGrid');
 </script>
 </body>
 </html>
