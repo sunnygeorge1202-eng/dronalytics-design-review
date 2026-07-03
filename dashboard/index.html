@@ -6,7 +6,7 @@
 <title>Dronalytics — Admin Dashboard</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#EAEAEA;display:flex;min-height:100vh;color:#1a1a1a}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#E8EDE8;display:flex;min-height:100vh;color:#1a1a1a}
 
 /* ── SIDEBAR ── */
 .sidebar{width:210px;min-height:100vh;background:#0D1321;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100%}
@@ -17,66 +17,76 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 .nav-item{display:flex;align-items:center;gap:10px;padding:11px 22px;font-size:13px;color:#6a8aaa;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none}
 .nav-item:hover{color:#C9A84C;background:rgba(201,168,76,.06)}
 .nav-item.active{color:#C9A84C;background:rgba(201,168,76,.10);border-left-color:#C9A84C;font-weight:600}
-.nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
-.nav-item.active svg{opacity:1}
+.nav-icon{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.nav-item.active .nav-icon{opacity:1}
 .sidebar-user{padding:16px 22px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
 .user-avatar{width:34px;height:34px;border-radius:50%;background:#C9A84C;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0D1321;flex-shrink:0}
 .user-name{font-size:12px;font-weight:600;color:#c8d4e0}
 .user-role{font-size:10px;color:#4a6080;margin-top:1px}
 
 /* ── MAIN ── */
-.main{margin-left:210px;flex:1;padding:40px 48px 60px;min-height:100vh}
-.welcome-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:40px}
+.main{margin-left:210px;flex:1;padding:40px 56px 60px;min-height:100vh}
+.welcome-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:44px}
 .welcome-text{font-size:26px;font-weight:300;color:#1B3A4B}
 .welcome-text strong{font-weight:700}
-.date-text{font-size:12px;color:#aaa}
+.date-text{font-size:12px;color:#999}
 
-/* ── CARDS ── */
-.cards-row{display:flex;gap:40px;justify-content:center;margin-bottom:48px}
-.card-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer}
-.playing-card{width:200px;height:290px;border-radius:16px;position:relative;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;box-shadow:0 8px 32px rgba(13,19,33,.25);overflow:hidden}
-.playing-card:hover{transform:translateY(-12px) rotate(1deg);box-shadow:0 24px 48px rgba(13,19,33,.35)}
-.card-wrap:last-child .playing-card:hover{transform:translateY(-12px) rotate(-1deg)}
+/* ── PLAYING CARDS ── */
+.cards-row{display:flex;gap:48px;justify-content:center;margin-bottom:52px}
+.card-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer;text-decoration:none}
+.playing-card{width:196px;height:284px;border-radius:16px;position:relative;transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s ease;box-shadow:0 10px 40px rgba(13,19,33,.30),0 2px 8px rgba(13,19,33,.15);overflow:hidden}
+.playing-card:hover{box-shadow:0 28px 56px rgba(13,19,33,.40),0 4px 12px rgba(13,19,33,.20)}
+.card-wrap:nth-child(1) .playing-card:hover{transform:translateY(-14px) rotate(1.5deg)}
+.card-wrap:nth-child(2) .playing-card:hover{transform:translateY(-14px) rotate(-1.5deg)}
 
-/* Card back pattern */
-.card-back{width:100%;height:100%;position:relative}
-.card-back-inner{width:100%;height:100%;position:relative;overflow:hidden}
+/* Assessments card */
+.card-a{background:#0D1321}
+/* Analytics card */
+.card-b{background:#0A2218}
 
-/* Assessments card — navy + gold */
-.card-assessments .card-back{background:#0D1321}
-.card-assessments .card-back-inner::before{content:'';position:absolute;inset:10px;border:1.5px solid rgba(201,168,76,.4);border-radius:10px}
-.card-assessments .card-back-inner::after{content:'';position:absolute;inset:16px;border:1px solid rgba(201,168,76,.2);border-radius:8px}
+.card-label{font-size:13px;font-weight:600;color:#3a4a5a;letter-spacing:.3px}
+.card-sublabel{font-size:11px;color:#999;margin-top:1px}
 
-/* Analytics card — deep teal + gold */
-.card-analytics .card-back{background:#0A2A2A}
-.card-analytics .card-back-inner::before{content:'';position:absolute;inset:10px;border:1.5px solid rgba(201,168,76,.4);border-radius:10px}
-.card-analytics .card-back-inner::after{content:'';position:absolute;inset:16px;border:1px solid rgba(201,168,76,.2);border-radius:8px}
+/* ── MOTD CARD FACE ── */
+.motd-card{background:#FDFBF5;border-radius:16px;box-shadow:0 8px 40px rgba(13,19,33,.18),0 2px 8px rgba(13,19,33,.10);padding:0;overflow:hidden;position:relative;border:1px solid rgba(201,168,76,.25)}
 
-.card-pattern{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.card-corner{position:absolute;font-size:13px;font-weight:700;color:rgba(201,168,76,.7);line-height:1}
-.card-corner.tl{top:18px;left:18px;text-align:left}
-.card-corner.br{bottom:18px;right:18px;text-align:right;transform:rotate(180deg)}
-.card-center-icon{font-size:52px;opacity:.35}
-.card-label{font-size:13px;font-weight:600;color:#444;letter-spacing:.3px;text-align:center}
-.card-sublabel{font-size:11px;color:#888;text-align:center;margin-top:2px}
+/* card face border inset */
+.motd-card::before{content:'';position:absolute;inset:10px;border:1px solid rgba(201,168,76,.20);border-radius:10px;pointer-events:none;z-index:1}
 
-/* ── METRIC OF THE DAY ── */
-.motd-wrap{background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #dde3e8;position:relative;overflow:hidden}
-.motd-wrap::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#C9A84C,#085041)}
-.motd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px}
-.motd-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#C9A84C;margin-bottom:5px}
-.motd-metric-name{font-size:20px;font-weight:700;color:#1B3A4B}
-.motd-badge{background:#0D1321;color:#C9A84C;font-size:10px;font-weight:700;padding:4px 12px;border-radius:99px;letter-spacing:.4px;white-space:nowrap;flex-shrink:0;margin-top:4px}
-.motd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
-.motd-block{}
-.motd-block-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aaa;margin-bottom:6px}
-.motd-block-text{font-size:13px;color:#444;line-height:1.65}
-.motd-block-text em{color:#1B3A4B;font-style:normal;font-weight:600}
-.motd-progress{margin-top:22px;display:flex;align-items:center;gap:10px}
+.motd-inner{padding:22px 28px 20px;position:relative;z-index:2}
+
+/* corner markers */
+.motd-corner{position:absolute;z-index:3;display:flex;flex-direction:column;align-items:center;line-height:1;gap:1px}
+.motd-corner.tl{top:16px;left:20px}
+.motd-corner.br{bottom:16px;right:20px;transform:rotate(180deg)}
+.motd-corner .rank{font-size:13px;font-weight:800;color:#C9A84C;font-family:Georgia,serif}
+.motd-corner .suit{font-size:11px;color:#C9A84C}
+
+/* eyebrow */
+.motd-eyebrow{text-align:center;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#C9A84C;margin-bottom:6px}
+
+/* central illustration */
+.motd-illustration{display:flex;justify-content:center;margin:8px 0 14px}
+
+/* metric name */
+.motd-metric-name{text-align:center;font-size:17px;font-weight:700;color:#1B3A4B;margin-bottom:18px;line-height:1.3}
+
+/* divider */
+.motd-divider{height:1px;background:rgba(201,168,76,.25);margin:0 -28px 18px}
+
+/* four columns */
+.motd-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+.motd-col-head{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#C9A84C;margin-bottom:5px}
+.motd-col-text{font-size:11.5px;color:#555;line-height:1.6}
+.motd-col-text em{color:#1B3A4B;font-style:normal;font-weight:600}
+
+/* progress */
+.motd-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,.15);padding-top:14px}
 .motd-dots{display:flex;gap:5px}
-.motd-dot{width:7px;height:7px;border-radius:50%;background:#e0e0e0}
-.motd-dot.filled{background:#C9A84C}
-.motd-progress-label{font-size:10px;color:#bbb;margin-left:4px}
+.motd-dot{width:7px;height:7px;border-radius:50%;background:#e8e0cc}
+.motd-dot.on{background:#C9A84C}
+.motd-prog-label{font-size:10px;color:#bbb;font-style:italic}
+.motd-badge{font-size:10px;font-weight:700;background:#0D1321;color:#C9A84C;padding:3px 11px;border-radius:99px;letter-spacing:.4px}
 </style>
 </head>
 <body>
@@ -89,15 +99,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
   </div>
   <nav class="nav">
     <a class="nav-item active" href="#">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
       Dashboard
     </a>
     <a class="nav-item" href="#">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       All Assessments
     </a>
     <a class="nav-item" href="results.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       View Results
     </a>
   </nav>
@@ -118,76 +128,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
     <div class="date-text" id="dateText"></div>
   </div>
 
-  <!-- PLAYING CARDS -->
+  <!-- NAVIGATION CARDS -->
   <div class="cards-row">
 
-    <div class="card-wrap card-assessments" onclick="window.location='#assessments'">
-      <div class="playing-card">
-        <div class="card-back">
-          <div class="card-back-inner">
-            <div class="card-pattern">
-              <!-- SVG back pattern -->
-              <svg width="200" height="290" viewBox="0 0 200 290" style="position:absolute;inset:0">
-                <defs>
-                  <pattern id="dp1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <rect width="20" height="20" fill="none"/>
-                    <path d="M10 0 L20 10 L10 20 L0 10 Z" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.8"/>
-                  </pattern>
-                </defs>
-                <rect width="200" height="290" fill="url(#dp1)"/>
-                <!-- centre emblem -->
-                <g transform="translate(100,145)">
-                  <path d="M0,-38 L22,-12 L14,22 L-14,22 L-22,-12 Z" fill="none" stroke="rgba(201,168,76,0.55)" stroke-width="1.2"/>
-                  <path d="M0,-24 L14,-8 L9,14 L-9,14 L-14,-8 Z" fill="rgba(201,168,76,0.12)" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
-                  <circle r="5" fill="rgba(201,168,76,0.5)"/>
-                </g>
-                <!-- corner pips -->
-                <text x="22" y="36" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold">A</text>
-                <text x="178" y="262" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold" transform="rotate(180,178,255)">A</text>
-                <text x="22" y="52" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)">♠</text>
-                <text x="178" y="272" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)" transform="rotate(180,178,265)">♠</text>
-              </svg>
-            </div>
-          </div>
-        </div>
+    <!-- Assessments -->
+    <div class="card-wrap" href="#">
+      <div class="playing-card card-a">
+        <svg width="196" height="284" viewBox="0 0 196 284" style="position:absolute;inset:0">
+          <defs>
+            <pattern id="pa" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+              <path d="M9 0 L18 9 L9 18 L0 9 Z" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="0.7"/>
+            </pattern>
+          </defs>
+          <rect width="196" height="284" fill="url(#pa)"/>
+          <rect x="9" y="9" width="178" height="266" rx="10" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="1.2"/>
+          <rect x="15" y="15" width="166" height="254" rx="8" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.7"/>
+          <!-- emblem -->
+          <g transform="translate(98,142)">
+            <path d="M0,-36 L21,-12 L13,22 L-13,22 L-21,-12 Z" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.2"/>
+            <path d="M0,-22 L13,-7 L8,14 L-8,14 L-13,-7 Z" fill="rgba(201,168,76,0.10)" stroke="rgba(201,168,76,0.35)" stroke-width="0.8"/>
+            <circle r="4.5" fill="rgba(201,168,76,0.55)"/>
+          </g>
+          <!-- corner pips -->
+          <text x="20" y="35" font-family="Georgia,serif" font-size="15" fill="rgba(201,168,76,0.75)" font-weight="bold">A</text>
+          <text x="20" y="50" font-family="Georgia,serif" font-size="12" fill="rgba(201,168,76,0.55)">♠</text>
+          <text x="176" y="258" font-family="Georgia,serif" font-size="15" fill="rgba(201,168,76,0.75)" font-weight="bold" transform="rotate(180,176,251)">A</text>
+          <text x="176" y="270" font-family="Georgia,serif" font-size="12" fill="rgba(201,168,76,0.55)" transform="rotate(180,176,263)">♠</text>
+        </svg>
       </div>
       <div class="card-label">Assessments</div>
       <div class="card-sublabel">Create &amp; manage</div>
     </div>
 
-    <div class="card-wrap card-analytics" onclick="window.location='results.html'">
-      <div class="playing-card">
-        <div class="card-back">
-          <div class="card-back-inner">
-            <div class="card-pattern">
-              <svg width="200" height="290" viewBox="0 0 200 290" style="position:absolute;inset:0">
-                <defs>
-                  <pattern id="dp2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <rect width="20" height="20" fill="none"/>
-                    <circle cx="10" cy="10" r="1.5" fill="rgba(201,168,76,0.22)"/>
-                    <line x1="0" y1="0" x2="20" y2="20" stroke="rgba(201,168,76,0.10)" stroke-width="0.6"/>
-                    <line x1="20" y1="0" x2="0" y2="20" stroke="rgba(201,168,76,0.10)" stroke-width="0.6"/>
-                  </pattern>
-                </defs>
-                <rect width="200" height="290" fill="url(#dp2)"/>
-                <!-- centre emblem -->
-                <g transform="translate(100,145)">
-                  <circle r="38" fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
-                  <circle r="26" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
-                  <path d="M0,-26 L7,10 L-7,10 Z" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.5)" stroke-width="0.8"/>
-                  <circle r="4" fill="rgba(201,168,76,0.6)"/>
-                  <!-- compass lines -->
-                  <line x1="0" y1="-38" x2="0" y2="38" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
-                  <line x1="-38" y1="0" x2="38" y2="0" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
-                </g>
-                <text x="22" y="36" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold">A</text>
-                <text x="178" y="262" font-family="serif" font-size="14" fill="rgba(201,168,76,0.7)" font-weight="bold" transform="rotate(180,178,255)">A</text>
-                <text x="22" y="52" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)">♦</text>
-                <text x="178" y="272" font-family="serif" font-size="11" fill="rgba(201,168,76,0.5)" transform="rotate(180,178,265)">♦</text>
-              </svg>
-            </div>
-          </div>
-        </div>
+    <!-- Analytics -->
+    <div class="card-wrap" onclick="window.location='results.html'" style="cursor:pointer">
+      <div class="playing-card card-b">
+        <svg width="196" height="284" viewBox="0 0 196 284" style="position:absolute;inset:0">
+          <defs>
+            <pattern id="pb" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+              <circle cx="9" cy="9" r="1.4" fill="rgba(201,168,76,0.20)"/>
+              <line x1="0" y1="0" x2="18" y2="18" stroke="rgba(201,168,76,0.08)" stroke-width="0.6"/>
+              <line x1="18" y1="0" x2="0" y2="18" stroke="rgba(201,168,76,0.08)" stroke-width="0.6"/>
+            </pattern>
+          </defs>
+          <rect width="196" height="284" fill="url(#pb)"/>
+          <rect x="9" y="9" width="178" height="266" rx="10" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="1.2"/>
+          <rect x="15" y="15" width="166" height="254" rx="8" fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.7"/>
+          <!-- compass emblem -->
+          <g transform="translate(98,142)">
+            <circle r="36" fill="none" stroke="rgba(201,168,76,0.38)" stroke-width="1"/>
+            <circle r="24" fill="none" stroke="rgba(201,168,76,0.22)" stroke-width="0.7"/>
+            <line x1="0" y1="-36" x2="0" y2="36" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
+            <line x1="-36" y1="0" x2="36" y2="0" stroke="rgba(201,168,76,0.15)" stroke-width="0.6"/>
+            <path d="M0,-24 L6,8 L-6,8 Z" fill="rgba(201,168,76,0.22)" stroke="rgba(201,168,76,0.5)" stroke-width="0.8"/>
+            <circle r="4" fill="rgba(201,168,76,0.60)"/>
+          </g>
+          <text x="20" y="35" font-family="Georgia,serif" font-size="15" fill="rgba(201,168,76,0.75)" font-weight="bold">A</text>
+          <text x="20" y="50" font-family="Georgia,serif" font-size="12" fill="rgba(201,168,76,0.55)">♦</text>
+          <text x="176" y="258" font-family="Georgia,serif" font-size="15" fill="rgba(201,168,76,0.75)" font-weight="bold" transform="rotate(180,176,251)">A</text>
+          <text x="176" y="270" font-family="Georgia,serif" font-size="12" fill="rgba(201,168,76,0.55)" transform="rotate(180,176,263)">♦</text>
+        </svg>
       </div>
       <div class="card-label">Analytics</div>
       <div class="card-sublabel">View results</div>
@@ -195,98 +195,203 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 
   </div>
 
-  <!-- METRIC OF THE DAY -->
-  <div class="motd-wrap" id="motdBlock"></div>
+  <!-- METRIC OF THE DAY — card face -->
+  <div class="motd-card" id="motdCard"></div>
 
 </main>
 
 <script>
-// ── DATE ──────────────────────────────────────────────────────────────────────
 document.getElementById('dateText').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-// ── METRIC OF THE DAY DATA ────────────────────────────────────────────────────
+// ── METRIC DATA ───────────────────────────────────────────────────────────────
 const METRICS = [
   {
-    id:'DCI',
-    name:'Decisive Capability Index (DCI)',
-    what:'A single number that summarises a learner\'s overall capability — combining how well they perform, how consistent they are, and how reliable that estimate is.',
-    plain:'Think of it as the learner\'s overall <em>readiness score</em>. A learner with a high DCI doesn\'t just answer correctly — they do so consistently, under pressure, and across all Bloom levels. A low DCI means the learner may have moments of brilliance but hasn\'t demonstrated steady capability.',
-    admin:'Look for learners whose DCI is improving across assessments — that\'s the trajectory that matters, not a single number. A centre where most learners have DCI labels of Developing or below across three assessments needs pedagogical review, not just more content.'
+    id:'DCI', rank:'D', suit:'♠', abbr:'DCI',
+    name:'Drona Competency Index',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <rect x="8" y="44" width="8" height="14" rx="2" fill="#D85A30" opacity=".7"/>
+      <rect x="20" y="34" width="8" height="24" rx="2" fill="#EF9F27" opacity=".8"/>
+      <rect x="32" y="24" width="8" height="34" rx="2" fill="#5DCAA5" opacity=".85"/>
+      <rect x="44" y="14" width="8" height="44" rx="2" fill="#085041"/>
+      <line x1="8" y1="42" x2="56" y2="12" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="4 3"/>
+    </svg>`,
+    what:'A readiness label that summarises a learner\'s overall capability — combining proficiency across all Bloom levels, decision quality, cognitive autonomy, and reliability of the estimate.',
+    plain:'Think of it as the learner\'s <em>readiness label</em>. A learner labelled Competent or Strong performs consistently, independently, and across all thinking levels. A Fragile or Emerging label means the pattern hasn\'t stabilised yet.',
+    admin:'Watch how the label changes across assessments — Emerging → Developing → Competent is the trajectory that matters. A centre where most learners stay at Developing or below across multiple assessments needs pedagogical review, not just more content.',
+    example:'In the DCI heatmap, one centre\'s row stays amber (Developing) through Assessment 7 then shifts to teal (Competent). Clicking Assessment 12 shows: 18 Competent, 9 Strong, 3 Fragile. Clicking Fragile opens the learner table — all three are from the same batch, signalling a batch-specific issue.'
   },
   {
-    id:'BPI',
-    name:'Bloom Proficiency Index (BPI)',
-    what:'Measures how well a learner performs across the six levels of Bloom\'s Taxonomy — from basic recall (Remember) through to complex creation (Create).',
-    plain:'BPI tells you <em>where in the thinking hierarchy</em> a learner is strong and where they struggle. A learner who scores well on Remember but poorly on Analyse and Evaluate can recall facts but can\'t yet use them. That\'s a very different intervention than a learner who is weak at all levels.',
-    admin:'Compare BPI across Bloom levels per centre. If your A2 learners consistently struggle at Apply and above, the assessment content may be pitched too high — or the teaching hasn\'t moved beyond recall-level exercises.'
+    id:'BPI', rank:'B', suit:'♥', abbr:'BPI',
+    name:'Bloom Proficiency Index',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="22" fill="none" stroke="#C9A84C" stroke-width="1" opacity=".3"/>
+      <path d="M32 10 L32 32" stroke="#085041" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M32 32 L46 20" stroke="#1D9E75" stroke-width="2" stroke-linecap="round"/>
+      <path d="M32 32 L50 36" stroke="#EF9F27" stroke-width="2" stroke-linecap="round"/>
+      <path d="M32 32 L40 50" stroke="#D85A30" stroke-width="2" stroke-linecap="round"/>
+      <path d="M32 32 L18 48" stroke="#D85A30" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      <path d="M32 32 L14 28" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      <circle cx="32" cy="32" r="4" fill="#C9A84C"/>
+      <text x="31" y="8" text-anchor="middle" font-size="7" fill="#085041" font-family="sans-serif">Create</text>
+      <text x="50" y="19" text-anchor="start" font-size="6" fill="#1D9E75" font-family="sans-serif">Eval</text>
+      <text x="52" y="38" text-anchor="start" font-size="6" fill="#EF9F27" font-family="sans-serif">Analyse</text>
+      <text x="42" y="54" text-anchor="middle" font-size="6" fill="#D85A30" font-family="sans-serif">Apply</text>
+    </svg>`,
+    what:'Measures how well a learner performs across each of the six Bloom levels — from basic recall (Remember) through to complex thinking (Create). Available per skill (Reading, Listening, Writing, Speaking).',
+    plain:'BPI tells you <em>where in the thinking hierarchy</em> a learner is strong and where they struggle. A learner who scores well at Remember but poorly at Analyse is recalling facts but not yet using them — a very different problem than being weak at all levels.',
+    admin:'In the deep dive, filter the BPI heatmap by Skill and Bloom level. If one centre shows consistent Developing labels at Evaluate and Create while another shows Proficient, the teaching approach at those two centres is producing different thinking depths.',
+    example:'Filter to Listening + Evaluate. One centre\'s cells are consistently dark red (Developing) across 15 assessments while another shows teal (Proficient) from Assessment 5. Clicking Assessment 8 in the stronger centre shows 14 Proficient, 6 Strong, 2 Emerging — drill to the learner table for targeted follow-up.'
   },
   {
-    id:'CCG',
-    name:'Confidence Calibration Gap (CCG)',
-    what:'The gap between how confident a learner says they are before answering and how well they actually perform. Measured as the absolute difference between perceived confidence and actual BPI.',
-    plain:'A well-calibrated learner <em>knows what they know and what they don\'t</em>. A learner with a large CCG is either overconfident (thinks they did well, but didn\'t) or underconfident (thinks they did badly, but actually performed fine). Both are problems — one leads to complacency, the other to avoidance.',
-    admin:'A centre with many Overestimated learners needs structured feedback and reflection exercises. A centre with many Underestimated learners may benefit from positive reinforcement and confidence-building activities before high-stakes assessments.'
+    id:'CCG', rank:'C', suit:'♦', abbr:'CCG',
+    name:'Confidence Calibration Gap',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <line x1="32" y1="12" x2="32" y2="52" stroke="#ccc" stroke-width="1.5"/>
+      <rect x="14" y="28" width="16" height="10" rx="3" fill="#2a78d6" opacity=".8"/>
+      <rect x="34" y="28" width="16" height="10" rx="3" fill="#D85A30" opacity=".8"/>
+      <text x="22" y="25" text-anchor="middle" font-size="7" fill="#2a78d6" font-family="sans-serif">Actual</text>
+      <text x="42" y="25" text-anchor="middle" font-size="7" fill="#D85A30" font-family="sans-serif">Perceived</text>
+      <path d="M14 33 L34 33" stroke="#1D9E75" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <circle cx="32" cy="33" r="3" fill="#C9A84C"/>
+      <text x="32" y="52" text-anchor="middle" font-size="7" fill="#888" font-family="sans-serif">CCG = gap</text>
+    </svg>`,
+    what:'The gap between how confident a learner says they are before answering and how well they actually perform. Label reflects the size and direction of that gap — Calibrated, Mild gap, or Large gap, with direction (Overestimated or Underestimated).',
+    plain:'A calibrated learner <em>knows what they know and what they don\'t</em>. Overestimated means they thought they did well but didn\'t. Underestimated means they doubted themselves but actually performed fine. Both are different problems requiring different responses.',
+    admin:'In the CCG dot plot, watch each centre\'s trail across 15 assessments. A trail rising toward Calibrated means learners are developing self-awareness. A trail stuck at Overestimated across multiple assessments signals a need for structured reflection after each assessment.',
+    example:'The dot plot shows one centre\'s dots clustered near Overestimated through Assessments 1–6, then rising toward Calibrated by Assessment 10. Clicking Assessment 4\'s dot opens the distribution bar — mostly Overestimated. The Level 3 learner table shows which learners to prioritise for feedback conversations.'
   },
   {
-    id:'DQS',
-    name:'Decision Quality Score (DQS)',
-    what:'Measures how well a learner\'s choices (All-In, Show, Skip) matched their actual performance. A high DQS means their decisions were well-calibrated to their ability.',
-    plain:'In every question, learners choose how much to commit. <em>DQS rewards good judgement</em> — choosing All-In when you\'re strong and Skip when you\'re genuinely unsure is good decision-making. Choosing All-In when you\'re weak, or Skipping when you could have answered, both hurt the score.',
-    admin:'Low DQS across a cohort suggests learners don\'t understand their own ability levels. Run a session where learners review their choice patterns after each assessment — the act of reflection itself improves DQS over time.'
+    id:'DQS', rank:'D', suit:'♣', abbr:'DQS',
+    name:'Decision Quality Score',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <rect x="10" y="26" width="14" height="18" rx="3" fill="#D85A30" opacity=".85"/>
+      <rect x="26" y="20" width="14" height="24" rx="3" fill="#EF9F27" opacity=".85"/>
+      <rect x="42" y="14" width="12" height="30" rx="3" fill="#1D9E75" opacity=".9"/>
+      <text x="17" y="23" text-anchor="middle" font-size="7" fill="#D85A30" font-family="sans-serif">Low</text>
+      <text x="33" y="17" text-anchor="middle" font-size="7" fill="#EF9F27" font-family="sans-serif">Impr.</text>
+      <text x="48" y="11" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="sans-serif">Aligned</text>
+      <line x1="10" y1="48" x2="56" y2="48" stroke="#C9A84C" stroke-width="1" opacity=".5"/>
+    </svg>`,
+    what:'Measures how well a learner\'s choices — All-In, Show, or Skip — matched their actual performance. A high DQS (Aligned) means their commitment decisions were well-calibrated to their ability.',
+    plain:'In every question, learners choose how much to commit. <em>DQS rewards good judgement</em> — choosing All-In when strong and Skip when genuinely unsure. Choosing All-In when weak or Skipping when capable both reduce the score.',
+    admin:'Compare the DQS stacked bars across all centres at the same assessment. A centre leaning heavily to Low means learners are committing incorrectly — either overcommitting on weak answers or undercommitting on strong ones. This is a strategy issue, not a knowledge gap.',
+    example:'At Assessment 5, the DQS stacked bars show one centre leaning heavily left (Low), another leaning right (Aligned). Drilling into the Low centre reveals many learners also labelled Proficient in BPI — they know the content but make poor commitment decisions. Strategy coaching, not content review, is the intervention.'
   },
   {
-    id:'Zone',
+    id:'Zone', rank:'Z', suit:'♠', abbr:'Zone',
     name:'Capability Zone',
-    what:'Places each learner into one of four zones based on their capability score and cognitive autonomy — Ready Performer, Assisted Performer, Emerging Independent, or At Risk.',
-    plain:'The zone answers one simple question: <em>Is this learner ready to perform independently, or do they need support?</em> Zone 1 (Ready Performer) means high capability and high autonomy. Zone 4 (At Risk) means both are low. Zones 2 and 3 identify which dimension needs more attention.',
-    admin:'A centre with many Zone 3 learners (high autonomy, lower capability) is producing independent thinkers who need better content knowledge. Zone 2 (higher capability, lower autonomy) means learners know the material but over-rely on support — both require different responses.'
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <rect x="10" y="10" width="20" height="20" rx="4" fill="#085041" opacity=".9"/>
+      <rect x="34" y="10" width="20" height="20" rx="4" fill="#1D9E75" opacity=".85"/>
+      <rect x="10" y="34" width="20" height="20" rx="4" fill="#EF9F27" opacity=".85"/>
+      <rect x="34" y="34" width="20" height="20" rx="4" fill="#D85A30" opacity=".85"/>
+      <text x="20" y="23" text-anchor="middle" font-size="7" fill="#9FE1CB" font-family="sans-serif">Z1</text>
+      <text x="44" y="23" text-anchor="middle" font-size="7" fill="#E1F5EE" font-family="sans-serif">Z2</text>
+      <text x="20" y="47" text-anchor="middle" font-size="7" fill="#412402" font-family="sans-serif">Z3</text>
+      <text x="44" y="47" text-anchor="middle" font-size="7" fill="#FAECE7" font-family="sans-serif">Z4</text>
+    </svg>`,
+    what:'Places each learner into one of four zones based on their capability and cognitive autonomy — Zone 1 Ready Performer, Zone 2 Assisted Performer, Zone 3 Emerging Independent, or Zone 4 At Risk.',
+    plain:'The zone answers one question: <em>Is this learner ready to work independently, or do they need support?</em> Zone 1 means high capability and high autonomy. Zone 4 means both are low. Zones 2 and 3 identify which dimension needs more attention first.',
+    admin:'In the waffle grid, each square is one learner. A mostly red grid (Zone 4) at Assessment 3 improving to mostly teal (Zone 1) by Assessment 9 is the ideal progression. If a centre\'s grid isn\'t shifting, investigate whether the teaching approach is building both capability and independence together.',
+    example:'At Assessment 3, one centre\'s waffle grid shows mostly red squares (Zone 4 · At Risk). By Assessment 9 the same grid is mostly amber and teal. Clicking a red square at Assessment 3 opens the drill-down — 24 learners at Zone 4. The Level 3 table shows which batch they belong to, so support can be targeted.'
   },
   {
-    id:'PI',
-    name:'Procrastination Index (PI)',
-    what:'Measures how early or late a learner begins their assessment relative to the available window. Calculated as the ratio of start time to total window length.',
-    plain:'A learner who always starts at the last minute may be <em>procrastinating due to anxiety</em>, not laziness. Consistently late starts across multiple assessments is a behavioural signal — not an academic one — and often predicts lower performance due to reduced thinking time.',
-    admin:'If a centre\'s learners are consistently starting late (PI > 0.60 across three or more assessments), check whether the assessment window is well-communicated, whether learners feel anxious about the format, and whether reminders are reaching them.'
+    id:'PI', rank:'P', suit:'♥', abbr:'PI',
+    name:'Procrastination Index',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="22" fill="none" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="32" y1="32" x2="32" y2="14" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="32" y1="32" x2="50" y2="36" stroke="#D85A30" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="32" cy="32" r="3.5" fill="#C9A84C"/>
+      <text x="32" y="11" text-anchor="middle" font-size="7" fill="#1D9E75" font-family="sans-serif">Early</text>
+      <text x="54" y="40" text-anchor="start" font-size="7" fill="#D85A30" font-family="sans-serif">Late</text>
+    </svg>`,
+    what:'Measures when in the available assessment window a learner begins. Calculated as the ratio of start time to total window. Labels: Early (starts promptly), Mid, or Late.',
+    plain:'A learner who always starts at the last moment may be <em>anxious, not lazy</em>. Consistently Late labels across multiple assessments is a behavioural signal that often predicts lower performance due to reduced thinking time and increased pressure.',
+    admin:'The PI heatmap shows all six centres across 15 assessments. A cluster of red cells (Late) in one centre\'s row that persists across multiple assessments is worth a direct conversation with the centre coordinator — it may reflect poor communication of deadlines or assessment anxiety.',
+    example:'The PI heatmap shows one centre with red cells (Late) across five consecutive assessments while all other centres remain green or amber. Clicking Assessment 6 reveals most learners in that centre labelled Late. The Level 3 learner table names them — a starting point for targeted outreach before the next assessment.'
   },
   {
-    id:'UMS',
-    name:'Uncertainty Mastery Score (UMS)',
-    what:'Measures how well a learner performs on questions that the system has flagged as highly uncertain — questions where the AI grader itself is less confident about the correct score.',
-    plain:'UMS only applies when an assessment has high-uncertainty questions (unc ≥ 0.60). A high UMS means the learner <em>handles ambiguity well</em> — they perform strongly even on questions that are genuinely difficult to evaluate. A low UMS means they struggle specifically when questions become less clear-cut.',
-    admin:'UMS won\'t appear for every assessment — only those with genuinely ambiguous questions. When it does appear, a low UMS across a cohort suggests learners need more exposure to open-ended, interpretive tasks rather than structured right-or-wrong questions.'
+    id:'UMS', rank:'U', suit:'♦', abbr:'UMS',
+    name:'Uncertainty Mastery Score',
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <text x="32" y="38" text-anchor="middle" font-size="32" fill="#C9A84C" opacity=".25" font-family="Georgia,serif">?</text>
+      <circle cx="32" cy="28" r="18" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity=".4" stroke-dasharray="5 3"/>
+      <rect x="18" y="44" width="9" height="10" rx="2" fill="#D85A30" opacity=".7"/>
+      <rect x="29" y="38" width="9" height="16" rx="2" fill="#EF9F27" opacity=".8"/>
+      <rect x="40" y="32" width="9" height="22" rx="2" fill="#1D9E75" opacity=".85"/>
+    </svg>`,
+    what:'Measures how well a learner performs on high-uncertainty questions — those flagged by the system as genuinely difficult to grade. Only computed when the assessment uncertainty level (unc) is ≥ 0.60. Labels: Struggling, Improving, Strong.',
+    plain:'UMS captures how a learner <em>handles ambiguity</em>. A Strong UMS means they perform well even when questions are genuinely hard to evaluate. A Struggling UMS means their performance drops precisely when questions are less clear-cut — a signal that structured practice under ambiguity is needed.',
+    admin:'UMS stat cards show each centre separately with the computable count (learners whose assessment had unc ≥ 0.60) and the N/A count. Don\'t compare centres with very different computable counts — the denominators are different, so the distributions aren\'t directly comparable.',
+    example:'At Assessment 7, one centre\'s UMS card shows only 12 of 45 learners computable — meaning only 12 faced high-uncertainty questions. Of those 12, the bar shows 8 Struggling, 3 Improving, 1 Strong. The other 33 show N/A — not poor performance, simply a different assessment configuration.'
   },
   {
-    id:'CI Time',
+    id:'CI', rank:'C', suit:'♣', abbr:'CI',
     name:'Consistency Index — CI Time',
-    what:'Measures how consistent a learner\'s performance is across multiple assessment sessions. A high CI Time means stable, reliable performance. A low score means wide variation.',
-    plain:'A learner who scores 80 in one assessment and 40 in the next isn\'t demonstrating 60-level capability — they\'re demonstrating <em>unpredictability</em>. CI Time captures this. Available only after three or more assessments, it tells you whether what you\'re seeing is a pattern or just noise.',
-    admin:'CI Time requires at least three assessments to compute. A centre where most learners are Inconsistent by the fourth assessment may have an environmental factor — inconsistent internet, varying assessment times, or exam anxiety — worth investigating before concluding it\'s a learning issue.'
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <polyline points="10,44 20,30 30,34 40,22 50,26" fill="none" stroke="#D85A30" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+      <polyline points="10,40 20,38 30,36 40,34 50,32" fill="none" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="10" y="56" font-size="7" fill="#D85A30" font-family="sans-serif">Inconsistent</text>
+      <text x="36" y="56" font-size="7" fill="#1D9E75" font-family="sans-serif">Stable</text>
+    </svg>`,
+    what:'Measures how consistent a learner\'s performance is across multiple assessment sessions. Available only from the third assessment onwards. Labels: Inconsistent, Moderately stable, or Stable.',
+    plain:'A learner scoring high in one assessment and low in the next isn\'t demonstrating that average level — they\'re demonstrating <em>unpredictability</em>. CI Time captures whether what you see is a real pattern or just noise. It needs at least three assessments to be meaningful.',
+    admin:'The CI Time heatmap has N/A cells for Assessments 1 and 2 — this is expected. From Assessment 3, watch for centres with persistent red (Inconsistent) cells. Inconsistency across a whole cohort often has an environmental cause — variable conditions, anxiety, or external factors — not just individual learning issues.',
+    example:'From Assessment 3, one centre\'s CI Time row shows red (Inconsistent) cells through Assessment 6, then gradually shifting to amber and teal. Another centre is teal (Stable) from Assessment 3 onwards. Clicking the Inconsistent cells drills into the learner table — the same learners appear repeatedly, helping you identify who needs a stable study routine.'
   },
   {
-    id:'Pattern',
+    id:'PAT', rank:'T', suit:'♠', abbr:'PAT',
     name:'AI Tool Use Pattern',
-    what:'Classifies how a learner uses the AI tool during assessments — from Independent (minimal use) through Strategic (reflective use) to Dependent Shortcutter (using AI to bypass thinking).',
-    plain:'Using AI is not inherently good or bad — <em>how you use it is what matters</em>. A Strategic user asks the AI to help them think through a problem. A Dependent Shortcutter asks the AI for the answer. The pattern is derived from two signals: how much time was spent on the tool, and whether the prompts were reflective or directive.',
-    admin:'A centre dominated by Dependent Shortcutters needs explicit instruction in how to use AI as a thinking partner, not an answer machine. Consider running a session where learners share their prompt strategies with each other — peer learning is more effective than instructor instruction for tool use behaviour.'
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <rect x="10" y="20" width="44" height="28" rx="6" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+      <rect x="16" y="26" width="8" height="16" rx="2" fill="#085041" opacity=".9"/>
+      <rect x="26" y="30" width="8" height="12" rx="2" fill="#EF9F27" opacity=".85"/>
+      <rect x="36" y="26" width="8" height="16" rx="2" fill="#1D9E75" opacity=".85"/>
+      <rect x="46" y="32" width="8" height="10" rx="2" fill="#D85A30" opacity=".8"/>
+      <line x1="32" y1="48" x2="32" y2="54" stroke="#C9A84C" stroke-width="1.2" opacity=".5"/>
+      <rect x="24" y="54" width="16" height="4" rx="2" fill="#C9A84C" opacity=".3"/>
+    </svg>`,
+    what:'Classifies how each learner uses the AI tool during assessments — from Independent (minimal use) through Strategic (reflective use) to Dependent shortcutter (using AI to bypass thinking). Derived from time spent on tool and quality of prompts.',
+    plain:'Using AI isn\'t inherently good or bad — <em>how you use it is what matters</em>. A Strategic user asks the AI to help them reason through a problem. A Dependent shortcutter asks for the answer directly. The pattern reveals whether learners are developing thinking skills or outsourcing them.',
+    admin:'The tool use pattern stacked bars show all centres at one assessment. A centre with a large Dependent shortcutter segment needs instruction in reflective AI use — not a ban on tools. Use the Level 3 learner table to identify the specific learners and discuss their prompt strategies with them.',
+    example:'At Assessment 8, the stacked bars show one centre with the largest Dependent shortcutter segment across all centres. Drilling in shows 14 of 38 learners in this pattern. Moving the assessment slider forward to Assessment 12 shows the segment shrinking — suggesting the centre coordinator has already addressed this between assessments.'
   },
   {
-    id:'G10',
+    id:'G10', rank:'G', suit:'♥', abbr:'G10',
     name:'Impulsive Decisions — G10',
-    what:'Flags assessments where a learner chose All-In quickly on questions they answered poorly. Three or more impulsive decisions in a single assessment triggers the G10 flag.',
-    plain:'An impulsive decision is choosing full commitment (<em>All-In</em>) without thinking it through — and then performing poorly. This pattern suggests the learner is guessing confidently rather than thinking carefully. It\'s different from being wrong — it\'s being wrong and not knowing you were guessing.',
-    admin:'G10 flags in a single assessment can be noise. Three consecutive assessments with a Fires label for the same learner is a signal. Look for whether the impulsive decisions cluster at higher Bloom levels (Evaluate, Create) — that\'s a sign the learner is confident at the recall level but guessing at deeper thinking levels.'
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <path d="M32 10 L36 26 L52 26 L38 36 L44 52 L32 42 L20 52 L26 36 L12 26 L28 26 Z" fill="none" stroke="#D85A30" stroke-width="1.5" opacity=".5"/>
+      <path d="M32 18 L35 28 L46 28 L37 34 L41 44 L32 38 L23 44 L27 34 L18 28 L29 28 Z" fill="#D85A30" opacity=".25"/>
+      <circle cx="32" cy="32" r="5" fill="#D85A30" opacity=".8"/>
+    </svg>`,
+    what:'Flags assessments where a learner chose All-In quickly on questions they answered poorly. Three or more such decisions in one assessment triggers the G10 Fires label. Labels: None, Watch, Fires.',
+    plain:'An impulsive decision is <em>committing fully without thinking it through — then performing poorly</em>. This is different from simply being wrong. It\'s being wrong while being confident you were right. It signals guessing behaviour rather than genuine reasoning.',
+    admin:'The G10 lollipop shows each centre\'s Fire-level proportion as stem length. Use the assessment slider to compare across assessments. A centre whose stems shorten over time is improving. A centre with long stems across many assessments may need explicit teaching of when to choose All-In versus Show.',
+    example:'At Assessment 5, one centre\'s lollipop stem is the longest — most learners at Fires. Moving the slider to Assessment 8 shows the stem shortening. Clicking Assessment 5\'s dot opens the distribution: 8 Fires, 12 Watch, 15 None. The Level 3 learner table for Fires shows the same names appearing across multiple assessments — persistent impulsivity, not a one-off.'
   },
   {
-    id:'G11',
+    id:'G11', rank:'G', suit:'♦', abbr:'G11',
     name:'Missed Opportunities — G11',
-    what:'Flags questions where a learner chose to Skip but the system estimates they could have answered correctly. Two or more such questions in one assessment triggers the G11 flag.',
-    plain:'A missed opportunity is <em>unnecessary avoidance</em> — skipping a question you were probably capable of answering. Unlike overconfidence, this is underconfidence in action. The learner didn\'t trust themselves, even when the evidence suggested they should have.',
-    admin:'G11 fires often appear in learners who also have high CCG in the Underestimated direction — they consistently underestimate themselves. The intervention is not more practice but more confidence — show them their own performance data and ask them to predict their score before revealing it.'
+    icon:`<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="20" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity=".5" stroke-dasharray="5 3"/>
+      <line x1="20" y1="20" x2="44" y2="44" stroke="#EF9F27" stroke-width="1.8" stroke-linecap="round" opacity=".7"/>
+      <line x1="44" y1="20" x2="20" y2="44" stroke="#EF9F27" stroke-width="1.8" stroke-linecap="round" opacity=".7"/>
+      <text x="32" y="16" text-anchor="middle" font-size="7" fill="#888" font-family="sans-serif">could answer</text>
+      <text x="32" y="56" text-anchor="middle" font-size="7" fill="#EF9F27" font-family="sans-serif">chose Skip</text>
+    </svg>`,
+    what:'Flags questions where a learner chose to Skip but the system\'s estimate suggests they were likely capable of answering. Two or more such skips in one assessment triggers the G11 Fires label. Labels: None, Watch, Fires.',
+    plain:'A missed opportunity is <em>unnecessary avoidance</em> — skipping a question you were probably capable of answering. Unlike overconfidence, this is underconfidence in action. The learner didn\'t trust themselves even when the evidence suggested they should have.',
+    admin:'Compare G11 and CCG together. Learners who Fires on G11 often also carry an Underestimated CCG label — they systematically doubt their own ability. The intervention is not more content but more confidence: show learners their own performance data before they attempt assessments so they calibrate their self-estimate upward.',
+    example:'The G11 lollipop shows two centres in the Watch zone at Assessment 3. Drilling into one centre reveals 14 learners at Watch. Cross-referencing the Level 3 learner table with the CCG dot plot shows several of those same learners also carry an Underestimated label — consistent underconfidence visible across two separate behavioural signals at once.'
   }
 ];
 
+// ── ILLUSTRATIONS PER METRIC ──────────────────────────────────────────────────
+const SUITS = ['♠','♥','♦','♣','♠','♥','♦','♣','♠','♥','♦'];
+
 // ── SEQUENTIAL ROTATION ────────────────────────────────────────────────────────
-function getMetricIndex(){
+function getIdx(){
   const stored = localStorage.getItem('drona_motd_idx');
   const lastDate = localStorage.getItem('drona_motd_date');
   const today = new Date().toDateString();
@@ -298,36 +403,53 @@ function getMetricIndex(){
 }
 
 function renderMOTD(){
-  const idx = getMetricIndex();
+  const idx = getIdx();
   const m = METRICS[idx];
+  const suit = SUITS[idx];
+  const rank = m.rank;
   const dots = METRICS.map((_,i) =>
-    `<div class="motd-dot${i===idx?' filled':''}"></div>`
+    `<div class="motd-dot${i===idx?' on':''}"></div>`
   ).join('');
-  document.getElementById('motdBlock').innerHTML = `
-    <div class="motd-header">
-      <div>
-        <div class="motd-eyebrow">Metric of the day</div>
-        <div class="motd-metric-name">${m.name}</div>
+
+  document.getElementById('motdCard').innerHTML = `
+    <div class="motd-inner">
+
+      <div class="motd-corner tl"><span class="rank">${rank}</span><span class="suit">${suit}</span></div>
+      <div class="motd-corner br"><span class="rank">${rank}</span><span class="suit">${suit}</span></div>
+
+      <div class="motd-eyebrow">Metric of the day</div>
+
+      <div class="motd-illustration">${m.icon}</div>
+
+      <div class="motd-metric-name">${m.name}</div>
+
+      <div class="motd-divider"></div>
+
+      <div class="motd-cols">
+        <div>
+          <div class="motd-col-head">What it measures</div>
+          <div class="motd-col-text">${m.what}</div>
+        </div>
+        <div>
+          <div class="motd-col-head">In simple terms</div>
+          <div class="motd-col-text">${m.plain}</div>
+        </div>
+        <div>
+          <div class="motd-col-head">How to read it</div>
+          <div class="motd-col-text">${m.admin}</div>
+        </div>
+        <div>
+          <div class="motd-col-head">Example in the analytics</div>
+          <div class="motd-col-text">${m.example}</div>
+        </div>
       </div>
-      <div class="motd-badge">${idx+1} of ${METRICS.length}</div>
-    </div>
-    <div class="motd-grid">
-      <div class="motd-block">
-        <div class="motd-block-label">What it measures</div>
-        <div class="motd-block-text">${m.what}</div>
+
+      <div class="motd-footer">
+        <div class="motd-dots">${dots}</div>
+        <span class="motd-prog-label">Advances each day · ${idx+1} of ${METRICS.length} metrics</span>
+        <div class="motd-badge">${m.abbr}</div>
       </div>
-      <div class="motd-block">
-        <div class="motd-block-label">In simple terms</div>
-        <div class="motd-block-text">${m.plain}</div>
-      </div>
-      <div class="motd-block">
-        <div class="motd-block-label">How to read it as an admin</div>
-        <div class="motd-block-text">${m.admin}</div>
-      </div>
-    </div>
-    <div class="motd-progress">
-      <div class="motd-dots">${dots}</div>
-      <span class="motd-progress-label">You've seen ${idx+1} of ${METRICS.length} metrics · advances each day</span>
+
     </div>
   `;
 }
