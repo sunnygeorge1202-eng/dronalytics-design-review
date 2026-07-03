@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dronalytics — View Results</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#E8EDE8;display:flex;min-height:100vh;color:#1a1a1a}
+
+.sidebar{width:210px;min-height:100vh;background:#0D1321;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100%;z-index:10}
+.sidebar-brand{padding:28px 22px 20px}
+.sb-logo{font-size:18px;font-weight:700;color:#C9A84C}
+.sb-role{font-size:10px;font-weight:600;color:#4a6080;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.nav{flex:1;padding:8px 0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 22px;font-size:13px;color:#6a8aaa;cursor:pointer;transition:all .15s;border-left:3px solid transparent;text-decoration:none}
+.nav-item:hover{color:#C9A84C;background:rgba(201,168,76,.06)}
+.nav-item.active{color:#C9A84C;background:rgba(201,168,76,.10);border-left-color:#C9A84C;font-weight:600}
+.ni{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.nav-item.active .ni{opacity:1}
+.sb-user{padding:16px 22px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+.ua{width:34px;height:34px;border-radius:50%;background:#C9A84C;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#0D1321;flex-shrink:0}
+.un{font-size:12px;font-weight:600;color:#c8d4e0}
+.ur{font-size:10px;color:#4a6080;margin-top:1px}
+
+.main{margin-left:210px;flex:1;padding:36px 48px 60px;min-height:100vh}
+
+/* TAB TOGGLE */
+.tab-toggle{display:flex;justify-content:center;margin-bottom:40px}
+.tab-pill{display:flex;background:#D8DDD8;border-radius:99px;padding:4px;gap:2px}
+.tp-btn{padding:10px 36px;border-radius:99px;border:none;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;color:#666;background:transparent}
+.tp-btn.on{background:#fff;color:#1B3A4B;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+
+/* METRIC CARDS GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.metric-card{background:#fff;border-radius:18px;padding:28px 22px 22px;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden}
+.metric-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.14)}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.metric-card.cognitive::before{background:linear-gradient(90deg,#085041,#1D9E75)}
+.metric-card.behavioral::before{background:linear-gradient(90deg,#C9A84C,#D85A30)}
+
+/* card icon area */
+.mc-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
+.mc-icon.cog{background:linear-gradient(135deg,#E1F5EE,#9FE1CB)}
+.mc-icon.beh{background:linear-gradient(135deg,#FAEEDA,#FAECE7)}
+
+.mc-title{font-size:14px;font-weight:700;color:#1B3A4B;margin-bottom:6px;line-height:1.3}
+.mc-desc{font-size:11.5px;color:#888;line-height:1.5;margin-bottom:16px;flex:1}
+.mc-cta{font-size:12px;font-weight:600;color:#1D9E75;display:flex;align-items:center;gap:4px}
+.mc-cta.beh{color:#C9A84C}
+.mc-cta::after{content:'→';font-size:13px}
+
+/* card rank badge */
+.mc-rank{position:absolute;top:12px;right:14px;font-family:Georgia,serif;font-size:12px;font-weight:700;opacity:.25}
+
+/* hidden tab panels */
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sb-logo">Dronalytics</div>
+    <div class="sb-role">Admin</div>
+  </div>
+  <nav class="nav">
+    <a class="nav-item" href="index.html">
+      <svg class="ni" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="ni" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>All Assessments
+    </a>
+    <a class="nav-item active" href="#">
+      <svg class="ni" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>View Results
+    </a>
+  </nav>
+  <div class="sb-user">
+    <div class="ua">RP</div>
+    <div><div class="un">Rohit P.</div><div class="ur">Programme Admin</div></div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="tab-toggle">
+    <div class="tab-pill">
+      <button class="tp-btn on" onclick="setTab('cognitive',this)">Cognitive</button>
+      <button class="tp-btn" onclick="setTab('behavioral',this)">Behavioral</button>
+    </div>
+  </div>
+
+  <!-- COGNITIVE -->
+  <div class="tab-panel on" id="panel-cognitive">
+    <div class="metric-grid">
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">A♠</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="22" width="4" height="8" rx="1" fill="#D85A30" opacity=".7"/><rect x="8" y="16" width="4" height="14" rx="1" fill="#EF9F27" opacity=".8"/><rect x="14" y="10" width="4" height="20" rx="1" fill="#5DCAA5"/><rect x="20" y="4" width="4" height="26" rx="1" fill="#085041"/><line x1="2" y1="20" x2="26" y2="2" stroke="#C9A84C" stroke-width="1.2" stroke-dasharray="3 2"/></svg>
+        </div>
+        <div class="mc-title">Learner Readiness</div>
+        <div class="mc-desc">Overall capability label across all Bloom levels, decision quality, and cognitive autonomy. The primary readiness signal.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">3♦</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><line x1="16" y1="16" x2="16" y2="6" stroke="#ccc" stroke-width="1.5"/><rect x="4" y="12" width="10" height="7" rx="2" fill="#2a78d6" opacity=".8"/><rect x="18" y="12" width="10" height="7" rx="2" fill="#D85A30" opacity=".8"/><circle cx="16" cy="16" r="2.5" fill="#C9A84C"/></svg>
+        </div>
+        <div class="mc-title">Self-Awareness</div>
+        <div class="mc-desc">How accurately learners estimate their own performance. Reveals overconfidence or underconfidence patterns across assessments.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">5♠</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="11" height="11" rx="3" fill="#085041" opacity=".9"/><rect x="17" y="4" width="11" height="11" rx="3" fill="#1D9E75" opacity=".85"/><rect x="4" y="17" width="11" height="11" rx="3" fill="#EF9F27" opacity=".85"/><rect x="17" y="17" width="11" height="11" rx="3" fill="#D85A30" opacity=".85"/></svg>
+        </div>
+        <div class="mc-title">Learner Positioning</div>
+        <div class="mc-desc">Which of four zones each learner falls into — from Zone 1 Ready Performer to Zone 4 At Risk. Based on capability and autonomy combined.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">2♥</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" fill="none" stroke="#C9A84C" stroke-width="1" opacity=".3"/><line x1="16" y1="16" x2="16" y2="6" stroke="#085041" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="23" y2="11" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="16" x2="25" y2="18" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="16" x2="20" y2="26" stroke="#D85A30" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="2.5" fill="#C9A84C"/></svg>
+        </div>
+        <div class="mc-title">Thinking Depth</div>
+        <div class="mc-desc">Bloom Proficiency Index across all six thinking levels — Remember through Create. Available per skill: Reading, Listening, Writing, Speaking.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">2♥</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="18" width="6" height="10" rx="1.5" fill="#D85A30" opacity=".7"/><rect x="11" y="14" width="6" height="14" rx="1.5" fill="#1D9E75" opacity=".8"/><rect x="19" y="10" width="6" height="18" rx="1.5" fill="#085041" opacity=".9"/><text x="4" y="9" font-size="5" fill="#888" font-family="sans-serif">R</text><text x="12" y="9" font-size="5" fill="#888" font-family="sans-serif">L</text><text x="20" y="9" font-size="5" fill="#888" font-family="sans-serif">W</text></svg>
+        </div>
+        <div class="mc-title">Skill Performance</div>
+        <div class="mc-desc">Thinking Depth broken down across Reading, Listening, Writing, and Speaking. Shows which skills are stronger and which need more work.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">8♣</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><polyline points="4,22 10,14 16,17 22,10 28,13" fill="none" stroke="#D85A30" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/><polyline points="4,20 10,19 16,18 22,17 28,16" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mc-title">Performance Consistency</div>
+        <div class="mc-desc">How stable a learner's performance is across multiple sessions. Identifies unpredictable learners whose results vary widely between assessments.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+      <div class="metric-card cognitive" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">7♦</div>
+        <div class="mc-icon cog">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="14" r="9" fill="none" stroke="#C9A84C" stroke-width="1" opacity=".4" stroke-dasharray="4 2"/><text x="16" y="18" text-anchor="middle" font-size="12" fill="#C9A84C" opacity=".3" font-family="Georgia,serif">?</text><rect x="9" y="22" width="5" height="7" rx="1.5" fill="#D85A30" opacity=".7"/><rect x="16" y="19" width="5" height="10" rx="1.5" fill="#EF9F27" opacity=".8"/><rect x="23" y="16" width="5" height="13" rx="1.5" fill="#1D9E75" opacity=".85"/></svg>
+        </div>
+        <div class="mc-title">Handling Uncertainty</div>
+        <div class="mc-desc">Performance on genuinely ambiguous questions. Only available when the assessment has high-uncertainty content. Shows who handles unclear questions well.</div>
+        <div class="mc-cta">View analytics</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BEHAVIORAL -->
+  <div class="tab-panel" id="panel-behavioral">
+    <div class="metric-grid">
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">9♠</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="9" width="24" height="16" rx="4" fill="none" stroke="#C9A84C" stroke-width="1" opacity=".4"/><rect x="7" y="13" width="4" height="8" rx="1" fill="#085041" opacity=".9"/><rect x="13" y="15" width="4" height="6" rx="1" fill="#EF9F27" opacity=".85"/><rect x="19" y="13" width="4" height="8" rx="1" fill="#1D9E75" opacity=".85"/></svg>
+        </div>
+        <div class="mc-title">AI Tool Use</div>
+        <div class="mc-desc">How learners used the AI tool — from Independent through Strategic to Dependent shortcutter. Reveals whether AI is being used to think or to avoid thinking.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">4♣</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="7" height="12" rx="2" fill="#D85A30" opacity=".85"/><rect x="13" y="9" width="7" height="15" rx="2" fill="#EF9F27" opacity=".85"/><rect x="22" y="6" width="7" height="18" rx="2" fill="#1D9E75" opacity=".9"/></svg>
+        </div>
+        <div class="mc-title">Decision Accuracy</div>
+        <div class="mc-desc">How well learners' All-In, Show, and Skip choices matched their actual performance. Shows whether commitment decisions are well-calibrated to ability.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">6♥</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" fill="none" stroke="#ccc" stroke-width="1.5"/><line x1="16" y1="16" x2="16" y2="6" stroke="#1D9E75" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="24" y2="18" stroke="#D85A30" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="16" r="2.5" fill="#C9A84C"/></svg>
+        </div>
+        <div class="mc-title">Start Behaviour</div>
+        <div class="mc-desc">When learners begin their assessments relative to the window. Consistently late starts are a behavioural signal — often linked to anxiety or poor planning.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">10♥</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4L18 12L26 12L19 17L22 25L16 20L10 25L13 17L6 12L14 12Z" fill="none" stroke="#D85A30" stroke-width="1.2" opacity=".5"/><circle cx="16" cy="16" r="4" fill="#D85A30" opacity=".7"/></svg>
+        </div>
+        <div class="mc-title">Rushed Decisions</div>
+        <div class="mc-desc">Impulsive All-In choices on questions answered poorly. Flags learners who are guessing confidently rather than thinking carefully.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">4♣</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="6" rx="2" fill="#1D9E75" opacity=".8"/><rect x="4" y="17" width="16" height="6" rx="2" fill="#EF9F27" opacity=".7"/><rect x="4" y="26" width="8" height="4" rx="2" fill="#D85A30" opacity=".6"/><text x="30" y="13" text-anchor="end" font-size="7" fill="#1D9E75" font-family="sans-serif">Good</text><text x="22" y="22" text-anchor="end" font-size="7" fill="#EF9F27" font-family="sans-serif">Partial</text><text x="14" y="30" text-anchor="end" font-size="7" fill="#D85A30" font-family="sans-serif">Bad</text></svg>
+        </div>
+        <div class="mc-title">Decision Breakdown</div>
+        <div class="mc-desc">How many of a learner's decisions across the assessment were Good, Partial, or Bad. Shows the quality of commitment choices across all 72 questions.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+      <div class="metric-card behavioral" onclick="window.location='../deep-dive/'">
+        <div class="mc-rank">J♦</div>
+        <div class="mc-icon beh">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity=".5" stroke-dasharray="4 2"/><line x1="10" y1="10" x2="22" y2="22" stroke="#EF9F27" stroke-width="1.8" stroke-linecap="round" opacity=".7"/><line x1="22" y1="10" x2="10" y2="22" stroke="#EF9F27" stroke-width="1.8" stroke-linecap="round" opacity=".7"/></svg>
+        </div>
+        <div class="mc-title">Missed Attempts</div>
+        <div class="mc-desc">Questions skipped when the learner was likely capable of answering. Flags unnecessary avoidance — underconfidence showing up as missed opportunities.</div>
+        <div class="mc-cta beh">View analytics</div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+function setTab(name, btn){
+  document.querySelectorAll('.tp-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('panel-'+name).classList.add('on');
+}
+</script>
+</body>
+</html>
